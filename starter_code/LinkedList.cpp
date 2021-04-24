@@ -8,4 +8,12 @@ LinkedList::LinkedList() {
 }
 
 LinkedList::~LinkedList() {
+   Node* currentNode = head;
+   Node* nextNode;
+
+   while (currentNode!=nullptr) {
+      nextNode = currentNode->next;
+      delete currentNode;
+      currentNode = nextNode;
+   }
 }
