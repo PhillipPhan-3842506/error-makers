@@ -29,7 +29,7 @@ unsigned int LinkedList::size() {
    return length;
 };
 
-//get Tile at given index
+//get Node at given index
 Node* LinkedList::getAtIndex(unsigned int i) {
    Node* currentNode = head;
    unsigned int count = 1;
