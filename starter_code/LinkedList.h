@@ -12,6 +12,10 @@ public:
    unsigned int size();
    Node* getAtIndex(unsigned int i);
 
+   void addFront(Tile* tile);
+
+   void deleteFront();
+
 private:
    Node* head;
 };
