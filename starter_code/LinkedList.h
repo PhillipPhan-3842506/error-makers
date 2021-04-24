@@ -15,8 +15,15 @@ public:
    void addFront(Tile* tile);
    void addBack(Tile* tile);
 
+   /**
+    * Insert a node into the linkedlist
+    * index must be <= the size of the linkedlist
+    */
+   void insertNode(Tile* tile, unsigned int index);
+
    void deleteFront();
    void deleteBack();
+   void deleteAtIndex(unsigned int index);
 
 private:
    Node* head;

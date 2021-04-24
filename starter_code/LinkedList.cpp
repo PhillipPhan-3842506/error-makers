@@ -32,9 +32,9 @@ unsigned int LinkedList::size() {
 //get Tile at given index
 Node* LinkedList::getAtIndex(unsigned int i) {
    Node* currentNode = head;
-   unsigned int count = 0;
+   unsigned int count = 1;
 
-   while (count != i && !( i > size()) ) {
+   while (count != i && i<=size() ){
       currentNode = currentNode->next;
       count++;
    }
@@ -101,4 +101,57 @@ void LinkedList::deleteBack() {
       previous->next = nullptr;
       delete currentNode;
    }
+}
+
+void LinkedList::insertNode(Tile* tile, unsigned int index) {
+   //if index is greater than 0 AND index less equal to size()
+   if (index >= 1 && index <= size()) {
+
+      //since index 1 is the front of the list, just add node using addfront
+      if ( index == 1 ) {
+         addFront(tile);
+      }
+      else {
+         Node* previousNode = nullptr;
+         Node* currentNode = head;
+
+         for (unsigned int i = 1; i < index; ++i) {
+            previousNode = currentNode;
+            currentNode = currentNode->next;
+         }
+
+         /*
+            TO DO:
+            P  NN  CN
+            P->next = NN
+            NN->next = CN
+         */
+         Node* newNode = new Node(tile,currentNode);
+         previousNode->next = newNode;
+      }
+   }
+}
+
+void LinkedList::deleteAtIndex(unsigned int index) {
+   Node* previousNode = nullptr;
+   Node* currentNode = head;
+   if (index == 1) {
+      deleteFront();
+   }
+   else if ( index <= size() ) {
+      for (unsigned int i = 1; i < index; ++i) {
+         previousNode = currentNode;
+         currentNode = currentNode->next;
+      }
+
+      /*
+         TO DO:
+         P CN CNN
+         P->next = CN->next
+         delete CN
+      */
+      previousNode->next = currentNode->next;
+      delete currentNode;      
+   }
+
 }
