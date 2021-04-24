@@ -9,6 +9,8 @@ public:
 
    LinkedList();
    ~LinkedList();
+   unsigned int size();
+   Node* getAtIndex(unsigned int i);
 
 private:
    Node* head;
