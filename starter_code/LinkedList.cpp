@@ -55,7 +55,7 @@ void LinkedList::addFront(Tile* tile) {
 };
 
 void LinkedList::deleteFront() {
-   //if size is one, then set head to nullptr
+   //if size is one, then set head to nullptr (reset linkedlist)  
    if ( size() == 1 )  {
       head = nullptr;
    } 
@@ -68,11 +68,25 @@ void LinkedList::deleteFront() {
 };
 
 void LinkedList::addBack(Tile* tile) {
+   //if size is 0, create a new node and set head
+   if (size() == 0) {
+      Node* newNode = new Node(tile,nullptr);
+      head = newNode;
+   } 
+   else {
+      Node* currentNode = head;
+      //loop to the back of the linkedlist
+      while (currentNode->next != nullptr) {
+         currentNode = currentNode->next;
 
+      }
+      Node* newNode = new Node(tile,nullptr);
+      currentNode->next = newNode;
+   }
 }
 
 void LinkedList::deleteBack() {
-
+      //if size is one, then set head to nullptr (reset linkedlist)  
    if ( size() == 1) {
       head = nullptr;
    } 
@@ -80,7 +94,6 @@ void LinkedList::deleteBack() {
       //current is last node, previous is node before last node
       Node* currentNode = head;
       Node* previous = nullptr;
-
       while (currentNode->next != nullptr) {
          previous = currentNode;
          currentNode = currentNode->next;

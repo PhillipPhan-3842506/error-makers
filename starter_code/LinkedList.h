@@ -13,8 +13,10 @@ public:
    Node* getAtIndex(unsigned int i);
 
    void addFront(Tile* tile);
+   void addBack(Tile* tile);
 
    void deleteFront();
+   void deleteBack();
 
 private:
    Node* head;
