@@ -50,13 +50,13 @@ void menu(void){
     if (choice == 1){
         newGame();
     }
-    if (choice == 2){
+    else if (choice == 2){
         loadGame();
     }
-    if (choice == 3){
+    else if (choice == 3){
         credits();        
     }
-    if (choice == 4){
+    else if (choice == 4){
         std::cout << "Goodbye!" << std::endl;
         run = false;        
     }
@@ -92,10 +92,14 @@ while (validate == false){
     }
     else{
         std::cout << "Invalid name, all uppercase needed" << std::endl;
+        validate = false;
     }
-    validate = false;
     std::cout << std::endl;
 }
+
+//set validate to false again otherwise after player1 is validated, player2 validate loop wont run
+validate = false;
+
 //Player2
 while (validate == false){
     std::cout << "Enter a name for Player 2" << std::endl;
@@ -105,32 +109,31 @@ while (validate == false){
     }
     else{
         std::cout << "Invalid name, all uppercase needed" << std::endl;
+        validate = false;
     }
-    validate = false;
     std::cout << std::endl;
 
-
-std::cout << "Let's Play\n";
 }
+std::cout << "Let's Play\n";
 }
 
 //Load a game from a file (not done yet, once done delete this msg)
 void loadGame(){
-    std::cout << "Enter the fileanme from which to load the game" << std::endl;
-//read from input
-    std::string filename;
-    std::cin >> filename;
+//     std::cout << "Enter the fileanme from which to load the game" << std::endl;
+// //read from input
+//     std::string filename;
+//     std::cin >> filename;
 
-//open file
-    std::ifstream (filename);
+// //open file
+//     std::ifstream (filename);
 
-//check if the file is read successfully
-    if(!filename){
-        std::cout << "File is not read successfully" << std::endl;
-    }
-    else{
-        //todo (How the file is read) also check format
-    }
+// //check if the file is read successfully
+//     if(!filename){
+//         std::cout << "File is not read successfully" << std::endl;
+//     }
+//     else{
+//         //todo (How the file is read) also check format
+//     }
 }
 
 
