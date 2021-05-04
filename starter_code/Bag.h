@@ -2,10 +2,14 @@
 #define ASSIGN2_BAG_H
 
 #include "LinkedList.h"
+#include "Tile.h"
+#include "TileCodes.h"
 
 class Bag {
     public:
         Bag();
+        Tile* getOneTile();
+        LinkedList* getTileBag();
     private:
         LinkedList* tileBag;
 
