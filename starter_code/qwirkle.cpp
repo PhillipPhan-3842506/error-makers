@@ -1,6 +1,8 @@
 
 #include "LinkedList.h"
 #include "ctype.h"
+#include "GameEngine.h"
+#include "Player.h"
 
 #include <fstream>
 #include <iostream>
@@ -19,7 +21,9 @@ bool run = true;
 int main(void) {
     LinkedList* list = new LinkedList();
     delete list;
-    
+
+
+
     //Welcome
     std::cout << "Welcome to Qwirkle!!" << std::endl;
     std::cout << "--------------------" << std::endl;
@@ -73,67 +77,56 @@ void menu(void){
 
 //Start a new game
 void newGame(){
-//validate check value
-bool validate = false;
+    GameEngine newEngine;
 
-//create player 1 and player 2
-std::string player1 = "";
-std::string player2 = "";
+    int MAX_NUMBER_PLAYERS = 2;
+    int numberOfPlayers = 1;
 
-std::cout << "Starting a New Game" << std::endl;
-std::cout << std::endl;
+    std::cout << "\nStarting a New Game \n" << std::endl;
 
-//Player1
-while (validate == false){
-    std::cout << "Enter a name for Player 1" << std::endl;
-    std::cin >> player1;
-    if (std::all_of(player1.begin(), player1.end(), [](unsigned char c){ return std::isupper(c); })){
-        validate = true;
+    std::cin.ignore();
+    while ( !(std::cin.eof()) && (numberOfPlayers <= MAX_NUMBER_PLAYERS) ) {
+        std::cout << "Enter a name for player " << numberOfPlayers << " (uppercase characters only)" << std::endl;
+        bool validate = false;
+        std::string playerName;
+        while (validate != true) {
+            std::getline(std::cin,playerName);
+            if (std::all_of(playerName.begin(), playerName.end(), [](unsigned char c){ return std::isupper(c); })){
+                validate = true;
+            }
+            else{
+                std::cout << "Invalid name, all uppercase needed" << std::endl;
+                validate = false;
+            }            
+        }
+
+        Player* player = new Player(playerName);
+        newEngine.addPlayerToList(player);
+        std::cout << "\n" << player->getPlayerName() << " has been created" << std::endl;
+        numberOfPlayers++;
     }
-    else{
-        std::cout << "Invalid name, all uppercase needed" << std::endl;
-        validate = false;
-    }
-    std::cout << std::endl;
+    std::cout << "Lets play\n" << std::endl;
+    newEngine.start();
+    run = false;
 }
 
-//set validate to false again otherwise after player1 is validated, player2 validate loop wont run
-validate = false;
+    //Load a game from a file (not done yet, once done delete this msg)
+    void loadGame(){
+    //     std::cout << "Enter the fileanme from which to load the game" << std::endl;
+    // //read from input
+    //     std::string filename;
+    //     std::cin >> filename;
 
-//Player2
-while (validate == false){
-    std::cout << "Enter a name for Player 2" << std::endl;
-    std::cin >> player2;
-    if (std::all_of(player2.begin(), player2.end(), [](unsigned char c){ return std::isupper(c); })){
-        validate = true;
-    }
-    else{
-        std::cout << "Invalid name, all uppercase needed" << std::endl;
-        validate = false;
-    }
-    std::cout << std::endl;
+    // //open file
+    //     std::ifstream (filename);
 
-}
-std::cout << "Let's Play\n";
-}
-
-//Load a game from a file (not done yet, once done delete this msg)
-void loadGame(){
-//     std::cout << "Enter the fileanme from which to load the game" << std::endl;
-// //read from input
-//     std::string filename;
-//     std::cin >> filename;
-
-// //open file
-//     std::ifstream (filename);
-
-// //check if the file is read successfully
-//     if(!filename){
-//         std::cout << "File is not read successfully" << std::endl;
-//     }
-//     else{
-//         //todo (How the file is read) also check format
-//     }
+    // //check if the file is read successfully
+    //     if(!filename){
+    //         std::cout << "File is not read successfully" << std::endl;
+    //     }
+    //     else{
+    //         //todo (How the file is read) also check format
+    //     }
 }
 
 
