@@ -77,15 +77,15 @@ void menu(void){
 
 //Start a new game
 void newGame(){
-    GameEngine newEngine;
 
+    std::string playerNames[2];
     int MAX_NUMBER_PLAYERS = 2;
-    int numberOfPlayers = 1;
+    int numberOfPlayers = 0;
 
     std::cout << "\nStarting a New Game \n" << std::endl;
 
     std::cin.ignore();
-    while ( !(std::cin.eof()) && (numberOfPlayers <= MAX_NUMBER_PLAYERS) ) {
+    while ( !(std::cin.eof()) && (numberOfPlayers < MAX_NUMBER_PLAYERS) ) {
         std::cout << "Enter a name for player " << numberOfPlayers << " (uppercase characters only)" << std::endl;
         bool validate = false;
         std::string playerName;
@@ -100,33 +100,69 @@ void newGame(){
             }            
         }
 
-        Player* player = new Player(playerName);
-        newEngine.addPlayerToList(player);
-        std::cout << "\n" << player->getPlayerName() << " has been created" << std::endl;
+        playerNames[numberOfPlayers] = playerName;
         numberOfPlayers++;
     }
     std::cout << "Lets play\n" << std::endl;
-    newEngine.start();
+    // int randomIntegerCauseCrash = 10101;
+    // GameEngine(playerNames,randomIntegerCauseCrash);
+    GameEngine(playerNames,'p');
     run = false;
 }
 
     //Load a game from a file (not done yet, once done delete this msg)
     void loadGame(){
-    //     std::cout << "Enter the fileanme from which to load the game" << std::endl;
+        std::cout << "Enter the fileanme from which to load the game" << std::endl << 
+        "> ";
     // //read from input
-    //     std::string filename;
-    //     std::cin >> filename;
 
-    // //open file
-    //     std::ifstream (filename);
+        std::string filename;
+        std::cin >> filename;
 
+    //open file
+        std::ifstream file(filename);
+        std::string values[100];
     // //check if the file is read successfully
-    //     if(!filename){
-    //         std::cout << "File is not read successfully" << std::endl;
-    //     }
-    //     else{
-    //         //todo (How the file is read) also check format
-    //     }
+        if(!file){
+            std::cout << "File is not read successfully" << std::endl;
+        }
+        else{
+            int index = 0;
+            while (!file.eof()) {
+                std::string line;
+                std::getline(file,line);
+                values[index] = line;
+                index++;
+                
+            }
+        }
+
+        std::string playerNames[2];
+
+        playerNames[0] = values[0];
+        int player1Score = std::stoi(values[1]);
+        std::string player1Hand = values[2];
+        playerNames[1] = values[3];
+        int player2Score = std::stoi(values[4]);
+        std::string player2Hand = values[5];
+        std::string boardShape = values[6];
+        std::string boardState = values[7];
+        std::string tileBag = values[8];
+        std::string currentPlayer = values[9];
+
+        std::cout << playerNames[0] << " -> " << player1Score 
+        << " -> " << player1Hand << std::endl;
+        std::cout << playerNames[1] << " -> " << player2Score 
+        << " -> " << player2Hand << std::endl;
+        std::cout << boardShape << std::endl;
+        std::cout << boardState << std::endl;
+        std::cout << tileBag << std::endl;
+        std::cout << currentPlayer << std::endl;
+
+        GameEngine(playerNames,player1Score,player1Hand,
+        player2Hand,player2Score,boardShape,boardState,tileBag,currentPlayer);
+
+        run = false;
 }
 
 

@@ -5,13 +5,18 @@
 #include "Player.h"
 class GameEngine {
     public:
-        GameEngine();
+        GameEngine(std::string playerNames[], char randomChar);
+        GameEngine(std::string playerNames[], int integer);
+        GameEngine(std::string playerNames[], int player1Score, int player1Hand,
+        std::string player2Hand, int player2Score, std::string boardShape, 
+        std::string boardState, std::string tileBag, std::string currentPlayer);
         void start();
         void addPlayerToList(Player* player);
         void setupGame();
+        void playGame();
     private:
         std::vector< std::vector<Tile*> > board;
-        std::vector<Player*> playerList;
+        Player* playerList[];
 };
 
 #endif // ASSIGN2_GameEngine_H

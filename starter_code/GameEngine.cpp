@@ -5,16 +5,44 @@
 #include "Bag.h"
 #include "Board.h"
 
-GameEngine::GameEngine() {
+#define NUMBER_OF_PLAYERS 2 
+
+GameEngine::GameEngine(std::string playerNames[],char randomChar) {
+    for (int i = 0; i < NUMBER_OF_PLAYERS;i++) {
+        Player* player = new Player(playerNames[i]);
+        playerList[i] = player;
+    }
+    setupGame();
+}
+
+GameEngine::GameEngine(std::string playerNames[], int player1Score, int player1Hand,
+        std::string player2Hand, int player2Score, std::string boardShape, 
+        std::string boardState, std::string tileBag, std::string currentPlayer) {
+            
+    for (int i = 0; i < NUMBER_OF_PLAYERS;i++) {
+        Player* player = new Player(playerNames[i]);
+        playerList[i] = player;
+    }
+    //to do : finish implementing code for hand
+    //seperate playerHand to seperate tiles
+    //create board + boardState
+    //create new tilebag
+    //set currentPlayer
+
+
+    // playerList[0]->updatePlayerScore(player1Score);
+    // playerList[0]->
+    // playerList[1]->updatePlayerScore(player2Score);
+
 
 }
 
 void GameEngine::start() {
     std::cout << "Play game" << std::endl;
 
-    setupGame();
+    // setupGame();
+    // playGame();
 }
-
 /**
  * 
  * This method is responsible for setting up the game.
@@ -34,28 +62,27 @@ void GameEngine::setupGame() {
     std::cout << "---------------------------" << std::endl;
     Bag* bag = new Bag();
     bag->getTileBag()->shuffle();
-    std::cout << "Tile bag: " << std::endl;
-    std::cout << "---------------------------" << std::endl;
 
-    //loop to set up cards
-    std::vector<Player*> :: iterator iter;
-    for (iter = playerList.begin(); iter != playerList.end(); iter++) {
-        //get 6 tiles to add to players hand
-        for (int i = 0; i < 6;i++) {
-            //tile = get first tile
-            Tile* tile = bag->getTileBag()->getAtIndex(1)->tile;
-            // std::cout << tile->getTitleDetails() << std::endl;
-            (*iter)->addTileToPlayerHand(tile);
-            bag->getTileBag()->deleteFront();
+    //loops through players, assigns them 6 tiles each
+    for (int i = 0; i < 2; i++) {
+        //give 6 tiles per player
+        for (int tiles = 0; tiles < 6; tiles++) {
+            Tile* tileToAdd = bag->getOneTile();
+            playerList[i]->addTileToPlayerHand(tileToAdd);
+            //as player picked a tile from the front, remove the tile
+            bag->getTileBag()->deleteTile(tileToAdd);
+
         }
-        std::cout << (*iter)->getPlayerName() << " hand contains: ";
-        (*iter)->getPlayerHand()->print();
-        std::cout << "--------------------------- " << std::endl;
-    }
-    bag->getTileBag()->print();
-    }
+        std::cout << playerList[i]->getPlayerName() << " has : " << std::endl;
+        playerList[i]->getPlayerHand()->print();
 
-//add player to playerlist so that gameengine can do things with each player
-void GameEngine::addPlayerToList(Player* player) {
-    playerList.push_back(player);
+    }
+    std::cout << "bag contains : " << std::endl;
+    bag->getTileBag()->print();
+
+}
+
+
+void GameEngine::playGame() {
+    
 }
