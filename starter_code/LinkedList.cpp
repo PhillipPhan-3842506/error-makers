@@ -225,7 +225,7 @@ void LinkedList::shuffle() {
 void LinkedList::print() {
    Node* currentNode = head;
    std::string stringToPrint = head->tile->getTitleDetails();
-   for (int i = 1; i < size();i++) {
+   for (unsigned int i = 1; i < size();i++) {
       currentNode = currentNode->next;
       stringToPrint = stringToPrint + ", " + currentNode->tile->getTitleDetails();
    }
