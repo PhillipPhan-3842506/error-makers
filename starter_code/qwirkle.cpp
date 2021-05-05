@@ -106,7 +106,7 @@ void newGame(){
     std::cout << "Lets play\n" << std::endl;
     // int randomIntegerCauseCrash = 10101;
     // GameEngine(playerNames,randomIntegerCauseCrash);
-    GameEngine(playerNames,'p');
+    new GameEngine(playerNames,'p');
     run = false;
 }
 
@@ -159,7 +159,7 @@ void newGame(){
         std::cout << tileBag << std::endl;
         std::cout << currentPlayer << std::endl;
 
-        GameEngine(playerNames,player1Score,player1Hand,
+        new GameEngine(playerNames,player1Score,player1Hand,
         player2Hand,player2Score,boardShape,boardState,tileBag,currentPlayer);
 
         run = false;

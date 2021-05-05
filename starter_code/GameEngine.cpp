@@ -15,7 +15,7 @@ GameEngine::GameEngine(std::string playerNames[],char randomChar) {
     setupGame();
 }
 
-GameEngine::GameEngine(std::string playerNames[], int player1Score, int player1Hand,
+GameEngine::GameEngine(std::string playerNames[], int player1Score, std::string player1Hand,
         std::string player2Hand, int player2Score, std::string boardShape, 
         std::string boardState, std::string tileBag, std::string currentPlayer) {
             
