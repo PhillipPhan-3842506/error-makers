@@ -109,24 +109,49 @@ void GameEngine::switchRound(){
         currentPlayer = 0;
     }
 }
-
+// " place XX at XX"
 void GameEngine::playerMove(){
-//    bool correctInput = false;
-//    while (correctInput == false){
-        std::string place;
-        std::cin >> place;
-        std::string hand;
-        std::cin >> hand;
-        std::string at;
-        std::cin >> at;
-        std::string co;
-        std::cin >> co;
-
-        std::cout << place << std::endl;
-        std::cout << hand << std::endl;
-        std::cout << at << std::endl;
-        std::cout << co << std::endl;
+    bool correctInput = false;
+    std::string move;
+//check input correct
+    while (correctInput == false){
+//store user input as 4 strings
+        std::getline(std::cin, move);
+        //std::cout << "\n " << std::endl;
+        //std::cout << "place substring: " << move.substr(0,5) << std::endl;
+        //std::cout << "at substring: " << move.substr(9,2) << std::endl;
+        //std::cout << "tileColour substring: " << move.substr(6,2) << std::endl;
+        //std::cout << "row/col substring: " << move.substr(12,2) << std::endl;
+        //std::cout << ">";
 
         
-//    }
+        if(move.substr(0,5).compare("place") == 0 && move.substr(9,2).compare("at")==0){
+            char tileColour = move.at(6);
+            char tileShape = move.at(7);
+            
+            std::cout << tileColour << std::endl;
+            std::cout << tileShape  << std::endl;
+            // std::size_t tileColourPOS = move.find("R2");
+            // std::size_t rowColPOS = move.find("C1");
+            // //find pos
+            // std::cout << "tileColourPOS : " << tileColourPOS << std::endl;
+            // std::cout << "rowColPOS : " << rowColPOS << std::endl;
+            char row = move.at(12);
+            char col = move.at(13);
+
+            std::cout << row << std::endl;
+            std::cout << col << std::endl;
+        //  std::cout << tileColour << " , " << tileShape <<std::endl;
+        //  std::cout << "poo" << std::endl;
+        }
+        else if(move.substr(0,5).compare("quit")==0){
+            correctInput = true;
+        }
+        else if(std::cin.eof()){
+            correctInput = true;
+        }
+        else
+        std::cout << "Invalid input" << std::endl;
+        
+}
 }

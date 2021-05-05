@@ -51,6 +51,7 @@ void menu(void){
     
     //Menu option selector
     int choice;
+    std::cout << ">";
     std::cin >> choice; 
     
     if (choice == 1){
@@ -88,6 +89,7 @@ void newGame(){
     std::cin.ignore();
     while ( !(std::cin.eof()) && (numberOfPlayers < MAX_NUMBER_PLAYERS) ) {
         std::cout << "Enter a name for player " << numberOfPlayers << " (uppercase characters only)" << std::endl;
+        std::cout << ">";
         bool validate = false;
         std::string playerName;
         while (validate != true) {
