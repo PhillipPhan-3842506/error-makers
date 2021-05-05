@@ -7,6 +7,7 @@
 
 #define NUMBER_OF_PLAYERS 2 
 
+//This constructor is for making a new game
 GameEngine::GameEngine(std::string playerNames[],char randomChar) {
     for (int i = 0; i < NUMBER_OF_PLAYERS;i++) {
         Player* player = new Player(playerNames[i]);
@@ -15,6 +16,7 @@ GameEngine::GameEngine(std::string playerNames[],char randomChar) {
     setupGame();
 }
 
+//This constructor is for continue a game after a saved game file is loaded
 GameEngine::GameEngine(std::string playerNames[], int player1Score, std::string player1Hand,
         std::string player2Hand, int player2Score, std::string boardShape, 
         std::string boardState, std::string tileBag, std::string currentPlayer) {
@@ -54,7 +56,7 @@ void GameEngine::start() {
  * 
  * */
 void GameEngine::setupGame() {
-
+    currentPlayer = 0;
     //set up board
     Board board;
     board.display();
@@ -80,9 +82,51 @@ void GameEngine::setupGame() {
     std::cout << "bag contains : " << std::endl;
     bag->getTileBag()->print();
 
+    playGame();
 }
 
-
+//The acutally gameplay
 void GameEngine::playGame() {
-    
+    //prompt current player to go
+    std::cout << playerList[currentPlayer]->getPlayerName() << ", it's your turn now" << std::endl;
+    //display the score of each player
+    for (int i = 0; i < NUMBER_OF_PLAYERS; i ++){
+    std::cout << "score for " << playerList[i]->getPlayerName() << ": " << playerList[i]->getPlayerScore() << std::endl;
+    }
+    //display the current board
+
+    //display the tiles in current player's hand
+    std::cout << "Your hand is: " << std::endl;
+    playerList[currentPlayer]->getPlayerHand()->print();
+
+    playerMove();
+}
+
+//the function to switch turn bewteen players
+void GameEngine::switchRound(){
+    currentPlayer++;
+    if (currentPlayer == NUMBER_OF_PLAYERS) {
+        currentPlayer = 0;
+    }
+}
+
+void GameEngine::playerMove(){
+//    bool correctInput = false;
+//    while (correctInput == false){
+        std::string place;
+        std::cin >> place;
+        std::string hand;
+        std::cin >> hand;
+        std::string at;
+        std::cin >> at;
+        std::string co;
+        std::cin >> co;
+
+        std::cout << place << std::endl;
+        std::cout << hand << std::endl;
+        std::cout << at << std::endl;
+        std::cout << co << std::endl;
+
+        
+//    }
 }

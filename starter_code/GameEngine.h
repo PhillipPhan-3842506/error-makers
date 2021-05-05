@@ -14,8 +14,12 @@ class GameEngine {
         void addPlayerToList(Player* player);
         void setupGame();
         void playGame();
+        void switchRound();
+        void playerMove();
+        
     private:
         std::vector< std::vector<Tile*> > board;
+        int currentPlayer;
         Player* playerList[];
 };
 
