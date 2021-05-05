@@ -7,7 +7,9 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <algorithm>
 
+#define MAX_NUMBER_PLAYERS 2
 #define EXIT_SUCCESS    0
 
 void menu();
@@ -79,7 +81,6 @@ void menu(void){
 void newGame(){
 
     std::string playerNames[2];
-    int MAX_NUMBER_PLAYERS = 2;
     int numberOfPlayers = 0;
 
     std::cout << "\nStarting a New Game \n" << std::endl;
@@ -95,7 +96,7 @@ void newGame(){
                 validate = true;
             }
             else{
-                std::cout << "Invalid name, all uppercase needed" << std::endl;
+                std::cout << "Invalid name, only uppercased name needed" << std::endl;
                 validate = false;
             }            
         }
@@ -106,7 +107,7 @@ void newGame(){
     std::cout << "Lets play\n" << std::endl;
     // int randomIntegerCauseCrash = 10101;
     // GameEngine(playerNames,randomIntegerCauseCrash);
-    new GameEngine(playerNames,'p');
+    GameEngine(playerNames,'p');
     run = false;
 }
 
