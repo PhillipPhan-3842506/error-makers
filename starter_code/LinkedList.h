@@ -30,6 +30,7 @@ public:
    void swapNodes(int index1, int index2);
    void shuffle();
    Node* getTile(Tile* tile);
+   Tile* getTileWithColourShape(char COLOUR,int SHAPE);
    void deleteTile(Tile* tile);
 
 private:

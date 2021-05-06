@@ -8,12 +8,24 @@ Board::Board(){
         for (int j = 0; j < COLS;j++) {
             std::string empty = "  ";
             board[i][j] = empty;
-            boardTiles[i][j] = nullptr;
         }
     }
     std::cout << "board loaded" << std::endl;
 
+    boardTiles.assign(6, std::vector<Tile*>(6));
+}   
 
+bool Board::placeTile(Tile* tile, int row, int col) {
+    //TO DO::VALIDATE PLACEMENT
+    if (row < 0 || col < 0 || row > ROWS || col > COLS) {
+        std::cout << "row or col is out of bounds" << std::endl;
+    }
+    else {
+        boardTiles[row-1][col-1] = tile;
+        return true;
+    }
+
+    return false;
 }
 
 void Board::display(){
@@ -24,7 +36,8 @@ void Board::display(){
         std::cout << rowLabels[i] << '|';
         for (int j = 0; j < COLS;j++) {
             if (boardTiles[i][j] != nullptr) {
-                std::cout << board[i][j] << boardTiles[i][j]->getTitleDetails();
+                board[i][j] = boardTiles[i][j]->getTitleDetails();
+                std::cout << board[i][j] << '|';
             }
             else {
                 std::cout << board[i][j] << '|';

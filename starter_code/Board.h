@@ -14,11 +14,12 @@ class Board {
         Board();
         void displayTile();
         void display();
-
+        bool placeTile(Tile* tile, int row, int col);
         // int final BOARD_SIZE = 26;
 
     private:
-        Tile* boardTiles[BOARD_SIZE][BOARD_SIZE];
+        // Tile* boardTiles[BOARD_SIZE][BOARD_SIZE];
+        std::vector< std::vector<Tile*> > boardTiles;
         std::string board[BOARD_SIZE][BOARD_SIZE];
 };
 

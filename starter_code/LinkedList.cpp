@@ -176,6 +176,25 @@ Node* LinkedList::getTile(Tile* tile) {
    return nodeToReturn;
 }
 
+Tile* LinkedList::getTileWithColourShape(char COLOUR,int SHAPE) {
+   Node* nodeToReturn = nullptr;
+   Node* currentNode = head;
+   bool foundTile = false;
+
+   //check if tile has the same colour and shape
+   while (currentNode!= nullptr && foundTile == false) {
+      if (currentNode->tile->colour == COLOUR && 
+      currentNode->tile->shape == SHAPE) {
+         nodeToReturn = currentNode;
+         foundTile = true;
+
+      } else {
+         currentNode = currentNode->next;
+      }
+   }
+   return nodeToReturn->tile;
+}
+
 void LinkedList::deleteTile(Tile* tile) {
    Node* currentNode = head;
    Node* previousNode = nullptr;

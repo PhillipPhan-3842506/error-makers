@@ -20,7 +20,6 @@ class GameEngine {
         void playerMove();
         
     private:
-        // std::vector< std::vector<Tile*> > board;
         Board board;
         Bag* bag;
         int currentPlayer;

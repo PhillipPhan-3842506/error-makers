@@ -58,7 +58,7 @@ void GameEngine::start() {
 void GameEngine::setupGame() {
     currentPlayer = 0;
     //set up board
-    board.display();
+    // board.display();
 
     std::cout << "---------------------------" << std::endl;
     bag = new Bag();
@@ -74,12 +74,12 @@ void GameEngine::setupGame() {
             bag->getTileBag()->deleteTile(tileToAdd);
 
         }
-        std::cout << playerList[i]->getPlayerName() << " has : " << std::endl;
-        playerList[i]->getPlayerHand()->print();
+        // std::cout << playerList[i]->getPlayerName() << " has : " << std::endl;
+        // playerList[i]->getPlayerHand()->print();
 
     }
-    std::cout << "bag contains : " << std::endl;
-    bag->getTileBag()->print();
+    // std::cout << "bag contains : " << std::endl;
+    // bag->getTileBag()->print();
 
     playGame();
 }
@@ -87,6 +87,7 @@ void GameEngine::setupGame() {
 //The acutally gameplay
 void GameEngine::playGame() {
     //prompt current player to go
+    board.display();
     std::cout << playerList[currentPlayer]->getPlayerName() << ", it's your turn now" << std::endl;
     //display the score of each player
     for (int i = 0; i < NUMBER_OF_PLAYERS; i ++){
@@ -99,14 +100,14 @@ void GameEngine::playGame() {
     playerList[currentPlayer]->getPlayerHand()->print();
 
     playerMove();
+//    switchRound();
 }
 
 //the function to switch turn bewteen players
 void GameEngine::switchRound(){
     currentPlayer++;
-    if (currentPlayer == NUMBER_OF_PLAYERS) {
-        currentPlayer = 0;
-    }
+    currentPlayer = currentPlayer%2;
+    
     playGame();
 }
 // " place XX at XX"
@@ -131,20 +132,38 @@ void GameEngine::playerMove(){
             char tileShape = move.at(7);
             int intTileShape = tileShape -'0';
 
-            std::cout << tileColour << std::endl;
-            std::cout << tileShape  << std::endl;
+            // std::cout << tileColour << std::endl;
+            // std::cout << tileShape  << std::endl;
 
             //store input as tile
-            Tile selectTile = Tile(tileColour, intTileShape);
-
+            Tile* selectedTile = playerList[currentPlayer]->getPlayerHand()->getTileWithColourShape(tileColour, intTileShape);
             //store board values
             char row = move.at(12);
+            int rowAsInt;
             char col = move.at(13);
+            int colAsInt = col - '0';
+            if (row == 'A') {
+                rowAsInt = 1;
+            } else if(row == 'B') {
+                rowAsInt = 2;
+            } else if (row == 'C') {
+                rowAsInt = 3;
+            } else if (row == 'D') {
+                rowAsInt = 4;
+            } else if (row == 'E') {
+                rowAsInt = 5;
+            } else if (row == 'F') {
+                rowAsInt = 6;
+            }
+            else {
+                std::cout << "row doesn't exist" << std::endl;
+                rowAsInt = -99999;
+            }
 
-            std::cout << row << std::endl;
-            std::cout << col << std::endl;
+            board.placeTile(selectedTile,rowAsInt,colAsInt);
+            switchRound();
+
             // todo store input as board
-
         }
         else if(move.substr(0,7).compare("replace") == 0){
             char ReTileColour = move.at(8);
@@ -161,7 +180,7 @@ void GameEngine::playerMove(){
             playerList[currentPlayer]->addTileToPlayerHand(tileToAdd);
             bag->getTileBag()->deleteTile(tileToAdd);
             playerList[currentPlayer]->getPlayerHand()->print();
-            // switchRound();
+            switchRound();
 
         }
         else if(move.substr(0,5).compare("quit")==0){
