@@ -3,6 +3,8 @@
 #include <vector>
 #include "Tile.h"
 #include "Player.h"
+#include "Board.h"
+#include "Bag.h"
 class GameEngine {
     public:
         GameEngine(std::string playerNames[], char randomChar);
@@ -18,7 +20,9 @@ class GameEngine {
         void playerMove();
         
     private:
-        std::vector< std::vector<Tile*> > board;
+        // std::vector< std::vector<Tile*> > board;
+        Board board;
+        Bag* bag;
         int currentPlayer;
         Player* playerList[];
 };

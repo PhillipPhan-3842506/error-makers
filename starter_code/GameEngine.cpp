@@ -58,11 +58,10 @@ void GameEngine::start() {
 void GameEngine::setupGame() {
     currentPlayer = 0;
     //set up board
-    Board board;
     board.display();
 
     std::cout << "---------------------------" << std::endl;
-    Bag* bag = new Bag();
+    bag = new Bag();
     bag->getTileBag()->shuffle();
 
     //loops through players, assigns them 6 tiles each
@@ -108,6 +107,7 @@ void GameEngine::switchRound(){
     if (currentPlayer == NUMBER_OF_PLAYERS) {
         currentPlayer = 0;
     }
+    playGame();
 }
 // " place XX at XX"
 void GameEngine::playerMove(){
@@ -151,8 +151,17 @@ void GameEngine::playerMove(){
             char ReTileShape = move.at(9);
             int intReTileShape = ReTileShape -'0';
 
-            std::cout << ReTileColour << std::endl;
-            std::cout << intReTileShape  << std::endl;
+            Tile* tileToRemove = new Tile(ReTileColour,intReTileShape);
+            
+            //add the tile to the end of the bag, delete from player hand
+            bag->getTileBag()->addBack(tileToRemove);
+            playerList[currentPlayer]->removeTileFromPlayerHand(tileToRemove);
+            //get a tile from front, add to player hand
+            Tile* tileToAdd = bag->getOneTile();
+            playerList[currentPlayer]->addTileToPlayerHand(tileToAdd);
+            bag->getTileBag()->deleteTile(tileToAdd);
+            playerList[currentPlayer]->getPlayerHand()->print();
+            // switchRound();
 
         }
         else if(move.substr(0,5).compare("quit")==0){
