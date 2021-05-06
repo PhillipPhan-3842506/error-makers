@@ -126,23 +126,34 @@ void GameEngine::playerMove(){
 
         
         if(move.substr(0,5).compare("place") == 0 && move.substr(9,2).compare("at")==0){
+            //store tile values
             char tileColour = move.at(6);
             char tileShape = move.at(7);
-            
+            int intTileShape = tileShape -'0';
+
             std::cout << tileColour << std::endl;
             std::cout << tileShape  << std::endl;
-            // std::size_t tileColourPOS = move.find("R2");
-            // std::size_t rowColPOS = move.find("C1");
-            // //find pos
-            // std::cout << "tileColourPOS : " << tileColourPOS << std::endl;
-            // std::cout << "rowColPOS : " << rowColPOS << std::endl;
+
+            //store input as tile
+            Tile selectTile = Tile(tileColour, intTileShape);
+
+            //store board values
             char row = move.at(12);
             char col = move.at(13);
 
             std::cout << row << std::endl;
             std::cout << col << std::endl;
-        //  std::cout << tileColour << " , " << tileShape <<std::endl;
-        //  std::cout << "poo" << std::endl;
+            // todo store input as board
+
+        }
+        else if(move.substr(0,7).compare("replace") == 0){
+            char ReTileColour = move.at(8);
+            char ReTileShape = move.at(9);
+            int intReTileShape = ReTileShape -'0';
+
+            std::cout << ReTileColour << std::endl;
+            std::cout << intReTileShape  << std::endl;
+
         }
         else if(move.substr(0,5).compare("quit")==0){
             correctInput = true;
