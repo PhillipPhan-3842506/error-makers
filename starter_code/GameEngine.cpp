@@ -60,8 +60,6 @@ void GameEngine::start() {
  * */
 void GameEngine::setupGame() {
     currentPlayer = 0;
-    boardColLength = 6;
-    boardRowLength = 6;
     //set up board
     // board.display();
 
@@ -211,23 +209,30 @@ void GameEngine::playerMove(){
 }
 
 void GameEngine::saveGame(std::string saveFile){
-    std::ofstream saveGameFile (saveFile);
+    std::ofstream saveGameFile (saveFile + "save");
     for (int i = 0; i < NUMBER_OF_PLAYERS; i ++){
         std::string playerHand = playerList[i]->getPlayerHand()->printToString();
         saveGameFile << playerList[i]->getPlayerName() << std::endl;
         saveGameFile << playerList[i]->getPlayerScore() << std::endl;
         saveGameFile << playerHand << std::endl;
     }
-    // cols and rows are made up, not using the vector length
-    saveGameFile << boardColLength << std::endl;
-    saveGameFile << boardRowLength << std::endl;
+
+
+//    int rows = (int)board.size();  
+
+//   int cols = (int)board[0].size();
+
+
+//   saveGameFile << rows << std::endl;
+//    saveGameFile << cols << std::endl;
 
     std::string currentBag = bag->getTileBag()->printToString();
     saveGameFile << currentBag << std::endl;
 
     //convert board into string
 
-    //saveGameFile << playerList[currentPlayer]->getPlayerName << std::endl;
+    saveGameFile << playerList[currentPlayer]->getPlayerName() << std::endl;
 
     saveGameFile.close();
+    std::cout << "Game successfully saved" << std::endl;
 }
