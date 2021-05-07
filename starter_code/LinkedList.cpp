@@ -241,12 +241,13 @@ void LinkedList::shuffle() {
    }
 }
 
-void LinkedList::print() {
+std::string LinkedList::printToString() {
    Node* currentNode = head;
    std::string stringToPrint = head->tile->getTitleDetails();
    for (unsigned int i = 1; i < size();i++) {
       currentNode = currentNode->next;
       stringToPrint = stringToPrint + ", " + currentNode->tile->getTitleDetails();
    }
-   std::cout << stringToPrint << std::endl;
+//   std::cout << stringToPrint << std::endl;
+   return stringToPrint;
 }

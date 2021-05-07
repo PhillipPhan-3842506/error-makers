@@ -1,9 +1,12 @@
 #include "GameEngine.h"
 #include "Tile.h"
-#include <iostream>
 #include "Player.h"
 #include "Bag.h"
 #include "Board.h"
+
+#include <iostream>
+#include<fstream>
+#include <sstream>
 
 #define NUMBER_OF_PLAYERS 2 
 
@@ -96,8 +99,8 @@ void GameEngine::playGame() {
     //display the current board
 
     //display the tiles in current player's hand
-    std::cout << "Your hand is: " << std::endl;
-    playerList[currentPlayer]->getPlayerHand()->print();
+    std::cout << "Your hand is: " <<
+    playerList[currentPlayer]->getPlayerHand()->printToString() << std::endl;
 
     playerMove();
 //    switchRound();
@@ -179,11 +182,21 @@ void GameEngine::playerMove(){
             Tile* tileToAdd = bag->getOneTile();
             playerList[currentPlayer]->addTileToPlayerHand(tileToAdd);
             bag->getTileBag()->deleteTile(tileToAdd);
-            playerList[currentPlayer]->getPlayerHand()->print();
+            playerList[currentPlayer]->getPlayerHand()->printToString();
             switchRound();
 
         }
-        else if(move.substr(0,5).compare("quit")==0){
+        //save as file
+        else if (move.substr(0,4).compare("save")==0 && move.substr(5,2).compare("as") == 0){
+            //get filename
+            std::string saveFile = move.substr(8, move.length() - 8);
+            
+            //std::cout << outFile << std::endl;
+            std::cout << "saving" << std::endl;
+            GameEngine::saveGame(saveFile);
+        }
+        else if(move.substr(0,4).compare("quit")==0){
+            std::cout << "Thanks for playing" << std::endl;
             correctInput = true;
         }
         else if(std::cin.eof()){
@@ -193,4 +206,15 @@ void GameEngine::playerMove(){
         std::cout << "Invalid input" << std::endl;
         
 }
+}
+
+void GameEngine::saveGame(std::string saveFile){
+    std::ofstream saveGameFile (saveFile);
+    for (int i = 0; i < NUMBER_OF_PLAYERS; i ++){
+        std::string playerHand = playerList[i]->getPlayerHand()->printToString();
+        saveGameFile << "Player" << i << "'s name: " << playerList[i]->getPlayerName() << std::endl;
+        saveGameFile << "Player" << i << "'s hand: " << playerHand << std::endl;
+        saveGameFile << "Player" << i << "'s score: " << playerList[i]->getPlayerScore() << std::endl;
+    }
+    saveGameFile.close();
 }

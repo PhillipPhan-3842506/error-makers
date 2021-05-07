@@ -18,7 +18,7 @@ class GameEngine {
         void playGame();
         void switchRound();
         void playerMove();
-        
+        void saveGame(std::string saveFile);
     private:
         Board board;
         Bag* bag;

@@ -26,7 +26,7 @@ public:
    void deleteBack();
    void deleteAtIndex(unsigned int index);
 
-   void print();
+   std::string printToString();
    void swapNodes(int index1, int index2);
    void shuffle();
    Node* getTile(Tile* tile);
