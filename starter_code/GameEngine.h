@@ -23,6 +23,8 @@ class GameEngine {
         Board board;
         Bag* bag;
         int currentPlayer;
+        int boardRowLength;
+        int boardColLength;
         Player* playerList[];
 };
 

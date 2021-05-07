@@ -60,6 +60,8 @@ void GameEngine::start() {
  * */
 void GameEngine::setupGame() {
     currentPlayer = 0;
+    boardColLength = 6;
+    boardRowLength = 6;
     //set up board
     // board.display();
 
@@ -78,11 +80,11 @@ void GameEngine::setupGame() {
 
         }
         // std::cout << playerList[i]->getPlayerName() << " has : " << std::endl;
-        // playerList[i]->getPlayerHand()->print();
+        // playerList[i]->getPlayerHand()->printToString();
 
     }
     // std::cout << "bag contains : " << std::endl;
-    // bag->getTileBag()->print();
+     bag->getTileBag()->printToString();
 
     playGame();
 }
@@ -212,9 +214,20 @@ void GameEngine::saveGame(std::string saveFile){
     std::ofstream saveGameFile (saveFile);
     for (int i = 0; i < NUMBER_OF_PLAYERS; i ++){
         std::string playerHand = playerList[i]->getPlayerHand()->printToString();
-        saveGameFile << "Player" << i << "'s name: " << playerList[i]->getPlayerName() << std::endl;
-        saveGameFile << "Player" << i << "'s score: " << playerList[i]->getPlayerScore() << std::endl;
-        saveGameFile << "Player" << i << "'s hand: " << playerHand << std::endl;
+        saveGameFile << playerList[i]->getPlayerName() << std::endl;
+        saveGameFile << playerList[i]->getPlayerScore() << std::endl;
+        saveGameFile << playerHand << std::endl;
     }
+    // cols and rows are made up, not using the vector length
+    saveGameFile << boardColLength << std::endl;
+    saveGameFile << boardRowLength << std::endl;
+
+    std::string currentBag = bag->getTileBag()->printToString();
+    saveGameFile << currentBag << std::endl;
+
+    //convert board into string
+
+    //saveGameFile << playerList[currentPlayer]->getPlayerName << std::endl;
+
     saveGameFile.close();
 }
