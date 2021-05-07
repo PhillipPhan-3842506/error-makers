@@ -21,7 +21,7 @@ bool Board::placeTile(Tile* tile, int row, int col) {
         std::cout << "row or col is out of bounds" << std::endl;
     }
     else {
-        boardTiles[row-1][col-1] = tile;
+        boardTiles[row-1][col] = tile;
         return true;
     }
 

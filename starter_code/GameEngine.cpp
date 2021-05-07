@@ -213,8 +213,8 @@ void GameEngine::saveGame(std::string saveFile){
     for (int i = 0; i < NUMBER_OF_PLAYERS; i ++){
         std::string playerHand = playerList[i]->getPlayerHand()->printToString();
         saveGameFile << "Player" << i << "'s name: " << playerList[i]->getPlayerName() << std::endl;
-        saveGameFile << "Player" << i << "'s hand: " << playerHand << std::endl;
         saveGameFile << "Player" << i << "'s score: " << playerList[i]->getPlayerScore() << std::endl;
+        saveGameFile << "Player" << i << "'s hand: " << playerHand << std::endl;
     }
     saveGameFile.close();
 }
