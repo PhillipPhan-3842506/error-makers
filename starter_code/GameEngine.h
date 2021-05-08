@@ -7,8 +7,8 @@
 #include "Bag.h"
 class GameEngine {
     public:
-        GameEngine(std::string playerNames[], char randomChar);
-        GameEngine(std::string playerNames[], int integer);
+        GameEngine(std::string playerNames[], int numberOfPlayers);
+        ~GameEngine();
         GameEngine(std::string playerNames[], int player1Score, std::string player1Hand,
         std::string player2Hand, int player2Score, std::string boardShape, 
         std::string boardState, std::string tileBagString, std::string currentPlayerName);

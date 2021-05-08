@@ -21,10 +21,6 @@ void credits();
 bool run = true;
 
 int main(void) {
-    LinkedList* list = new LinkedList();
-    delete list;
-
-
 
     //Welcome
     std::cout << "Welcome to Qwirkle!!" << std::endl;
@@ -35,11 +31,12 @@ int main(void) {
         menu();
     }
 
+    std::cout << "game has exited" << std::endl;
     return EXIT_SUCCESS;
 }
 
 //Display menu and select options
-void menu(void){
+void menu(){
 
     //menu printed
     std::cout << "menu" << std::endl;
@@ -56,12 +53,15 @@ void menu(void){
     
     if (choice == 1){
         newGame();
+        run = false;
     }
     else if (choice == 2){
         loadGame();
+        run = false;
     }
     else if (choice == 3){
-        credits();        
+        credits();
+        run = false;        
     }
     else if (choice == 4){
         std::cout << "Goodbye!" << std::endl;
@@ -109,7 +109,7 @@ void newGame(){
     std::cout << "Lets play\n" << std::endl;
     // int randomIntegerCauseCrash = 10101;
     // GameEngine(playerNames,randomIntegerCauseCrash);
-    GameEngine(playerNames,'p');
+    GameEngine(playerNames,numberOfPlayers);
     run = false;
 }
 

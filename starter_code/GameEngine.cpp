@@ -5,17 +5,19 @@
 #include "Board.h"
 
 #include <iostream>
-#include<fstream>
+#include <fstream>
 #include <sstream>
 #include <vector>
 
 #define NUMBER_OF_PLAYERS 2 
 
 //This constructor is for making a new game
-GameEngine::GameEngine(std::string playerNames[],char randomChar) {
+GameEngine::GameEngine(std::string playerNames[],int numberOfPlayers) {
+    // playerList = new Player*[2];
     for (int i = 0; i < NUMBER_OF_PLAYERS;i++) {
-        Player* player = new Player(playerNames[i]);
-        playerList[i] = player;
+        // Player* player = new Player(playerNames[i]);
+        // playerList[i] = player;
+        playerList[i] = new Player(playerNames[i]);
     }
     setupGame();
 }
@@ -79,6 +81,10 @@ GameEngine::GameEngine(std::string playerNames[], int player1Score, std::string 
 
 }
 
+GameEngine::~GameEngine() {
+
+}
+
 void GameEngine::start() {
     std::cout << "Play game" << std::endl;
 
@@ -119,7 +125,7 @@ void GameEngine::setupGame() {
 
     }
     // std::cout << "bag contains : " << std::endl;
-     bag->getTileBag()->printToString();
+    bag->getTileBag()->printToString();
 
     playGame();
 }
@@ -247,7 +253,7 @@ void GameEngine::playerMove(){
             GameEngine::saveGame(saveFile);
         }
         else if(move.substr(0,4).compare("quit")==0){
-            std::cout << "Thanks for playing" << std::endl;
+            std::cout << "I am not thankful for playing" << std::endl;
             correctInput = true;
         }
         else if(std::cin.eof()){
@@ -258,7 +264,7 @@ void GameEngine::playerMove(){
             std::cout << "Invalid input" << std::endl;
         }
         
-}
+    }
 }
 
 void GameEngine::saveGame(std::string saveFile){
