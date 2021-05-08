@@ -31,7 +31,7 @@ Bag::Bag(std::string tileBagString) {
     while (std::getline(ss,token,',')) {
         result.push_back(token);
     }
-    for (int i = 0;i<result.size();i++) {
+    for (size_t i = 0;i<result.size();i++) {
         char colour = result.at(i).substr(0,1)[0];
         int shape = std::stoi(result.at(i).substr(1));
         Tile* tile = new Tile(colour,shape);

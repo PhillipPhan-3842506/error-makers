@@ -152,7 +152,7 @@ void newGame(){
         std::string boardState = values[7];
         std::string tileBagString = values[8];
         std::string currentPlayerName = values[9];
-
+        std::cin.ignore();
         GameEngine(playerNames,player1Score,player1Hand,
         player2Hand,player2Score,boardShape,boardState,tileBagString,currentPlayerName);
 
