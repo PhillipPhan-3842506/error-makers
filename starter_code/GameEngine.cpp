@@ -34,7 +34,6 @@ GameEngine::GameEngine(std::string playerNames[], int player1Score, std::string 
         playerList[i] = player;
     }
 
-    board.display();
     //set player 1 score + hand
     playerList[0]->updatePlayerScore(player1Score);
     //set player 2 score
@@ -70,25 +69,12 @@ GameEngine::GameEngine(std::string playerNames[], int player1Score, std::string 
         Tile* tile = new Tile(colour,shape);
         playerList[1]->addTileToPlayerHand(tile);
     }
-    std::cout << "player1 hand: " << playerList[0]->getPlayerHand()->printToString() << 
-    ", player1 score: " << playerList[0]->getPlayerScore() << std::endl;
-    std::cout << "player2 hand: " << playerList[1]->getPlayerHand()->printToString() << 
-    ", player2 score: " << playerList[1]->getPlayerScore() << std::endl;
 
     //create bag from tileBagString
-    Bag* bag = new Bag(tileBagString);
-    std::cout << "tileBag: " << bag->getTileBag()->printToString()<< std::endl;
+    bag = new Bag(tileBagString);
 
-    std::cout << "currentPlayer: " << playerList[currentPlayer]->getPlayerName() << std::endl;
-    //to do : finish implementing code for hand
-    //seperate playerHand to seperate tiles
-    //create board + boardState
-    //create new tilebag
-
-    //set currentPlayer
-    // playerList[0]->updatePlayerScore(player1Score);
-    // playerList[0]->
-    // playerList[1]->updatePlayerScore(player2Score);
+    playGame();
+    //boardState
 
 
 }
@@ -219,6 +205,7 @@ void GameEngine::playerMove(){
             // }
 
             board.placeTile(selectedTile,rowAsInt,colAsInt);
+            playerList[currentPlayer]->removeTileFromPlayerHand(selectedTile);
             // std::cout<<"\nRule is gonna called\n";
             // this->gameRules(new Player("Alan"), rowAsInt-1, colAsInt);
             switchRound();

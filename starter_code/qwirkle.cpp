@@ -153,16 +153,7 @@ void newGame(){
         std::string tileBagString = values[8];
         std::string currentPlayerName = values[9];
 
-        std::cout << playerNames[0] << " -> " << player1Score 
-        << " -> " << player1Hand << std::endl;
-        std::cout << playerNames[1] << " -> " << player2Score 
-        << " -> " << player2Hand << std::endl;
-        std::cout << boardShape << std::endl;
-        std::cout << boardState << std::endl;
-        std::cout << tileBagString << std::endl;
-        std::cout << currentPlayerName << std::endl;
-
-        new GameEngine(playerNames,player1Score,player1Hand,
+        GameEngine(playerNames,player1Score,player1Hand,
         player2Hand,player2Score,boardShape,boardState,tileBagString,currentPlayerName);
 
         run = false;
