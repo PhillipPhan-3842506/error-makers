@@ -11,7 +11,7 @@ class GameEngine {
         GameEngine(std::string playerNames[], int integer);
         GameEngine(std::string playerNames[], int player1Score, std::string player1Hand,
         std::string player2Hand, int player2Score, std::string boardShape, 
-        std::string boardState, std::string tileBag, std::string currentPlayer);
+        std::string boardState, std::string tileBagString, std::string currentPlayerName);
         void start();
         void addPlayerToList(Player* player);
         void setupGame();

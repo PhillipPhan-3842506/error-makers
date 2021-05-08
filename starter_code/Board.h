@@ -16,6 +16,8 @@ class Board {
         void display();
         bool placeTile(Tile* tile, int row, int col);
         Tile* getTilefromBoard(int x, int y);
+        int getBoardTileRow();
+        int getBoardTileCol();
         // int final BOARD_SIZE = 26;
 
     private:

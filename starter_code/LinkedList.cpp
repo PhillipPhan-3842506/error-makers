@@ -246,7 +246,7 @@ std::string LinkedList::printToString() {
    std::string stringToPrint = head->tile->getTitleDetails();
    for (unsigned int i = 1; i < size();i++) {
       currentNode = currentNode->next;
-      stringToPrint = stringToPrint + ", " + currentNode->tile->getTitleDetails();
+      stringToPrint = stringToPrint + "," + currentNode->tile->getTitleDetails();
    }
 //   std::cout << stringToPrint << std::endl;
    return stringToPrint;

@@ -1,4 +1,8 @@
 #include "Bag.h"
+#include <iostream>
+#include <sstream>
+#include <vector>
+
 
 Bag::Bag() {
     //create array of colours
@@ -16,6 +20,24 @@ Bag::Bag() {
             }
         }
     }
+}
+
+Bag::Bag(std::string tileBagString) {
+    tileBag = new LinkedList();
+    std::istringstream ss(tileBagString);
+    std::string token;
+    std::vector<std::string> result;
+
+    while (std::getline(ss,token,',')) {
+        result.push_back(token);
+    }
+    for (int i = 0;i<result.size();i++) {
+        char colour = result.at(i).substr(0,1)[0];
+        int shape = std::stoi(result.at(i).substr(1));
+        Tile* tile = new Tile(colour,shape);
+        tileBag->addBack(tile);
+    }
+
 }
 
 Tile* Bag::getOneTile() {

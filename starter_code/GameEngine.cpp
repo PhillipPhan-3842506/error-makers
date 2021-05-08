@@ -7,6 +7,7 @@
 #include <iostream>
 #include<fstream>
 #include <sstream>
+#include <vector>
 
 #define NUMBER_OF_PLAYERS 2 
 
@@ -22,19 +23,69 @@ GameEngine::GameEngine(std::string playerNames[],char randomChar) {
 //This constructor is for continue a game after a saved game file is loaded
 GameEngine::GameEngine(std::string playerNames[], int player1Score, std::string player1Hand,
         std::string player2Hand, int player2Score, std::string boardShape, 
-        std::string boardState, std::string tileBag, std::string currentPlayer) {
+        std::string boardState, std::string tileBagString, std::string currentPlayerName) {
             
     for (int i = 0; i < NUMBER_OF_PLAYERS;i++) {
         Player* player = new Player(playerNames[i]);
+        //if the playername is the current player, make the current player equal to the player
+        if (playerNames[i] == currentPlayerName) {
+            currentPlayer = i;
+        }
         playerList[i] = player;
     }
+
+    board.display();
+    //set player 1 score + hand
+    playerList[0]->updatePlayerScore(player1Score);
+    //set player 2 score
+    playerList[1]->updatePlayerScore(player2Score);
+
+    std::istringstream ssPlayer1(player1Hand);
+    std::istringstream ssPlayer2(player2Hand);
+    std::string tokenPlayer1;
+    std::string tokenPlayer2;
+    std::vector<std::string> resultPlayer1;
+    std::vector<std::string> resultPlayer2;
+
+    //set player 1 hand
+    while (std::getline(ssPlayer1,tokenPlayer1,',')) {
+        resultPlayer1.push_back(tokenPlayer1);
+    }
+    for (int i = 0;i<resultPlayer1.size();i++) {
+
+        char colour = resultPlayer1.at(i).substr(0,1)[0];
+        int shape = std::stoi(resultPlayer1.at(i).substr(1));
+        Tile* tile = new Tile(colour,shape);
+        playerList[0]->addTileToPlayerHand(tile);
+    }
+
+    //set player 2 hand
+    while (std::getline(ssPlayer2,tokenPlayer2,',')) {
+        resultPlayer2.push_back(tokenPlayer2);
+    }
+    for (int i = 0;i<resultPlayer2.size();i++) {
+
+        char colour = resultPlayer2.at(i).substr(0,1)[0];
+        int shape = std::stoi(resultPlayer2.at(i).substr(1));
+        Tile* tile = new Tile(colour,shape);
+        playerList[1]->addTileToPlayerHand(tile);
+    }
+    std::cout << "player1 hand: " << playerList[0]->getPlayerHand()->printToString() << 
+    ", player1 score: " << playerList[0]->getPlayerScore() << std::endl;
+    std::cout << "player2 hand: " << playerList[1]->getPlayerHand()->printToString() << 
+    ", player2 score: " << playerList[1]->getPlayerScore() << std::endl;
+
+    //create bag from tileBagString
+    Bag* bag = new Bag(tileBagString);
+    std::cout << "tileBag: " << bag->getTileBag()->printToString()<< std::endl;
+
+    std::cout << "currentPlayer: " << playerList[currentPlayer]->getPlayerName() << std::endl;
     //to do : finish implementing code for hand
     //seperate playerHand to seperate tiles
     //create board + boardState
     //create new tilebag
+
     //set currentPlayer
-
-
     // playerList[0]->updatePlayerScore(player1Score);
     // playerList[0]->
     // playerList[1]->updatePlayerScore(player2Score);
@@ -141,31 +192,35 @@ void GameEngine::playerMove(){
             //store input as tile
             Tile* selectedTile = playerList[currentPlayer]->getPlayerHand()->getTileWithColourShape(tileColour, intTileShape);
             //store board values
+            std::string rowNames = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
             char row = move.at(12);
-            int rowAsInt;
-            char col = move.at(13);
-            int colAsInt = col - '0';
-            if (row == 'A') {
-                rowAsInt = 1;
-            } else if(row == 'B') {
-                rowAsInt = 2;
-            } else if (row == 'C') {
-                rowAsInt = 3;
-            } else if (row == 'D') {
-                rowAsInt = 4;
-            } else if (row == 'E') {
-                rowAsInt = 5;
-            } else if (row == 'F') {
-                rowAsInt = 6;
-            }
-            else {
-                std::cout << "row doesn't exist" << std::endl;
-                rowAsInt = -99999;
-            }
+            std::size_t find = rowNames.find_first_of(row);
+            int rowAsInt = find;
+
+            std::string col = move.substr(13);
+            int colAsInt = std::stoi(col);
+            std::cout << "Placing at  : " << rowAsInt << "," << colAsInt << std::endl;
+            // if (row == 'A') {
+            //     rowAsInt = 1;
+            // } else if(row == 'B') {
+            //     rowAsInt = 2;
+            // } else if (row == 'C') {
+            //     rowAsInt = 3;
+            // } else if (row == 'D') {
+            //     rowAsInt = 4;
+            // } else if (row == 'E') {
+            //     rowAsInt = 5;
+            // } else if (row == 'F') {
+            //     rowAsInt = 6;
+            // }
+            // else {
+            //     std::cout << "row doesn't exist" << std::endl;
+            //     rowAsInt = -99999;
+            // }
 
             board.placeTile(selectedTile,rowAsInt,colAsInt);
-            std::cout<<"\nRule is gonna called\n";
-            this->gameRules(new Player("Alan"), rowAsInt-1, colAsInt);
+            // std::cout<<"\nRule is gonna called\n";
+            // this->gameRules(new Player("Alan"), rowAsInt-1, colAsInt);
             switchRound();
 
             // todo store input as board
@@ -219,14 +274,8 @@ void GameEngine::saveGame(std::string saveFile){
         saveGameFile << playerHand << std::endl;
     }
 
-
-//    int rows = (int)board.size();  
-
-//   int cols = (int)board[0].size();
-
-
-//   saveGameFile << rows << std::endl;
-//    saveGameFile << cols << std::endl;
+    saveGameFile << board.getBoardTileRow() << std::endl;  
+    saveGameFile << board.getBoardTileCol() << std::endl;
 
     std::string currentBag = bag->getTileBag()->printToString();
     saveGameFile << currentBag << std::endl;

@@ -8,6 +8,7 @@
 class Bag {
     public:
         Bag();
+        Bag(std::string tileBagString);
         Tile* getOneTile();
         LinkedList* getTileBag();
     private:

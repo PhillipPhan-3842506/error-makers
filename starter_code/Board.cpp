@@ -1,6 +1,6 @@
 #include "Board.h"
-#define ROWS 6
-#define COLS 6
+#define ROWS 26
+#define COLS 26
 
 
 Board::Board(){
@@ -10,9 +10,7 @@ Board::Board(){
             board[i][j] = empty;
         }
     }
-    std::cout << "board loaded" << std::endl;
-
-    boardTiles.assign(6, std::vector<Tile*>(6));
+    boardTiles.assign(26, std::vector<Tile*>(26));
 }   
 
 bool Board::placeTile(Tile* tile, int row, int col) {
@@ -21,19 +19,39 @@ bool Board::placeTile(Tile* tile, int row, int col) {
         std::cout << "row or col is out of bounds" << std::endl;
     }
     else {
-        boardTiles[row-1][col] = tile;
+        boardTiles[row][col] = tile;
         return true;
     }
 
     return false;
 }
 
+int Board::getBoardTileRow() {
+    return this->boardTiles.size();
+}
+
+int Board::getBoardTileCol() {
+    return this->boardTiles[0].size();
+}
+
 void Board::display(){
-    std::string rowLabels[6] = {"A","B","C","D","E","F"};
-    std::cout << "  0  1  2  3  4  5 " << std::endl;
-    std::cout << "--------------------" << std::endl;
+    std::string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    std::cout << "  ";
+    for (int count = 0; count < ROWS;count++) {
+
+        if (count > 9) {
+            std::cout << count << " ";
+        }
+        else {
+            std::cout << count << "  ";
+        }
+    }
+    std::cout << "\n ----------------------------------------------------------"
+    << "---------------------"
+    << std::endl;
+    // std::cout << "-"*50 << std::endl;
     for (int i = 0; i < ROWS;i++) {
-        std::cout << rowLabels[i] << '|';
+        std::cout << alphabet[i] << '|';
         for (int j = 0; j < COLS;j++) {
             if (boardTiles[i][j] != nullptr) {
                 board[i][j] = boardTiles[i][j]->getTitleDetails();
