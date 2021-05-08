@@ -140,12 +140,9 @@ void newGame(){
             }
         }
 
-        std::string playerNames[2];
-
-        playerNames[0] = values[0];
+        std::string playerNames[] = {values[0],values[3]};
         int player1Score = std::stoi(values[1]);
         std::string player1Hand = values[2];
-        playerNames[1] = values[3];
         int player2Score = std::stoi(values[4]);
         std::string player2Hand = values[5];
         std::string boardShape = values[6];
@@ -156,7 +153,6 @@ void newGame(){
         GameEngine(playerNames,player1Score,player1Hand,
         player2Hand,player2Score,boardShape,boardState,tileBagString,currentPlayerName);
 
-        run = false;
 }
 
 

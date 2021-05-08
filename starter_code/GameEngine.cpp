@@ -13,12 +13,13 @@
 
 //This constructor is for making a new game
 GameEngine::GameEngine(std::string playerNames[],int numberOfPlayers) {
-    // playerList = new Player*[2];
-    for (int i = 0; i < NUMBER_OF_PLAYERS;i++) {
-        // Player* player = new Player(playerNames[i]);
-        // playerList[i] = player;
-        playerList[i] = new Player(playerNames[i]);
-    }
+    // for (int i = 0; i < NUMBER_OF_PLAYERS;++i) {
+    //     // Player* player = new Player(playerNames[i]);
+    //     // playerList[i] = player;
+    //     playerList[i] = new Player(playerNames[i]);
+    // }
+    playerList[0] = new Player(playerNames[0]);
+    playerList[1] = new Player(playerNames[1]);
     setupGame();
 }
 
