@@ -50,7 +50,7 @@ GameEngine::GameEngine(std::string playerNames[], int player1Score, std::string 
     while (std::getline(ssPlayer1,tokenPlayer1,',')) {
         resultPlayer1.push_back(tokenPlayer1);
     }
-    for (int i = 0;i<resultPlayer1.size();i++) {
+    for (size_t i = 0;i<resultPlayer1.size();i++) {
 
         char colour = resultPlayer1.at(i).substr(0,1)[0];
         int shape = std::stoi(resultPlayer1.at(i).substr(1));
@@ -62,7 +62,7 @@ GameEngine::GameEngine(std::string playerNames[], int player1Score, std::string 
     while (std::getline(ssPlayer2,tokenPlayer2,',')) {
         resultPlayer2.push_back(tokenPlayer2);
     }
-    for (int i = 0;i<resultPlayer2.size();i++) {
+    for (size_t i = 0;i<resultPlayer2.size();i++) {
 
         char colour = resultPlayer2.at(i).substr(0,1)[0];
         int shape = std::stoi(resultPlayer2.at(i).substr(1));
@@ -204,8 +204,13 @@ void GameEngine::playerMove(){
             //     rowAsInt = -99999;
             // }
 
+            //place the selectedTile to the board
             board.placeTile(selectedTile,rowAsInt,colAsInt);
+            //remove the selectedTile from the playerHand
             playerList[currentPlayer]->removeTileFromPlayerHand(selectedTile);
+            //add a new tile to the playerHand
+            playerList[currentPlayer]->addTileToPlayerHand(bag->getOneTile());
+
             // std::cout<<"\nRule is gonna called\n";
             // this->gameRules(new Player("Alan"), rowAsInt-1, colAsInt);
             switchRound();
