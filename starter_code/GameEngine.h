@@ -20,8 +20,8 @@ class GameEngine {
         void playerMove();
         void saveGame(std::string saveFile);
         void gameRules(Player* p, int x, int y);
-        void getTilesCol(int x, int y);
-        void getTilesRow(int x, int y);
+        //void getTilesCol(int x, int y);
+        //void getTilesRow(int x, int y);
         bool compareTiles(Tile *p, Tile* o);
     private:
         Board board;

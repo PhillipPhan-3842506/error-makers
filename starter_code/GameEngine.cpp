@@ -163,7 +163,7 @@ void GameEngine::playerMove(){
         //std::cout << "at substring: " << move.substr(9,2) << std::endl;
         //std::cout << "tileColour substring: " << move.substr(6,2) << std::endl;
         //std::cout << "row/col substring: " << move.substr(12,2) << std::endl;
-        //std::cout << ">";
+        std::cout << ">";
 
         
         if(move.substr(0,5).compare("place") == 0 && move.substr(9,2).compare("at")==0){
@@ -214,6 +214,7 @@ void GameEngine::playerMove(){
             // std::cout<<"\nRule is gonna called\n";
             // this->gameRules(new Player("Alan"), rowAsInt-1, colAsInt);
             switchRound();
+            correctInput = true;
 
             // todo store input as board
         }
@@ -233,6 +234,7 @@ void GameEngine::playerMove(){
             bag->getTileBag()->deleteTile(tileToAdd);
             playerList[currentPlayer]->getPlayerHand()->printToString();
             switchRound();
+            correctInput = true;
 
         }
         //save as file
@@ -249,10 +251,12 @@ void GameEngine::playerMove(){
             correctInput = true;
         }
         else if(std::cin.eof()){
+            std::cout << "EOF" << std::endl;
             correctInput = true;
         }
-        else
-        std::cout << "Invalid input" << std::endl;
+        else {
+            std::cout << "Invalid input" << std::endl;
+        }
         
 }
 }
@@ -285,11 +289,11 @@ void GameEngine::gameRules(Player* p, int x, int y)
     Tile* a = this->board.getTilefromBoard(x,y);
     //Display col
     std::cout<<a->getTitleDetails()<<"\n";
-    this ->getTilesCol(x, y);
-    this ->getTilesRow(x, y);
+    //this ->getTilesCol(x, y);
+    //this ->getTilesRow(x, y);
 }
 
-void GameEngine::getTilesRow(int x , int y)
+/*void GameEngine::getTilesRow(int x , int y)
 {
     int row = x+1;
     if(row < 6)
@@ -313,8 +317,8 @@ void GameEngine::getTilesRow(int x , int y)
             rowTile = this->board.getTilefromBoard(row,y);
         }
     }
-}
-void GameEngine::getTilesCol(int x, int y)
+}*/
+/*void GameEngine::getTilesCol(int x, int y)
 {
     int col = y+1;
     if(col < 6)
@@ -338,7 +342,7 @@ void GameEngine::getTilesCol(int x, int y)
             colTile = this->board.getTilefromBoard(x,col);
         }
     }
-}
+}*/
 /*bool GameEngine::matchTile(Tile* ptr, int x, int y)
 {
     int col = y+1;
