@@ -101,7 +101,7 @@ void GameEngine::playGame() {
     //display the tiles in current player's hand
     std::cout << "Your hand is: " <<
     playerList[currentPlayer]->getPlayerHand()->printToString() << std::endl;
-
+    
     playerMove();
 //    switchRound();
 }
@@ -164,6 +164,8 @@ void GameEngine::playerMove(){
             }
 
             board.placeTile(selectedTile,rowAsInt,colAsInt);
+            std::cout<<"\nRule is gonna called\n";
+            this->gameRules(new Player("Alan"), rowAsInt-1, colAsInt);
             switchRound();
 
             // todo store input as board
@@ -235,4 +237,82 @@ void GameEngine::saveGame(std::string saveFile){
 
     saveGameFile.close();
     std::cout << "Game successfully saved" << std::endl;
+}
+
+void GameEngine::gameRules(Player* p, int x, int y)
+{
+    Tile* a = this->board.getTilefromBoard(x,y);
+    //Display col
+    std::cout<<a->getTitleDetails()<<"\n";
+    this ->getTilesCol(x, y);
+    this ->getTilesRow(x, y);
+}
+
+void GameEngine::getTilesRow(int x , int y)
+{
+    int row = x+1;
+    if(row < 6)
+    {
+        Tile* rowTile = this->board.getTilefromBoard(row,y);
+        while(row < 6 && rowTile!=nullptr)
+        {
+            std::cout<<rowTile->getTitleDetails()<<"\n";
+            row++;
+            rowTile = this->board.getTilefromBoard(row,y);
+        }
+    }
+    row = x-1;
+    if(row>=0)
+    {
+        Tile* rowTile = this->board.getTilefromBoard(row,y);
+        while(row >= 0 && rowTile!=nullptr)
+        {
+            std::cout<<rowTile->getTitleDetails()<<"\n";
+            row--;
+            rowTile = this->board.getTilefromBoard(row,y);
+        }
+    }
+}
+void GameEngine::getTilesCol(int x, int y)
+{
+    int col = y+1;
+    if(col < 6)
+    {
+        Tile* colTile = this->board.getTilefromBoard(x,col);
+        while(col < 6 && colTile!=nullptr)
+        {
+            std::cout<<colTile->getTitleDetails()<<"\n";
+            col++;
+            colTile = this->board.getTilefromBoard(x,col);
+        }
+    }
+    col = y-1;
+    if(col>=0)
+    {
+        Tile* colTile = this->board.getTilefromBoard(x,col);
+        while(col >= 0 && colTile!=nullptr)
+        {
+            std::cout<<colTile->getTitleDetails()<<"\n";
+            col--;
+            colTile = this->board.getTilefromBoard(x,col);
+        }
+    }
+}
+/*bool GameEngine::matchTile(Tile* ptr, int x, int y)
+{
+    int col = y+1;
+    if(col < 6)
+    {
+        Tile* colTile = this->board.getTilefromBoard(x,col);
+
+    }
+}*/
+bool GameEngine::compareTiles(Tile* p, Tile* o)
+{
+    bool flag = false;
+    if(p->getTitleDetails().compare(o->getTitleDetails()) == 0)
+    {
+        flag = true;
+    }
+    return flag;
 }

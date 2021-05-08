@@ -46,3 +46,9 @@ void Board::display(){
         std::cout << std::endl;
     }
 }
+
+Tile* Board :: getTilefromBoard(int x, int y)
+{
+
+    return this ->boardTiles[x][y];
+}
