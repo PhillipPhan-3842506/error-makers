@@ -90,5 +90,5 @@ std::string Board::displayBoardStateToString(){
         }
         boardState += "/n";
     }
-    return boardState;
+    return tilesState;
 }
