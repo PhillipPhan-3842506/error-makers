@@ -24,6 +24,7 @@ class GameEngine {
         //void getTilesRow(int x, int y);
         bool compareTiles(Tile *p, Tile* o);
     private:
+        Board* boardTiles;
         Board board;
         Bag* bag;
         int currentPlayer;

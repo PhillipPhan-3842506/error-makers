@@ -154,7 +154,7 @@ void GameEngine::playGame() {
 void GameEngine::switchRound(){
     currentPlayer++;
     currentPlayer = currentPlayer%2;
-    
+    std::cout << "board state to string " << board.displayBoardStateToString() << std::endl;
     playGame();
 }
 // " place XX at XX"
@@ -269,7 +269,7 @@ void GameEngine::playerMove(){
 }
 
 void GameEngine::saveGame(std::string saveFile){
-    std::ofstream saveGameFile (saveFile + "save");
+    std::ofstream saveGameFile (saveFile + ".save");
     for (int i = 0; i < NUMBER_OF_PLAYERS; i ++){
         std::string playerHand = playerList[i]->getPlayerHand()->printToString();
         saveGameFile << playerList[i]->getPlayerName() << std::endl;
@@ -281,6 +281,8 @@ void GameEngine::saveGame(std::string saveFile){
     saveGameFile << board.getBoardTileCol() << std::endl;
 
     std::string currentBag = bag->getTileBag()->printToString();
+    //saveGameFile << board.display() << std::endl;
+    saveGameFile << board.displayBoardStateToString() << std::endl;
     saveGameFile << currentBag << std::endl;
 
     //convert board into string
@@ -368,3 +370,4 @@ bool GameEngine::compareTiles(Tile* p, Tile* o)
     }
     return flag;
 }
+

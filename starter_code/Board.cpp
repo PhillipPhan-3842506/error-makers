@@ -70,3 +70,25 @@ Tile* Board :: getTilefromBoard(int x, int y)
 
     return this ->boardTiles[x][y];
 }
+
+//std::string Board::DisplayTotring(){
+
+//again
+std::string Board::displayBoardStateToString(){
+    std::string boardState;
+    std::string tilesState;
+    for(int i = 0; i < getBoardTileRow(); i++){
+        for(int j = 0; j< getBoardTileCol(); j++){
+            //if tile at i and j is not nullptr, add the tile to tilestate string
+            if(boardTiles[i][j] != nullptr){
+                tilesState = tilesState + boardTiles[i][j]->getTitleDetails();
+            } 
+            else{
+                tilesState = tilesState + "  ";
+            }
+            boardState += tilesState+"|";
+        }
+        boardState += "/n";
+    }
+    return boardState;
+}

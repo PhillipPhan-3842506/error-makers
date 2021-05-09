@@ -19,6 +19,7 @@ class Board {
         int getBoardTileRow();
         int getBoardTileCol();
         // int final BOARD_SIZE = 26;
+        std::string displayBoardStateToString();
 
     private:
         // Tile* boardTiles[BOARD_SIZE][BOARD_SIZE];
