@@ -35,15 +35,14 @@ void Board::load(std::string boardState) {
         int shape = shapeAsChar -'0';
 
         Tile* tile = new Tile(colour,shape);
-        //convert char to int?? HOW?!?!?! A -> 0
         int row = 0;
         for (int i = 0; i < 26;i++) {
-            if (coordinates[i] == alphabet[i]) {
+            if (coordinates[0] == alphabet[i]) {
                 row = i;
             }
         }
-        std::cout << row << coordinates[1] << std::endl;
-        boardTiles[row][coordinates[1]] = tile;
+        int col = coordinates[1] - '0';
+        boardTiles[row][col] = tile;
     }
 
 }
