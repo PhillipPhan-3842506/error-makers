@@ -18,8 +18,10 @@ GameEngine::GameEngine(std::string playerNames[],int numberOfPlayers) {
     //     // playerList[i] = player;
     //     playerList[i] = new Player(playerNames[i]);
     // }
-    playerList[0] = new Player(playerNames[0]);
-    playerList[1] = new Player(playerNames[1]);
+    // playerList[0] = new Player(playerNames[0]);
+    // playerList[1] = new Player(playerNames[1]);
+    playerListVector.push_back(new Player(playerNames[0]));
+    playerListVector.push_back(new Player(playerNames[1]));
     setupGame();
 }
 
@@ -31,16 +33,16 @@ GameEngine::GameEngine(std::string playerNames[], int player1Score, std::string 
     for (int i = 0; i < NUMBER_OF_PLAYERS;i++) {
         Player* player = new Player(playerNames[i]);
         //if the playername is the current player, make the current player equal to the player
-        if (playerNames[i] == currentPlayerName) {
+        if (getPlayer(i)->getPlayerName() == currentPlayerName) {
             currentPlayer = i;
         }
-        playerList[i] = player;
+        playerListVector.push_back(player);
     }
 
     //set player 1 score + hand
-    playerList[0]->updatePlayerScore(player1Score);
+    getPlayer(0)->updatePlayerScore(player1Score);
     //set player 2 score
-    playerList[1]->updatePlayerScore(player2Score);
+    getPlayer(1)->updatePlayerScore(player2Score);
 
     std::istringstream ssPlayer1(player1Hand);
     std::istringstream ssPlayer2(player2Hand);
@@ -58,7 +60,7 @@ GameEngine::GameEngine(std::string playerNames[], int player1Score, std::string 
         char colour = resultPlayer1.at(i).substr(0,1)[0];
         int shape = std::stoi(resultPlayer1.at(i).substr(1));
         Tile* tile = new Tile(colour,shape);
-        playerList[0]->addTileToPlayerHand(tile);
+        getPlayer(0)->addTileToPlayerHand(tile);
     }
 
     //set player 2 hand
@@ -70,7 +72,7 @@ GameEngine::GameEngine(std::string playerNames[], int player1Score, std::string 
         char colour = resultPlayer2.at(i).substr(0,1)[0];
         int shape = std::stoi(resultPlayer2.at(i).substr(1));
         Tile* tile = new Tile(colour,shape);
-        playerList[1]->addTileToPlayerHand(tile);
+        getPlayer(1)->addTileToPlayerHand(tile);
     }
 
     //create bag from tileBagString
@@ -116,7 +118,7 @@ void GameEngine::setupGame() {
         //give 6 tiles per player
         for (int tiles = 0; tiles < 6; tiles++) {
             Tile* tileToAdd = bag->getOneTile();
-            playerList[i]->addTileToPlayerHand(tileToAdd);
+            getPlayer(i)->addTileToPlayerHand(tileToAdd);
             //as player picked a tile from the front, remove the tile
             bag->getTileBag()->deleteTile(tileToAdd);
 
@@ -135,16 +137,16 @@ void GameEngine::setupGame() {
 void GameEngine::playGame() {
     //prompt current player to go
     board.display();
-    std::cout << playerList[currentPlayer]->getPlayerName() << ", it's your turn now" << std::endl;
+    std::cout << getPlayer(currentPlayer)->getPlayerName() << ", it's your turn now" << std::endl;
     //display the score of each player
     for (int i = 0; i < NUMBER_OF_PLAYERS; i ++){
-    std::cout << "score for " << playerList[i]->getPlayerName() << ": " << playerList[i]->getPlayerScore() << std::endl;
+    std::cout << "score for " << getPlayer(i)->getPlayerName() << ": " << getPlayer(i)->getPlayerScore() << std::endl;
     }
     //display the current board
 
     //display the tiles in current player's hand
     std::cout << "Your hand is: " <<
-    playerList[currentPlayer]->getPlayerHand()->printToString() << std::endl;
+    getPlayer(currentPlayer)->getPlayerHand()->printToString() << std::endl;
     
     playerMove();
 //    switchRound();
@@ -183,7 +185,7 @@ void GameEngine::playerMove(){
             // std::cout << tileShape  << std::endl;
 
             //store input as tile
-            Tile* selectedTile = playerList[currentPlayer]->getPlayerHand()->getTileWithColourShape(tileColour, intTileShape);
+            Tile* selectedTile = getPlayer(currentPlayer)->getPlayerHand()->getTileWithColourShape(tileColour, intTileShape);
             //store board values
             std::string rowNames = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
             char row = move.at(12);
@@ -214,9 +216,9 @@ void GameEngine::playerMove(){
             //place the selectedTile to the board
             board.placeTile(selectedTile,rowAsInt,colAsInt);
             //remove the selectedTile from the playerHand
-            playerList[currentPlayer]->removeTileFromPlayerHand(selectedTile);
+            getPlayer(currentPlayer)->removeTileFromPlayerHand(selectedTile);
             //add a new tile to the playerHand
-            playerList[currentPlayer]->addTileToPlayerHand(bag->getOneTile());
+            getPlayer(currentPlayer)->addTileToPlayerHand(bag->getOneTile());
 
             // std::cout<<"\nRule is gonna called\n";
             // this->gameRules(new Player("Alan"), rowAsInt-1, colAsInt);
@@ -234,12 +236,12 @@ void GameEngine::playerMove(){
             
             //add the tile to the end of the bag, delete from player hand
             bag->getTileBag()->addBack(tileToRemove);
-            playerList[currentPlayer]->removeTileFromPlayerHand(tileToRemove);
+            getPlayer(currentPlayer)->removeTileFromPlayerHand(tileToRemove);
             //get a tile from front, add to player hand
             Tile* tileToAdd = bag->getOneTile();
-            playerList[currentPlayer]->addTileToPlayerHand(tileToAdd);
+            getPlayer(currentPlayer)->addTileToPlayerHand(tileToAdd);
             bag->getTileBag()->deleteTile(tileToAdd);
-            playerList[currentPlayer]->getPlayerHand()->printToString();
+            getPlayer(currentPlayer)->getPlayerHand()->printToString();
             switchRound();
             correctInput = true;
 
@@ -271,9 +273,9 @@ void GameEngine::playerMove(){
 void GameEngine::saveGame(std::string saveFile){
     std::ofstream saveGameFile (saveFile + ".save");
     for (int i = 0; i < NUMBER_OF_PLAYERS; i ++){
-        std::string playerHand = playerList[i]->getPlayerHand()->printToString();
-        saveGameFile << playerList[i]->getPlayerName() << std::endl;
-        saveGameFile << playerList[i]->getPlayerScore() << std::endl;
+        std::string playerHand = getPlayer(i)->getPlayerHand()->printToString();
+        saveGameFile << getPlayer(i)->getPlayerName() << std::endl;
+        saveGameFile << getPlayer(i)->getPlayerScore() << std::endl;
         saveGameFile << playerHand << std::endl;
     }
 
@@ -287,7 +289,7 @@ void GameEngine::saveGame(std::string saveFile){
 
     //convert board into string
 
-    saveGameFile << playerList[currentPlayer]->getPlayerName() << std::endl;
+    saveGameFile << getPlayer(currentPlayer)->getPlayerName() << std::endl;
 
     saveGameFile.close();
     std::cout << "Game successfully saved" << std::endl;
@@ -371,3 +373,6 @@ bool GameEngine::compareTiles(Tile* p, Tile* o)
     return flag;
 }
 
+Player* GameEngine::getPlayer(int index) {
+    return playerListVector.at(index);
+}

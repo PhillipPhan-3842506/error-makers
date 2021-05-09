@@ -75,20 +75,22 @@ Tile* Board :: getTilefromBoard(int x, int y)
 
 //again
 std::string Board::displayBoardStateToString(){
-    std::string boardState;
     std::string tilesState;
+    std::string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    std::string space = ", ";
+
     for(int i = 0; i < getBoardTileRow(); i++){
         for(int j = 0; j< getBoardTileCol(); j++){
             //if tile at i and j is not nullptr, add the tile to tilestate string
             if(boardTiles[i][j] != nullptr){
-                tilesState = tilesState + boardTiles[i][j]->getTitleDetails();
+                tilesState = tilesState + boardTiles[i][j]->getTitleDetails() + "@" + alphabet[i] + std::to_string(j) + space;
             } 
-            else{
-                tilesState = tilesState + "  ";
-            }
-            boardState += tilesState+"|";
+//            else{
+                // tilesState = tilesState + "  ";
+            // }
+            // boardState += tilesState+"|";
         }
-        boardState += "/n";
     }
+    
     return tilesState;
 }
