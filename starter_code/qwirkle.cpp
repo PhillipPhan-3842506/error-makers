@@ -31,7 +31,7 @@ int main(void) {
         menu();
     }
 
-    std::cout << "game has exited" << std::endl;
+    std::cout << "Game has exited" << std::endl;
     return EXIT_SUCCESS;
 }
 

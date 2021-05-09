@@ -32,11 +32,12 @@ GameEngine::GameEngine(std::string playerNames[], int player1Score, std::string 
             
     for (int i = 0; i < NUMBER_OF_PLAYERS;i++) {
         Player* player = new Player(playerNames[i]);
+        playerListVector.push_back(player);
         //if the playername is the current player, make the current player equal to the player
         if (getPlayer(i)->getPlayerName() == currentPlayerName) {
             currentPlayer = i;
         }
-        playerListVector.push_back(player);
+
     }
 
     //set player 1 score + hand
@@ -78,8 +79,10 @@ GameEngine::GameEngine(std::string playerNames[], int player1Score, std::string 
     //create bag from tileBagString
     bag = new Bag(tileBagString);
 
+
+    board.load(boardState);
     playGame();
-    //boardState
+
 
 
 }
@@ -214,16 +217,18 @@ void GameEngine::playerMove(){
             // }
 
             //place the selectedTile to the board
-            board.placeTile(selectedTile,rowAsInt,colAsInt);
-            //remove the selectedTile from the playerHand
-            getPlayer(currentPlayer)->removeTileFromPlayerHand(selectedTile);
-            //add a new tile to the playerHand
-            getPlayer(currentPlayer)->addTileToPlayerHand(bag->getOneTile());
+            if (board.placeTile(selectedTile,rowAsInt,colAsInt) == true) {
+                std::cout << true << std::endl;
+                //remove the selectedTile from the playerHand
+                getPlayer(currentPlayer)->removeTileFromPlayerHand(selectedTile);
+                //add a new tile to the playerHand
+                getPlayer(currentPlayer)->addTileToPlayerHand(bag->getOneTile());
 
-            // std::cout<<"\nRule is gonna called\n";
-            // this->gameRules(new Player("Alan"), rowAsInt-1, colAsInt);
-            switchRound();
-            correctInput = true;
+                // std::cout<<"\nRule is gonna called\n";
+                // this->gameRules(new Player("Alan"), rowAsInt-1, colAsInt);
+                switchRound();
+                correctInput = true;
+            }
 
             // todo store input as board
         }
@@ -256,7 +261,7 @@ void GameEngine::playerMove(){
             GameEngine::saveGame(saveFile);
         }
         else if(move.substr(0,4).compare("quit")==0){
-            std::cout << "I am not thankful for playing" << std::endl;
+            std::cout << "You just finished playing a dumb game bro" << std::endl;
             correctInput = true;
         }
         else if(std::cin.eof()){
@@ -279,8 +284,7 @@ void GameEngine::saveGame(std::string saveFile){
         saveGameFile << playerHand << std::endl;
     }
 
-    saveGameFile << board.getBoardTileRow() << std::endl;  
-    saveGameFile << board.getBoardTileCol() << std::endl;
+    saveGameFile << board.getBoardTileRow() << "," << board.getBoardTileCol() << std::endl;
 
     std::string currentBag = bag->getTileBag()->printToString();
     //saveGameFile << board.display() << std::endl;

@@ -1,4 +1,6 @@
 #include "Board.h"
+#include <sstream>
+#include <algorithm>
 #define ROWS 26
 #define COLS 26
 
@@ -13,9 +15,42 @@ Board::Board(){
     boardTiles.assign(26, std::vector<Tile*>(26));
 }   
 
+void Board::load(std::string boardState) {
+    std::cout << "boardState: " << boardState << std::endl;
+    std::string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    //split boardState string into multiple strings, store into vector
+    std::istringstream ss(boardState);
+    std::string token;
+    std::vector<std::string> result;
+    while (std::getline(ss,token,',')) {
+        token.erase(std::remove_if(token.begin(), token.end(), [](unsigned char c){ return std::isspace(c); }),token.end());
+        result.push_back(token);
+    } 
+    for (size_t i = 0;i<result.size()-1;i++) {
+        std::string tileDetails = result.at(i).substr(0,2);
+        std::string coordinates = result.at(i).substr(3,2);
+
+        char colour = tileDetails[0];
+        char shapeAsChar = tileDetails[1];
+        int shape = shapeAsChar -'0';
+
+        Tile* tile = new Tile(colour,shape);
+        //convert char to int?? HOW?!?!?! A -> 0
+        int row = 0;
+        for (int i = 0; i < 26;i++) {
+            if (coordinates[i] == alphabet[i]) {
+                row = i;
+            }
+        }
+        std::cout << row << coordinates[1] << std::endl;
+        boardTiles[row][coordinates[1]] = tile;
+    }
+
+}
+
 bool Board::placeTile(Tile* tile, int row, int col) {
     //TO DO::VALIDATE PLACEMENT
-    if (row < 0 || col < 0 || row > ROWS || col > COLS) {
+    if (row < 0 || col < 0 || row >= ROWS || col >= COLS) {
         std::cout << "row or col is out of bounds" << std::endl;
     }
     else {

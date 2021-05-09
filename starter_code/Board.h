@@ -13,6 +13,7 @@ class Board {
     public:
         Board();
         void displayTile();
+        void load(std::string boardState);
         void display();
         bool placeTile(Tile* tile, int row, int col);
         Tile* getTilefromBoard(int x, int y);
