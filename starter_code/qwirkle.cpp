@@ -81,7 +81,7 @@ void menu(){
 //Start a new game
 void newGame(){
 
-    std::string playerNames[2];
+    std::string playerNames[]= {"",""};
     int numberOfPlayers = 0;
 
     std::cout << "\nStarting a New Game \n" << std::endl;
