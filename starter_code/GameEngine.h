@@ -21,9 +21,9 @@ class GameEngine {
         void playerMove();
         void saveGame(std::string saveFile);
         void gameRules(Player* p, int x, int y);
-        int checkBoardTile(int x, int y);
-        //void getTilesCol(int x, int y);
-        //void getTilesRow(int x, int y);
+        bool checkBoardTile(int x, int y);
+        bool compareTilesCol(Tile* tile, int x, int y);
+        bool compareTilesRow(Tile* tile, int x, int y);
         bool compareTiles(Tile* tile, int directions, int x, int y);
     private:
         Board* boardTiles;

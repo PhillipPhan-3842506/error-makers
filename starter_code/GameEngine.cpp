@@ -217,12 +217,16 @@ void GameEngine::playerMove(){
             // }
 
             //place the selectedTile to the board
-            const int directions = checkBoardTile(rowAsInt, colAsInt);
-            if(directions==0 || compareTiles(selectedTile, directions, rowAsInt, colAsInt) == false)
+            if(checkBoardTile(rowAsInt, colAsInt) == false)
             {
-                std::cout << "Invalid input" << std::endl;
+                std::cout<<"Invalid input"<<std::endl;
             }
-            else if (board.placeTile(selectedTile,rowAsInt,colAsInt) == true) {
+            /*
+                For second conditions uncomment the below line and add suitable conditions...
+                compareTilesRow(selectedTile, rowAsInt, colAsInt);
+            */
+            else if (board.placeTile(selectedTile,rowAsInt,colAsInt) == true) 
+            {
                 std::cout << true << std::endl;
                 //remove the selectedTile from the playerHand
                 getPlayer(currentPlayer)->removeTileFromPlayerHand(selectedTile);
@@ -313,33 +317,50 @@ void GameEngine::gameRules(Player* p, int x, int y)
     //this ->getTilesRow(x, y);
 }
 
-/*void GameEngine::getTilesRow(int x , int y)
+bool GameEngine::compareTilesRow(Tile* tile, int x , int y)
 {
+    int count = 0;
+    bool flag = true;
+    Tile* rowTile;
+
     int row = x+1;
-    if(row < 6)
+    if(count == 0 && row < 26)
     {
-        Tile* rowTile = this->board.getTilefromBoard(row,y);
-        while(row < 6 && rowTile!=nullptr)
+        while(count ==0 && row < 26 && this->board.getTilefromBoard(row,y)!=nullptr)
         {
-            std::cout<<rowTile->getTitleDetails()<<"\n";
-            row++;
             rowTile = this->board.getTilefromBoard(row,y);
+            if(!(rowTile->colour == tile ->colour || rowTile ->shape == tile ->shape))
+            {
+                flag = false;
+                count = 1;
+            }
+            //std::cout<<rowTile->getTitleDetails()<<"\n";
+            row++;
         }
     }
     row = x-1;
-    if(row>=0)
+    if(count == 0 && row >= 0)
     {
-        Tile* rowTile = this->board.getTilefromBoard(row,y);
-        while(row >= 0 && rowTile!=nullptr)
+        while(count == 0 && this->board.getTilefromBoard(row,y)!=nullptr)
         {
-            std::cout<<rowTile->getTitleDetails()<<"\n";
-            row--;
             rowTile = this->board.getTilefromBoard(row,y);
+            if(!(rowTile->colour == tile ->colour || rowTile ->shape == tile ->shape))
+            {
+                flag = false;
+                count = 1;
+            }
+            //std::cout<<rowTile->getTitleDetails()<<"\n";
+            row--;
         }
     }
-}*/
-/*void GameEngine::getTilesCol(int x, int y)
+    std::cout<<"End case: "<<flag<<std::endl;
+    return flag;
+}
+bool GameEngine::compareTilesCol(Tile* tile, int x, int y)
 {
+    /*
+        this method is not fully implemented follow the above method structure to fully implement it
+    */
     int col = y+1;
     if(col < 6)
     {
@@ -362,7 +383,8 @@ void GameEngine::gameRules(Player* p, int x, int y)
             colTile = this->board.getTilefromBoard(x,col);
         }
     }
-}*/
+    return false;
+}
 /*bool GameEngine::matchTile(Tile* ptr, int x, int y)
 {
     int col = y+1;
@@ -375,27 +397,36 @@ void GameEngine::gameRules(Player* p, int x, int y)
 bool GameEngine::compareTiles(Tile* tile, int directions, int x, int y)
 {
    bool flag = false;
-   int count = 0;
-   if(((x+1) < 26 && this->board.getTilefromBoard(x+1,y)!=nullptr) && ((this->board.getTilefromBoard(x+1,y)->colour == tile->colour) || (this->board.getTilefromBoard(x+1,y)->shape == tile->shape)))
-    {
-        count++;
-    }
-    if(((x-1) >= 0 && this->board.getTilefromBoard(x-1, y)!=nullptr) && ((this->board.getTilefromBoard(x-1,y)->colour == tile->colour) || (this->board.getTilefromBoard(x-1,y)->shape == tile->shape)))
-    {
-        count++;
-    }
-    if(((y+1) < 26 && this->board.getTilefromBoard(x,y+1)!=nullptr) && ((this->board.getTilefromBoard(x,y+1)->colour == tile->colour) || (this->board.getTilefromBoard(x,y+1)->shape == tile->shape)))
-    {
-        count++;
-    }
-    if(((y-1) >= 0 && this->board.getTilefromBoard(x,y-1)!=nullptr) && ((this->board.getTilefromBoard(x,y+1)->colour == tile->colour) || (this->board.getTilefromBoard(x,y-1)->shape == tile->shape)))
-    {
-        count++;
-    }
-    if(count == directions)
-    {
-        flag = true;
-    }
+   if(directions == -1)
+   {
+       std::cout<<"Entered first condition..."<<std::endl;
+       flag = true;
+   }
+   else
+   {
+       int count = 0;
+        if(((x+1) < 26 && this->board.getTilefromBoard(x+1,y)!=nullptr) && ((this->board.getTilefromBoard(x+1,y)->colour == tile->colour) || (this->board.getTilefromBoard(x+1,y)->shape == tile->shape)))
+        {
+            count++;
+        }
+        if(((x-1) >= 0 && this->board.getTilefromBoard(x-1, y)!=nullptr) && ((this->board.getTilefromBoard(x-1,y)->colour == tile->colour) || (this->board.getTilefromBoard(x-1,y)->shape == tile->shape)))
+        {
+            count++;
+        }
+        if(((y+1) < 26 && this->board.getTilefromBoard(x,y+1)!=nullptr) && ((this->board.getTilefromBoard(x,y+1)->colour == tile->colour) || (this->board.getTilefromBoard(x,y+1)->shape == tile->shape)))
+        {
+            count++;
+        }
+        if(((y-1) >= 0 && this->board.getTilefromBoard(x,y-1)!=nullptr) && ((this->board.getTilefromBoard(x,y+1)->colour == tile->colour) || (this->board.getTilefromBoard(x,y-1)->shape == tile->shape)))
+        {   
+            count++;
+        }
+        std::cout<<"Counting....."<<count<<std::endl;
+        if(count == directions)
+        {
+            flag = true;
+        }
+   }
     return flag;
 }
 
@@ -403,33 +434,33 @@ Player* GameEngine::getPlayer(int index) {
     return playerListVector.at(index);
 }
 
-int GameEngine::checkBoardTile(int x, int y)
+bool GameEngine::checkBoardTile(int x, int y)
 {
-    int directions = 0;
+    bool flag = false;
     if(board.getNumTiles()==0)
     {
         //Checking ehther any tile exists
-        directions = -1;
+        flag = true;
     }
     else
     {
         if(((x+1) < 26 && this->board.getTilefromBoard(x+1,y)!=nullptr))
         {
-            directions ++;
+            flag = true;
         }
-        if(((x-1) >= 0 && this->board.getTilefromBoard(x-1, y)!=nullptr))
+        else if(((x-1) >= 0 && this->board.getTilefromBoard(x-1, y)!=nullptr))
         {
-            directions ++;
+            flag = true;
         }
-        if(((y+1) < 26 && this->board.getTilefromBoard(x,y+1)!=nullptr))
+        else if(((y+1) < 26 && this->board.getTilefromBoard(x,y+1)!=nullptr))
         {
-            directions++;
+            flag = true;
         }
-        if(((y-1) >= 0 && this->board.getTilefromBoard(x,y-1)!=nullptr))
+        else if(((y-1) >= 0 && this->board.getTilefromBoard(x,y-1)!=nullptr))
         {
-            directions++;
+            flag = true;
         }
     }
-    std::cout<<"Directions calculated: "<<directions<<std::endl;
-    return directions;
+    //std::cout<<"Directions calculated: "<<flag<<std::endl;
+    return flag;
 }
