@@ -217,7 +217,12 @@ void GameEngine::playerMove(){
             // }
 
             //place the selectedTile to the board
+            //std::cout<<compareTilesRow(selectedTile, rowAsInt, colAsInt)<<" "<<compareTilesCol(selectedTile, rowAsInt, colAsInt);
             if(checkBoardTile(rowAsInt, colAsInt) == false)
+            {
+                std::cout<<"Invalid input"<<std::endl;
+            }
+            else if(!(compareTilesRow(selectedTile, rowAsInt, colAsInt)==true && compareTilesCol(selectedTile, rowAsInt, colAsInt) == true))
             {
                 std::cout<<"Invalid input"<<std::endl;
             }
@@ -353,7 +358,7 @@ bool GameEngine::compareTilesRow(Tile* tile, int x , int y)
             row--;
         }
     }
-    std::cout<<"End case: "<<flag<<std::endl;
+    //std::cout<<"End case: "<<flag<<std::endl;
     return flag;
 }
 bool GameEngine::compareTilesCol(Tile* tile, int x, int y)
@@ -361,29 +366,40 @@ bool GameEngine::compareTilesCol(Tile* tile, int x, int y)
     /*
         this method is not fully implemented follow the above method structure to fully implement it
     */
+    int count = 0;
+    Tile* colTile;
+    bool flag = true;
+
     int col = y+1;
-    if(col < 6)
+    if(count == 0 && col < 26)
     {
-        Tile* colTile = this->board.getTilefromBoard(x,col);
-        while(col < 6 && colTile!=nullptr)
+        while(count == 0 && col < 26 && this->board.getTilefromBoard(x,col)!=nullptr)
         {
-            std::cout<<colTile->getTitleDetails()<<"\n";
-            col++;
             colTile = this->board.getTilefromBoard(x,col);
+            if(!(colTile->colour == tile ->colour || colTile ->shape == tile ->shape))
+            {
+                flag = false;
+                count = 1;
+            }
+            col++;
         }
     }
     col = y-1;
     if(col>=0)
     {
         Tile* colTile = this->board.getTilefromBoard(x,col);
-        while(col >= 0 && colTile!=nullptr)
+        while(col >= 0 && this->board.getTilefromBoard(x,col)!=nullptr)
         {
-            std::cout<<colTile->getTitleDetails()<<"\n";
-            col--;
             colTile = this->board.getTilefromBoard(x,col);
+            if(!(colTile->colour == tile ->colour || colTile ->shape == tile ->shape))
+            {
+                flag = false;
+                count = 1;
+            }
+            col--;
         }
     }
-    return false;
+    return flag;
 }
 /*bool GameEngine::matchTile(Tile* ptr, int x, int y)
 {
