@@ -13,6 +13,7 @@ Board::Board(){
         }
     }
     boardTiles.assign(26, std::vector<Tile*>(26));
+    numTiles = 0;
 }   
 
 void Board::load(std::string boardState) {
@@ -54,6 +55,7 @@ bool Board::placeTile(Tile* tile, int row, int col) {
     }
     else {
         boardTiles[row][col] = tile;
+        numTiles++;
         return true;
     }
 
@@ -105,6 +107,10 @@ Tile* Board :: getTilefromBoard(int x, int y)
     return this ->boardTiles[x][y];
 }
 
+int Board:: getNumTiles()
+{
+    return numTiles;
+}
 //std::string Board::DisplayTotring(){
 
 //again

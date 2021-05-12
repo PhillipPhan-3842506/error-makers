@@ -21,11 +21,13 @@ class Board {
         int getBoardTileCol();
         // int final BOARD_SIZE = 26;
         std::string displayBoardStateToString();
+        int getNumTiles();
 
     private:
         // Tile* boardTiles[BOARD_SIZE][BOARD_SIZE];
         std::vector< std::vector<Tile*> > boardTiles;
         std::string board[BOARD_SIZE][BOARD_SIZE];
+        int numTiles;
 };
 
 #endif // ASSIGN2_BOARD_H

@@ -217,7 +217,12 @@ void GameEngine::playerMove(){
             // }
 
             //place the selectedTile to the board
-            if (board.placeTile(selectedTile,rowAsInt,colAsInt) == true) {
+            const int directions = checkBoardTile(rowAsInt, colAsInt);
+            if(directions==0 || compareTiles(selectedTile, directions, rowAsInt, colAsInt) == false)
+            {
+                std::cout << "Invalid input" << std::endl;
+            }
+            else if (board.placeTile(selectedTile,rowAsInt,colAsInt) == true) {
                 std::cout << true << std::endl;
                 //remove the selectedTile from the playerHand
                 getPlayer(currentPlayer)->removeTileFromPlayerHand(selectedTile);
@@ -367,10 +372,27 @@ void GameEngine::gameRules(Player* p, int x, int y)
 
     }
 }*/
-bool GameEngine::compareTiles(Tile* p, Tile* o)
+bool GameEngine::compareTiles(Tile* tile, int directions, int x, int y)
 {
-    bool flag = false;
-    if(p->getTitleDetails().compare(o->getTitleDetails()) == 0)
+   bool flag = false;
+   int count = 0;
+   if(((x+1) < 26 && this->board.getTilefromBoard(x+1,y)!=nullptr) && ((this->board.getTilefromBoard(x+1,y)->colour == tile->colour) || (this->board.getTilefromBoard(x+1,y)->shape == tile->shape)))
+    {
+        count++;
+    }
+    if(((x-1) >= 0 && this->board.getTilefromBoard(x-1, y)!=nullptr) && ((this->board.getTilefromBoard(x-1,y)->colour == tile->colour) || (this->board.getTilefromBoard(x-1,y)->shape == tile->shape)))
+    {
+        count++;
+    }
+    if(((y+1) < 26 && this->board.getTilefromBoard(x,y+1)!=nullptr) && ((this->board.getTilefromBoard(x,y+1)->colour == tile->colour) || (this->board.getTilefromBoard(x,y+1)->shape == tile->shape)))
+    {
+        count++;
+    }
+    if(((y-1) >= 0 && this->board.getTilefromBoard(x,y-1)!=nullptr) && ((this->board.getTilefromBoard(x,y+1)->colour == tile->colour) || (this->board.getTilefromBoard(x,y-1)->shape == tile->shape)))
+    {
+        count++;
+    }
+    if(count == directions)
     {
         flag = true;
     }
@@ -379,4 +401,35 @@ bool GameEngine::compareTiles(Tile* p, Tile* o)
 
 Player* GameEngine::getPlayer(int index) {
     return playerListVector.at(index);
+}
+
+int GameEngine::checkBoardTile(int x, int y)
+{
+    int directions = 0;
+    if(board.getNumTiles()==0)
+    {
+        //Checking ehther any tile exists
+        directions = -1;
+    }
+    else
+    {
+        if(((x+1) < 26 && this->board.getTilefromBoard(x+1,y)!=nullptr))
+        {
+            directions ++;
+        }
+        if(((x-1) >= 0 && this->board.getTilefromBoard(x-1, y)!=nullptr))
+        {
+            directions ++;
+        }
+        if(((y+1) < 26 && this->board.getTilefromBoard(x,y+1)!=nullptr))
+        {
+            directions++;
+        }
+        if(((y-1) >= 0 && this->board.getTilefromBoard(x,y-1)!=nullptr))
+        {
+            directions++;
+        }
+    }
+    std::cout<<"Directions calculated: "<<directions<<std::endl;
+    return directions;
 }
