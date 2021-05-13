@@ -484,22 +484,26 @@ int GameEngine::calculateScore(int x, int y){
                             left = 12;
                     }
             else{
+                leftDone = true;
+        }
+        }
+            else{
+                leftDone = true;
     
         }
         }
             else{
+                leftDone = true;
     
         }
         }
             else{
+                leftDone = true;
     
         }
         }
             else{
-    
-        }
-        }
-            else{
+                leftDone = true;
     
     }
 }
