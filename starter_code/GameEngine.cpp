@@ -8,7 +8,7 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
-
+#include <cctype>
 #define NUMBER_OF_PLAYERS 2 
 
 //This constructor is for making a new game
@@ -165,7 +165,7 @@ void GameEngine::switchRound(){
 // " place XX at XX"
 void GameEngine::playerMove(){
     bool correctInput = false;
-    std::string move;
+    std::string move = "";
 //check input correct
     while (correctInput == false){
 //store user input as 4 strings
@@ -178,7 +178,7 @@ void GameEngine::playerMove(){
         std::cout << ">";
 
         
-        if(move.substr(0,5).compare("place") == 0 && move.substr(9,2).compare("at")==0){
+        if(move.substr(0,5).compare("place") == 0 && move.substr(9,2).compare("at")==0 && isdigit(move.substr(13)[0]) ){
             //store tile values
             char tileColour = move.at(6);
             char tileShape = move.at(7);
@@ -197,6 +197,7 @@ void GameEngine::playerMove(){
 
             std::string col = move.substr(13);
             int colAsInt = std::stoi(col);
+
             std::cout << "Placing at  : " << rowAsInt << "," << colAsInt << std::endl;
             // if (row == 'A') {
             //     rowAsInt = 1;
@@ -220,11 +221,11 @@ void GameEngine::playerMove(){
             //std::cout<<compareTilesRow(selectedTile, rowAsInt, colAsInt)<<" "<<compareTilesCol(selectedTile, rowAsInt, colAsInt);
             if(checkBoardTile(rowAsInt, colAsInt) == false)
             {
-                std::cout<<"Invalid input"<<std::endl;
+                std::cout<<"Invalid move"<<std::endl;
             }
             else if(!(compareTilesRow(selectedTile, rowAsInt, colAsInt)==true && compareTilesCol(selectedTile, rowAsInt, colAsInt) == true))
             {
-                std::cout<<"Invalid input"<<std::endl;
+                std::cout<<"Invalid move"<<std::endl;
             }
             /*
                 For second conditions uncomment the below line and add suitable conditions...
@@ -232,12 +233,13 @@ void GameEngine::playerMove(){
             */
             else if (board.placeTile(selectedTile,rowAsInt,colAsInt) == true) 
             {
-                std::cout << true << std::endl;
                 //remove the selectedTile from the playerHand
                 getPlayer(currentPlayer)->removeTileFromPlayerHand(selectedTile);
                 //add a new tile to the playerHand
                 getPlayer(currentPlayer)->addTileToPlayerHand(bag->getOneTile());
-
+                //getPlayer(currentPlayer)->getPlayerScore()+(calculateScore(rowAsInt,colAsInt) -> get player current score, and add the new calculated score
+                getPlayer(currentPlayer)->updatePlayerScore(calculateScore(rowAsInt,colAsInt));
+                std::cout << getPlayer(currentPlayer)->getPlayerScore() << std::endl;
                 // std::cout<<"\nRule is gonna called\n";
                 // this->gameRules(new Player("Alan"), rowAsInt-1, colAsInt);
                 switchRound();
@@ -575,5 +577,6 @@ int GameEngine::calculateScore(int x, int y){
 }
 //The score of one turn
     score = up + down + left + right;
+    std::cout << "calculated score" << score << std::endl;
     return score;
 }

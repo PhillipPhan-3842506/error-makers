@@ -232,7 +232,7 @@ void LinkedList::swapNodes(int index1, int index2) {
 void LinkedList::shuffle() {
    std::random_device engine;
    std::uniform_int_distribution<int> uniform_dist(1,size());
-   int numberOfSwaps = 100;
+   int numberOfSwaps = 1000;
    for (int i = 0; i < numberOfSwaps;i++) {
       int index1 = uniform_dist(engine);
       int index2 = uniform_dist(engine);
