@@ -7,10 +7,20 @@
 
 class Player {
     public:
-        Player();
+        Player(std::string name);
+        ~Player();
+        std::string getPlayerName();
+        int getPlayerScore();
+        void updatePlayerScore(int score);
+        LinkedList* getPlayerHand();
+        void addTileToPlayerHand(Tile* tile);
+        void removeTileFromPlayerHand(Tile* tileToRemove);
+        Tile* getSpecificTile(Tile* tile);
+
     private:
         std::string name;
-        LinkedList* playerTiles;
+        unsigned int score;
+        LinkedList* playerHand;
 
 };
 

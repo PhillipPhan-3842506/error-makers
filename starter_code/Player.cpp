@@ -1,2 +1,43 @@
 #include "Player.h"
 
+Player::Player(std::string name) {
+    this->name = name;
+    playerHand = new LinkedList();
+}
+
+Player::~Player() {
+    //to implement
+    // delete playerHand;
+}
+
+std::string Player::getPlayerName() {
+    return this->name;
+}
+
+LinkedList* Player::getPlayerHand() {
+    return this->playerHand;
+}
+
+int Player::getPlayerScore() {
+    return this->score;
+}
+
+void Player::updatePlayerScore(int score) {
+    this->score = score;
+}
+
+void Player::addTileToPlayerHand(Tile* tile) {
+    this->playerHand->addBack(tile);
+}
+
+void Player::removeTileFromPlayerHand(Tile* tileToRemove) {
+    this->playerHand->deleteTile(tileToRemove);
+}
+
+Tile* Player::getSpecificTile(Tile* tile) {
+    Tile* returnTile = nullptr;
+    if (getPlayerHand()->getTile(tile)->tile != nullptr) {
+        returnTile = getPlayerHand()->getTile(tile)->tile;
+    }
+    return returnTile;
+}

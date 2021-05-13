@@ -1,0 +1,9 @@
+Test Cases
+
+1 -> tests menu functions
+
+1.1 - prints student details, then quits
+1.2 - input is invalid -> program terminates
+1.3 - invalid input for character name -> program prompts for new input
+1.4 - invalid input for file -> program prints that file is not read successfully
+1.5 - eof input during laod game -> program exits succesfully
