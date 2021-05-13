@@ -425,3 +425,151 @@ bool GameEngine::checkBoardTile(int x, int y)
     //std::cout<<"Directions calculated: "<<flag<<std::endl;
     return flag;
 }
+
+// (x+1,y) right
+// (x-1, y) left
+// (x,y+1) up
+// (x,y-1) down
+// calculating the score a player get in his turn ( one turn only )
+int GameEngine::calculateScore(int x, int y){
+    int score;
+    int up = 0;         bool upDone = false;
+    int down = 0;       bool downDone = false;
+    int right = 0;      bool rightDone = false;
+    int left = 0;       bool leftDone = false;
+//Checking up side one by one if there's any tile to score
+    while(upDone == false){
+        if(this->board.getTilefromBoard(x, y+1)!=nullptr){
+            up = 2;
+            if(this->board.getTilefromBoard(x, y+2)!=nullptr){
+                up = 3;
+                if(this->board.getTilefromBoard(x, y+3)!=nullptr){
+                    up = 4;
+                    if(this->board.getTilefromBoard(x, y+4)!=nullptr){
+                        up = 5;
+                        if(this->board.getTilefromBoard(x, y+5)!=nullptr){
+                            up = 12;
+                    }
+            else{
+            upDone = true;
+        }
+        }
+            else{
+            upDone = true;
+        }
+        }
+            else{
+            upDone = true;
+        }
+        }
+            else{
+            upDone = true;
+        }
+        }
+            else{
+            upDone = true;
+    }
+}
+//Checking left side one by one if there's any tile to score
+    while(leftDone == false){
+        if(this->board.getTilefromBoard(x-1, y)!=nullptr){
+            left = 2;
+            if(this->board.getTilefromBoard(x-2, y)!=nullptr){
+                left = 3;
+                if(this->board.getTilefromBoard(x-3, y)!=nullptr){
+                    left = 4;
+                    if(this->board.getTilefromBoard(x-4, y)!=nullptr){
+                        left = 5;
+                        if(this->board.getTilefromBoard(x-5, y)!=nullptr){
+                            left = 12;
+                    }
+            else{
+    
+        }
+        }
+            else{
+    
+        }
+        }
+            else{
+    
+        }
+        }
+            else{
+    
+        }
+        }
+            else{
+    
+    }
+}
+//Checking right side one by one if there's any tile to score
+    while(rightDone == false){
+        if(this->board.getTilefromBoard(x+1,y)!=nullptr){
+            right = 2;
+            if(this->board.getTilefromBoard(x+2,y)!=nullptr){
+                right = 3;
+                if(this->board.getTilefromBoard(x+3,y)!=nullptr){
+                    right = 4;
+                    if(this->board.getTilefromBoard(x+4,y)!=nullptr){
+                        right = 5;
+                        if(this->board.getTilefromBoard(x+5,y)!=nullptr){
+                            right = 12;
+                    }
+            else{
+            rightDone = true;
+        }
+        }
+            else{
+            rightDone = true;
+        }
+        }
+            else{
+            rightDone = true;
+        }
+        }
+            else{
+            rightDone = true;
+        }
+        }
+            else{
+            rightDone = true;
+    }
+}
+//Checking down side one by one if there's any tile to score
+    while(downDone == false){
+        if(this->board.getTilefromBoard(x,y-1)!=nullptr){
+            down = 2;
+            if(this->board.getTilefromBoard(x,y-2)!=nullptr){
+                down = 3;
+                if(this->board.getTilefromBoard(x,y-3)!=nullptr){
+                    down = 4;
+                    if(this->board.getTilefromBoard(x,y-4)!=nullptr){
+                        down = 5;
+                        if(this->board.getTilefromBoard(x,y-5)!=nullptr){
+                            down = 12;
+                    }
+            else{
+            downDone = true;
+        }
+        }
+            else{
+            downDone = true;
+        }
+        }
+            else{
+            downDone = true;
+        }
+        }
+            else{
+            downDone = true;
+        }
+        }
+            else{
+            downDone = true;
+    }
+}
+//The score of one turn
+    score = up + down + left + right;
+    return score;
+}

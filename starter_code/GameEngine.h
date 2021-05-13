@@ -24,6 +24,7 @@ class GameEngine
         bool checkBoardTile(int x, int y);
         bool compareTilesCol(Tile* tile, int x, int y);
         bool compareTilesRow(Tile* tile, int x, int y);
+        int calculateScore(int x, int y);
     private:
         Board* boardTiles;
         Board board;
