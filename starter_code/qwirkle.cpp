@@ -31,7 +31,7 @@ int main(void) {
         menu();
     }
 
-    std::cout << "Game has exited" << std::endl;
+    std::cout << "Goodbye!" << std::endl;
     return EXIT_SUCCESS;
 }
 
@@ -47,10 +47,19 @@ void menu(){
     std::cout << "4. Quit" << std::endl;    
     
     //Menu option selector
-    int choice;
+    int choice = 0;
     std::cout << ">";
-    std::cin >> choice; 
+    std::string input = "";
+    std::cin >> input; 
     
+    //if eof, stop program
+    //else change input to integer
+    if (!std::cin.eof()) {
+        choice = input[0]-'0';
+    } else {
+        run = false;
+    }
+
     if (choice == 1){
         newGame();
         run = false;
@@ -60,12 +69,14 @@ void menu(){
         run = false;
     }
     else if (choice == 3){
-        credits();
-        run = false;        
+        credits();     
     }
     else if (choice == 4){
         std::cout << "Goodbye!" << std::endl;
         run = false;        
+    }
+    else if (choice == 0) {
+        run=false;
     }
     else{
         std::cout << "Invalid input, terminating...." << std::endl;
@@ -83,19 +94,24 @@ void newGame(){
 
     std::string playerNames[]= {"",""};
     int numberOfPlayers = 0;
-
+    bool endOfFileFound = false;
     std::cout << "\nStarting a New Game \n" << std::endl;
 
     std::cin.ignore();
-    while ( !(std::cin.eof()) && (numberOfPlayers < MAX_NUMBER_PLAYERS) ) {
+    while ( numberOfPlayers < MAX_NUMBER_PLAYERS && endOfFileFound == false ) {
         std::cout << "Enter a name for player " << numberOfPlayers << " (uppercase characters only)" << std::endl;
         std::cout << ">";
         bool validate = false;
         std::string playerName;
-        while (validate != true) {
-            std::getline(std::cin,playerName);
-            if (std::all_of(playerName.begin(), playerName.end(), [](unsigned char c){ return std::isupper(c); })){
+        while (validate != true && endOfFileFound != true) {
+            std::cin >> playerName;
+            if (playerName == "^D" || std::cin.eof()) {
+                endOfFileFound = true;
+            }
+            else if (std::all_of(playerName.begin(), playerName.end(), [](unsigned char c){ return std::isupper(c); })){
                 validate = true;
+                playerNames[numberOfPlayers] = playerName;
+                numberOfPlayers++;
             }
             else{
                 std::cout << "Invalid name, only uppercased name needed" << std::endl;
@@ -103,13 +119,12 @@ void newGame(){
             }            
         }
 
-        playerNames[numberOfPlayers] = playerName;
-        numberOfPlayers++;
+
     }
-    std::cout << "Lets play\n" << std::endl;
-    // int randomIntegerCauseCrash = 10101;
-    // GameEngine(playerNames,randomIntegerCauseCrash);
-    GameEngine(playerNames,numberOfPlayers);
+    if (endOfFileFound == false) {
+        std::cout << "Lets play\n" << std::endl;
+        GameEngine(playerNames,numberOfPlayers);
+    }
     run = false;
 }
 
@@ -126,32 +141,40 @@ void newGame(){
         std::ifstream file(filename);
         std::string values[100];
     // //check if the file is read successfully
-        if(!file){
-            std::cout << "File is not read successfully" << std::endl;
-        }
-        else{
-            int index = 0;
-            while (!file.eof()) {
-                std::string line;
-                std::getline(file,line);
-                values[index] = line;
-                index++;
-                
+
+        if (filename == "^D" || std::cin.eof()) {
+            run = false;
+        } else {
+            if(!file){
+                std::cout << "File is not read successfully" << std::endl;
             }
+            else{
+                int index = 0;
+                while (!file.eof()) {
+                    std::string line;
+                    std::getline(file,line);
+                    values[index] = line;
+                    index++;
+                    
+                }
+                    std::string playerNames[] = {values[0],values[3]};
+                    int player1Score = std::stoi(values[1]);
+                    std::string player1Hand = values[2];
+                    int player2Score = std::stoi(values[4]);
+                    std::string player2Hand = values[5];
+                    std::string boardShape = values[6];
+                    std::string boardState = values[7];
+                    std::string tileBagString = values[8];
+                    std::string currentPlayerName = values[9];
+                    std::cin.ignore();
+                    GameEngine(playerNames,player1Score,player1Hand,
+                    player2Hand,player2Score,boardShape,boardState,tileBagString,currentPlayerName);
+
+            }
+
+
         }
 
-        std::string playerNames[] = {values[0],values[3]};
-        int player1Score = std::stoi(values[1]);
-        std::string player1Hand = values[2];
-        int player2Score = std::stoi(values[4]);
-        std::string player2Hand = values[5];
-        std::string boardShape = values[6];
-        std::string boardState = values[7];
-        std::string tileBagString = values[8];
-        std::string currentPlayerName = values[9];
-        std::cin.ignore();
-        GameEngine(playerNames,player1Score,player1Hand,
-        player2Hand,player2Score,boardShape,boardState,tileBagString,currentPlayerName);
 
 }
 
