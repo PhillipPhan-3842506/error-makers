@@ -22,8 +22,8 @@ int Player::getPlayerScore() {
     return this->score;
 }
 
-void Player::updatePlayerScore(int score) {
-    this->score = score;
+void Player::updatePlayerScore(int scoreToAdd) {
+    this->score = this->score + scoreToAdd;
 }
 
 void Player::addTileToPlayerHand(Tile* tile) {

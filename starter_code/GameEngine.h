@@ -5,7 +5,8 @@
 #include "Player.h"
 #include "Board.h"
 #include "Bag.h"
-class GameEngine {
+class GameEngine 
+{
     public:
         GameEngine(std::string playerNames[], int numberOfPlayers);
         ~GameEngine();
@@ -20,11 +21,10 @@ class GameEngine {
         void switchRound();
         void playerMove();
         void saveGame(std::string saveFile);
-        void gameRules(Player* p, int x, int y);
         bool checkBoardTile(int x, int y);
         bool compareTilesCol(Tile* tile, int x, int y);
         bool compareTilesRow(Tile* tile, int x, int y);
-        bool compareTiles(Tile* tile, int directions, int x, int y);
+        int calculateScore(int x, int y);
     private:
         Board* boardTiles;
         Board board;
