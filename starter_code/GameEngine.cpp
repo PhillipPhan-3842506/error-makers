@@ -159,8 +159,28 @@ void GameEngine::playGame() {
 void GameEngine::switchRound(){
     currentPlayer++;
     currentPlayer = currentPlayer%2;
-    std::cout << "board state to string " << board.displayBoardStateToString() << std::endl;
-    playGame();
+    
+    //check if the bag is empty
+    if(tilebag.size() == 0){
+        std::cout << "Game Over !" << std::endl;
+        std::string playerWin = "";
+        int winScore = 0;
+        for (int i = 0; i < NUMBER_OF_PLAYERS; i++){
+        //print scores for every player  
+            std::cout << "Score for " << getPlayer(i)->getPlayerName() << ": " << getPlayer(i)->getPlayerScore() << std::endl;
+        //if a current player's score is higher the highest recorded
+        if (getPlayer(i)->getPlayerScore() > winScore){
+            playerWin = getPlayer(i)->getPlayerName();
+            winScore = getPlayer(i)->getPlayerScore();
+        }
+        }
+        std::cout << playerWin << " IS THE WINNER !!!!!" << std::endl;
+        std::cout << "Congratulations!" << std::endl;
+        }
+        else{
+            std::cout << "board state to string " << board.displayBoardStateToString() << std::endl;
+            playGame();            
+        }
 }
 // " place XX at XX"
 void GameEngine::playerMove(){

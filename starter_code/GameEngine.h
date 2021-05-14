@@ -27,6 +27,7 @@ class GameEngine
         int calculateScore(int x, int y);
     private:
         Board* boardTiles;
+        LinkedList tilebag;
         Board board;
         Bag* bag;
         int currentPlayer;
