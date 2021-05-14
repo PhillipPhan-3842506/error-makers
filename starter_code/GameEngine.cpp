@@ -179,7 +179,6 @@ void GameEngine::switchRound(){
         std::cout << "Congratulations!" << std::endl;
         }
         else{
-            std::cout << "board state to string " << board.displayBoardStateToString() << std::endl;
             playGame();            
         }
 }
@@ -219,7 +218,6 @@ void GameEngine::playerMove(){
             std::string col = move.substr(13);
             int colAsInt = std::stoi(col);
 
-            std::cout << "Placing at  : " << rowAsInt << "," << colAsInt << std::endl;
             // if (row == 'A') {
             //     rowAsInt = 1;
             // } else if(row == 'B') {
@@ -263,7 +261,6 @@ void GameEngine::playerMove(){
                 bag->getTileBag()->deleteTile(newTile);
                 //getPlayer(currentPlayer)->getPlayerScore()+(calculateScore(rowAsInt,colAsInt) -> get player current score, and add the new calculated score
                 getPlayer(currentPlayer)->updatePlayerScore(calculateScore(rowAsInt,colAsInt));
-                std::cout << getPlayer(currentPlayer)->getPlayerScore() << std::endl;
                 //Applying Win/Lose
                 if(bag ->getTileBag() ->size() == 0)
                 {
@@ -615,7 +612,6 @@ int GameEngine::calculateScore(int x, int y){
 }
 //The score of one turn
     score = up + down + left + right;
-    std::cout << "calculated score" << score << std::endl;
     return score;
 }
 
