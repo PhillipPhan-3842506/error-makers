@@ -133,7 +133,7 @@ void GameEngine::setupGame() {
     }
     // std::cout << "bag contains : " << std::endl;
     bag->getTileBag()->printToString();
-
+    std::cin.ignore();
     playGame();
 }
 
@@ -162,7 +162,7 @@ void GameEngine::switchRound(){
     currentPlayer = currentPlayer%2;
     
     //check if the bag is empty
-    if(tilebag.size() == 0){
+    if(bag->getTileBag()->size() == 0){
         std::cout << "Game Over !" << std::endl;
         std::string playerWin = "";
         int winScore = 0;
@@ -258,7 +258,9 @@ void GameEngine::playerMove(){
                 //remove the selectedTile from the playerHand
                 getPlayer(currentPlayer)->removeTileFromPlayerHand(selectedTile);
                 //add a new tile to the playerHand
-                getPlayer(currentPlayer)->addTileToPlayerHand(bag->getOneTile());
+                Tile* newTile = bag->getOneTile();
+                getPlayer(currentPlayer)->addTileToPlayerHand(newTile);
+                bag->getTileBag()->deleteTile(newTile);
                 //getPlayer(currentPlayer)->getPlayerScore()+(calculateScore(rowAsInt,colAsInt) -> get player current score, and add the new calculated score
                 getPlayer(currentPlayer)->updatePlayerScore(calculateScore(rowAsInt,colAsInt));
                 std::cout << getPlayer(currentPlayer)->getPlayerScore() << std::endl;
@@ -480,6 +482,7 @@ int GameEngine::calculateScore(int x, int y){
                         if(this->board.getTilefromBoard(x, y+5)!=nullptr){
                             up = 12;
                             std::cout << "Qwirkle !!!!!!!!!!!!!!!!!!!!!!!" << std::endl;
+                            upDone = true;
                     }
             else{
             upDone = true;
@@ -514,6 +517,7 @@ int GameEngine::calculateScore(int x, int y){
                         if(this->board.getTilefromBoard(x-5, y)!=nullptr){
                             left = 12;
                             std::cout << "Qwirkle !!!!!!!!!!!!!!!!!!!!!!!" << std::endl;
+                            leftDone = true;
                     }
             else{
                 leftDone = true;
@@ -552,6 +556,7 @@ int GameEngine::calculateScore(int x, int y){
                         if(this->board.getTilefromBoard(x+5,y)!=nullptr){
                             right = 12;
                             std::cout << "Qwirkle !!!!!!!!!!!!!!!!!!!!!!!" << std::endl;
+                            rightDone = true;
                     }
             else{
             rightDone = true;
@@ -586,6 +591,7 @@ int GameEngine::calculateScore(int x, int y){
                         if(this->board.getTilefromBoard(x,y-5)!=nullptr){
                             down = 12;
                             std::cout << "Qwirkle !!!!!!!!!!!!!!!!!!!!!!!" << std::endl;
+                            downDone = true;
                     }
             else{
             downDone = true;
