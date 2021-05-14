@@ -103,8 +103,12 @@ void Board::display(){
 
 Tile* Board :: getTilefromBoard(int x, int y)
 {
-
-    return this ->boardTiles[x][y];
+    if (x < 0 || y < 0 || x >= 26 || y >= 26) {
+        return nullptr;
+    }
+    else {
+       return this ->boardTiles[x][y];
+    }
 }
 
 int Board:: getNumTiles()

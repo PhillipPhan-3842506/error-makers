@@ -8,7 +8,7 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
-
+#include <cctype>
 #define NUMBER_OF_PLAYERS 2 
 
 //This constructor is for making a new game
@@ -165,7 +165,7 @@ void GameEngine::switchRound(){
 // " place XX at XX"
 void GameEngine::playerMove(){
     bool correctInput = false;
-    std::string move;
+    std::string move = "";
 //check input correct
     while (correctInput == false){
 //store user input as 4 strings
@@ -178,7 +178,7 @@ void GameEngine::playerMove(){
         std::cout << ">";
 
         
-        if(move.substr(0,5).compare("place") == 0 && move.substr(9,2).compare("at")==0){
+        if(move.substr(0,5).compare("place") == 0 && move.substr(9,2).compare("at")==0 && isdigit(move.substr(13)[0]) ){
             //store tile values
             char tileColour = move.at(6);
             char tileShape = move.at(7);
@@ -197,6 +197,7 @@ void GameEngine::playerMove(){
 
             std::string col = move.substr(13);
             int colAsInt = std::stoi(col);
+
             std::cout << "Placing at  : " << rowAsInt << "," << colAsInt << std::endl;
             // if (row == 'A') {
             //     rowAsInt = 1;
@@ -217,9 +218,14 @@ void GameEngine::playerMove(){
             // }
 
             //place the selectedTile to the board
+            //std::cout<<compareTilesRow(selectedTile, rowAsInt, colAsInt)<<" "<<compareTilesCol(selectedTile, rowAsInt, colAsInt);
             if(checkBoardTile(rowAsInt, colAsInt) == false)
             {
-                std::cout<<"Invalid input"<<std::endl;
+                std::cout<<"Invalid move"<<std::endl;
+            }
+            else if(!(compareTilesRow(selectedTile, rowAsInt, colAsInt)==true && compareTilesCol(selectedTile, rowAsInt, colAsInt) == true))
+            {
+                std::cout<<"Invalid move"<<std::endl;
             }
             /*
                 For second conditions uncomment the below line and add suitable conditions...
@@ -227,12 +233,13 @@ void GameEngine::playerMove(){
             */
             else if (board.placeTile(selectedTile,rowAsInt,colAsInt) == true) 
             {
-                std::cout << true << std::endl;
                 //remove the selectedTile from the playerHand
                 getPlayer(currentPlayer)->removeTileFromPlayerHand(selectedTile);
                 //add a new tile to the playerHand
                 getPlayer(currentPlayer)->addTileToPlayerHand(bag->getOneTile());
-
+                //getPlayer(currentPlayer)->getPlayerScore()+(calculateScore(rowAsInt,colAsInt) -> get player current score, and add the new calculated score
+                getPlayer(currentPlayer)->updatePlayerScore(calculateScore(rowAsInt,colAsInt));
+                std::cout << getPlayer(currentPlayer)->getPlayerScore() << std::endl;
                 // std::cout<<"\nRule is gonna called\n";
                 // this->gameRules(new Player("Alan"), rowAsInt-1, colAsInt);
                 switchRound();
@@ -308,14 +315,6 @@ void GameEngine::saveGame(std::string saveFile){
     std::cout << "Game successfully saved" << std::endl;
 }
 
-void GameEngine::gameRules(Player* p, int x, int y)
-{
-    Tile* a = this->board.getTilefromBoard(x,y);
-    //Display col
-    std::cout<<a->getTitleDetails()<<"\n";
-    //this ->getTilesCol(x, y);
-    //this ->getTilesRow(x, y);
-}
 
 bool GameEngine::compareTilesRow(Tile* tile, int x , int y)
 {
@@ -329,12 +328,11 @@ bool GameEngine::compareTilesRow(Tile* tile, int x , int y)
         while(count ==0 && row < 26 && this->board.getTilefromBoard(row,y)!=nullptr)
         {
             rowTile = this->board.getTilefromBoard(row,y);
-            if(!(rowTile->colour == tile ->colour || rowTile ->shape == tile ->shape))
+            if(!(rowTile->colour == tile ->colour || rowTile ->shape == tile ->shape) || (rowTile->colour == tile ->colour && rowTile ->shape == tile ->shape))
             {
                 flag = false;
                 count = 1;
             }
-            //std::cout<<rowTile->getTitleDetails()<<"\n";
             row++;
         }
     }
@@ -344,16 +342,15 @@ bool GameEngine::compareTilesRow(Tile* tile, int x , int y)
         while(count == 0 && this->board.getTilefromBoard(row,y)!=nullptr)
         {
             rowTile = this->board.getTilefromBoard(row,y);
-            if(!(rowTile->colour == tile ->colour || rowTile ->shape == tile ->shape))
+            if(!(rowTile->colour == tile ->colour || rowTile ->shape == tile ->shape) || (rowTile->colour == tile ->colour && rowTile ->shape == tile ->shape))
             {
                 flag = false;
                 count = 1;
             }
-            //std::cout<<rowTile->getTitleDetails()<<"\n";
             row--;
         }
     }
-    std::cout<<"End case: "<<flag<<std::endl;
+    //std::cout<<"End case: "<<flag<<std::endl;
     return flag;
 }
 bool GameEngine::compareTilesCol(Tile* tile, int x, int y)
@@ -361,72 +358,38 @@ bool GameEngine::compareTilesCol(Tile* tile, int x, int y)
     /*
         this method is not fully implemented follow the above method structure to fully implement it
     */
+    int count = 0;
+    Tile* colTile;
+    bool flag = true;
+
     int col = y+1;
-    if(col < 6)
+    if(count == 0 && col < 26)
     {
-        Tile* colTile = this->board.getTilefromBoard(x,col);
-        while(col < 6 && colTile!=nullptr)
+        while(count == 0 && col < 26 && this->board.getTilefromBoard(x,col)!=nullptr)
         {
-            std::cout<<colTile->getTitleDetails()<<"\n";
-            col++;
             colTile = this->board.getTilefromBoard(x,col);
+            if(!(colTile->colour == tile ->colour || colTile ->shape == tile ->shape) || (colTile->colour == tile ->colour && colTile ->shape == tile ->shape))
+            {
+                flag = false;
+                count = 1;
+            }
+            col++;
         }
     }
     col = y-1;
     if(col>=0)
     {
-        Tile* colTile = this->board.getTilefromBoard(x,col);
-        while(col >= 0 && colTile!=nullptr)
+        while(col >= 0 && this->board.getTilefromBoard(x,col)!=nullptr)
         {
-            std::cout<<colTile->getTitleDetails()<<"\n";
-            col--;
             colTile = this->board.getTilefromBoard(x,col);
+            if(!(colTile->colour == tile ->colour || colTile ->shape == tile ->shape) || (colTile->colour == tile ->colour && colTile ->shape == tile ->shape))
+            {
+                flag = false;
+                count = 1;
+            }
+            col--;
         }
     }
-    return false;
-}
-/*bool GameEngine::matchTile(Tile* ptr, int x, int y)
-{
-    int col = y+1;
-    if(col < 6)
-    {
-        Tile* colTile = this->board.getTilefromBoard(x,col);
-
-    }
-}*/
-bool GameEngine::compareTiles(Tile* tile, int directions, int x, int y)
-{
-   bool flag = false;
-   if(directions == -1)
-   {
-       std::cout<<"Entered first condition..."<<std::endl;
-       flag = true;
-   }
-   else
-   {
-       int count = 0;
-        if(((x+1) < 26 && this->board.getTilefromBoard(x+1,y)!=nullptr) && ((this->board.getTilefromBoard(x+1,y)->colour == tile->colour) || (this->board.getTilefromBoard(x+1,y)->shape == tile->shape)))
-        {
-            count++;
-        }
-        if(((x-1) >= 0 && this->board.getTilefromBoard(x-1, y)!=nullptr) && ((this->board.getTilefromBoard(x-1,y)->colour == tile->colour) || (this->board.getTilefromBoard(x-1,y)->shape == tile->shape)))
-        {
-            count++;
-        }
-        if(((y+1) < 26 && this->board.getTilefromBoard(x,y+1)!=nullptr) && ((this->board.getTilefromBoard(x,y+1)->colour == tile->colour) || (this->board.getTilefromBoard(x,y+1)->shape == tile->shape)))
-        {
-            count++;
-        }
-        if(((y-1) >= 0 && this->board.getTilefromBoard(x,y-1)!=nullptr) && ((this->board.getTilefromBoard(x,y+1)->colour == tile->colour) || (this->board.getTilefromBoard(x,y-1)->shape == tile->shape)))
-        {   
-            count++;
-        }
-        std::cout<<"Counting....."<<count<<std::endl;
-        if(count == directions)
-        {
-            flag = true;
-        }
-   }
     return flag;
 }
 
@@ -463,4 +426,161 @@ bool GameEngine::checkBoardTile(int x, int y)
     }
     //std::cout<<"Directions calculated: "<<flag<<std::endl;
     return flag;
+}
+
+// (x+1,y) right
+// (x-1, y) left
+// (x,y+1) up
+// (x,y-1) down
+// calculating the score a player get in his turn ( one turn only )
+int GameEngine::calculateScore(int x, int y){
+    int score;
+    int up = 0;         bool upDone = false;
+    int down = 0;       bool downDone = false;
+    int right = 0;      bool rightDone = false;
+    int left = 0;       bool leftDone = false;
+//Checking up side one by one if there's any tile to score
+    while(upDone == false){
+        if(this->board.getTilefromBoard(x, y+1)!=nullptr){
+            up = 2;
+            if(this->board.getTilefromBoard(x, y+2)!=nullptr){
+                up = 3;
+                if(this->board.getTilefromBoard(x, y+3)!=nullptr){
+                    up = 4;
+                    if(this->board.getTilefromBoard(x, y+4)!=nullptr){
+                        up = 5;
+                        if(this->board.getTilefromBoard(x, y+5)!=nullptr){
+                            up = 12;
+                            std::cout << "Qwirkle !!!!!!!!!!!!!!!!!!!!!!!" << std::endl;
+                    }
+            else{
+            upDone = true;
+        }
+        }
+            else{
+            upDone = true;
+        }
+        }
+            else{
+            upDone = true;
+        }
+        }
+            else{
+            upDone = true;
+        }
+        }
+            else{
+            upDone = true;
+    }
+}
+//Checking left side one by one if there's any tile to score
+    while(leftDone == false){
+        if(this->board.getTilefromBoard(x-1, y)!=nullptr){
+            left = 2;
+            if(this->board.getTilefromBoard(x-2, y)!=nullptr){
+                left = 3;
+                if(this->board.getTilefromBoard(x-3, y)!=nullptr){
+                    left = 4;
+                    if(this->board.getTilefromBoard(x-4, y)!=nullptr){
+                        left = 5;
+                        if(this->board.getTilefromBoard(x-5, y)!=nullptr){
+                            left = 12;
+                            std::cout << "Qwirkle !!!!!!!!!!!!!!!!!!!!!!!" << std::endl;
+                    }
+            else{
+                leftDone = true;
+        }
+        }
+            else{
+                leftDone = true;
+    
+        }
+        }
+            else{
+                leftDone = true;
+    
+        }
+        }
+            else{
+                leftDone = true;
+    
+        }
+        }
+            else{
+                leftDone = true;
+    
+    }
+}
+//Checking right side one by one if there's any tile to score
+    while(rightDone == false){
+        if(this->board.getTilefromBoard(x+1,y)!=nullptr){
+            right = 2;
+            if(this->board.getTilefromBoard(x+2,y)!=nullptr){
+                right = 3;
+                if(this->board.getTilefromBoard(x+3,y)!=nullptr){
+                    right = 4;
+                    if(this->board.getTilefromBoard(x+4,y)!=nullptr){
+                        right = 5;
+                        if(this->board.getTilefromBoard(x+5,y)!=nullptr){
+                            right = 12;
+                            std::cout << "Qwirkle !!!!!!!!!!!!!!!!!!!!!!!" << std::endl;
+                    }
+            else{
+            rightDone = true;
+        }
+        }
+            else{
+            rightDone = true;
+        }
+        }
+            else{
+            rightDone = true;
+        }
+        }
+            else{
+            rightDone = true;
+        }
+        }
+            else{
+            rightDone = true;
+    }
+}
+//Checking down side one by one if there's any tile to score
+    while(downDone == false){
+        if(this->board.getTilefromBoard(x,y-1)!=nullptr){
+            down = 2;
+            if(this->board.getTilefromBoard(x,y-2)!=nullptr){
+                down = 3;
+                if(this->board.getTilefromBoard(x,y-3)!=nullptr){
+                    down = 4;
+                    if(this->board.getTilefromBoard(x,y-4)!=nullptr){
+                        down = 5;
+                        if(this->board.getTilefromBoard(x,y-5)!=nullptr){
+                            down = 12;
+                            std::cout << "Qwirkle !!!!!!!!!!!!!!!!!!!!!!!" << std::endl;
+                    }
+            else{
+            downDone = true;
+        }
+        }
+            else{
+            downDone = true;
+        }
+        }
+            else{
+            downDone = true;
+        }
+        }
+            else{
+            downDone = true;
+        }
+        }
+            else{
+            downDone = true;
+    }
+}
+//The score of one turn
+    score = up + down + left + right;
+    std::cout << "calculated score" << score << std::endl;
+    return score;
 }
