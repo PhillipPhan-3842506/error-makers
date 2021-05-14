@@ -615,12 +615,8 @@ int GameEngine::calculateScore(int x, int y){
 
 void GameEngine::applyWinLose()
 {
-    const int player1 = this ->currentPlayer;
-    int player2 = player1;
-    player2++;
-    player2 = player2 %2;
-    Player* p1 = getPlayer(player1);
-    Player* p2 = getPlayer(player2);
+    Player* p1 = getPlayer(0);
+    Player* p2 = getPlayer(1);
 
     if(p1 ->getPlayerScore() > p2 ->getPlayerScore())
     {
