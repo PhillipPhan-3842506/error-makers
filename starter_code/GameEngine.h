@@ -21,12 +21,14 @@ class GameEngine
         void switchRound();
         void playerMove();
         void saveGame(std::string saveFile);
+        void applyWinLose();
         bool checkBoardTile(int x, int y);
         bool compareTilesCol(Tile* tile, int x, int y);
         bool compareTilesRow(Tile* tile, int x, int y);
         int calculateScore(int x, int y);
     private:
         Board* boardTiles;
+        LinkedList tilebag;
         Board board;
         Bag* bag;
         int currentPlayer;

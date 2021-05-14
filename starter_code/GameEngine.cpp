@@ -160,8 +160,28 @@ void GameEngine::playGame() {
 void GameEngine::switchRound(){
     currentPlayer++;
     currentPlayer = currentPlayer%2;
-    std::cout << "board state to string " << board.displayBoardStateToString() << std::endl;
-    playGame();
+    
+    //check if the bag is empty
+    if(tilebag.size() == 0){
+        std::cout << "Game Over !" << std::endl;
+        std::string playerWin = "";
+        int winScore = 0;
+        for (int i = 0; i < NUMBER_OF_PLAYERS; i++){
+        //print scores for every player  
+            std::cout << "Score for " << getPlayer(i)->getPlayerName() << ": " << getPlayer(i)->getPlayerScore() << std::endl;
+        //if a current player's score is higher the highest recorded
+        if (getPlayer(i)->getPlayerScore() > winScore){
+            playerWin = getPlayer(i)->getPlayerName();
+            winScore = getPlayer(i)->getPlayerScore();
+        }
+        }
+        std::cout << playerWin << " IS THE WINNER !!!!!" << std::endl;
+        std::cout << "Congratulations!" << std::endl;
+        }
+        else{
+            std::cout << "board state to string " << board.displayBoardStateToString() << std::endl;
+            playGame();            
+        }
 }
 // " place XX at XX"
 void GameEngine::playerMove(){
@@ -170,13 +190,13 @@ void GameEngine::playerMove(){
 //check input correct
     while (correctInput == false){
 //store user input as 4 strings
+        std::cout << "> ";
         std::getline(std::cin, move);
         //std::cout << "\n " << std::endl;
         //std::cout << "place substring: " << move.substr(0,5) << std::endl;
         //std::cout << "at substring: " << move.substr(9,2) << std::endl;
         //std::cout << "tileColour substring: " << move.substr(6,2) << std::endl;
         //std::cout << "row/col substring: " << move.substr(12,2) << std::endl;
-        std::cout << ">";
 
         
         if(move.substr(0,5).compare("place") == 0 && move.substr(9,2).compare("at")==0 && isdigit(move.substr(13)[0]) ){
@@ -219,7 +239,8 @@ void GameEngine::playerMove(){
             // }
 
             //place the selectedTile to the board
-            //std::cout<<compareTilesRow(selectedTile, rowAsInt, colAsInt)<<" "<<compareTilesCol(selectedTile, rowAsInt, colAsInt);
+            //validating the placement of tiles
+
             if(checkBoardTile(rowAsInt, colAsInt) == false)
             {
                 std::cout<<"Invalid move"<<std::endl;
@@ -241,9 +262,16 @@ void GameEngine::playerMove(){
                 //getPlayer(currentPlayer)->getPlayerScore()+(calculateScore(rowAsInt,colAsInt) -> get player current score, and add the new calculated score
                 getPlayer(currentPlayer)->updatePlayerScore(calculateScore(rowAsInt,colAsInt));
                 std::cout << getPlayer(currentPlayer)->getPlayerScore() << std::endl;
-                // std::cout<<"\nRule is gonna called\n";
-                // this->gameRules(new Player("Alan"), rowAsInt-1, colAsInt);
-                switchRound();
+                //Applying Win/Lose
+                if(bag ->getTileBag() ->size() == 0)
+                {
+                    this ->applyWinLose();
+                    std::cout << "You just finished playing a dumb game bro" << std::endl;
+                }
+                else
+                {
+                    switchRound();
+                }
                 correctInput = true;
             }
 
@@ -583,4 +611,27 @@ int GameEngine::calculateScore(int x, int y){
     score = up + down + left + right;
     std::cout << "calculated score" << score << std::endl;
     return score;
+}
+
+void GameEngine::applyWinLose()
+{
+    const int player1 = this ->currentPlayer;
+    int player2 = player1;
+    player2++;
+    player2 = player2 %2;
+    Player* p1 = getPlayer(player1);
+    Player* p2 = getPlayer(player2);
+
+    if(p1 ->getPlayerScore() > p2 ->getPlayerScore())
+    {
+        std::cout<<"Player: "<<p1 ->getPlayerName()<<" won by "<<(p1 ->getPlayerScore() - p2 ->getPlayerScore())<<" points!!!"<<std::endl;
+    }
+    else if(p1 ->getPlayerScore() < p2 ->getPlayerScore())
+    {
+        std::cout<<"Player: "<<p2 ->getPlayerName()<<" won by "<<(p2 ->getPlayerScore() - p1 ->getPlayerScore())<<" points!!!"<<std::endl;
+    }
+    else
+    {
+        std::cout<<"Game ended up in a Draw!!!"<<std::endl;
+    }
 }
