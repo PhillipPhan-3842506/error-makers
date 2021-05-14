@@ -261,9 +261,16 @@ void GameEngine::playerMove(){
                 //getPlayer(currentPlayer)->getPlayerScore()+(calculateScore(rowAsInt,colAsInt) -> get player current score, and add the new calculated score
                 getPlayer(currentPlayer)->updatePlayerScore(calculateScore(rowAsInt,colAsInt));
                 std::cout << getPlayer(currentPlayer)->getPlayerScore() << std::endl;
-                // std::cout<<"\nRule is gonna called\n";
-                // this->gameRules(new Player("Alan"), rowAsInt-1, colAsInt);
-                switchRound();
+                //Applying Win/Lose
+                if(bag ->getTileBag() ->size() == 0)
+                {
+                    this ->applyWinLose();
+                    std::cout << "You just finished playing a dumb game bro" << std::endl;
+                }
+                else
+                {
+                    switchRound();
+                }
                 correctInput = true;
             }
 
@@ -604,4 +611,27 @@ int GameEngine::calculateScore(int x, int y){
     score = up + down + left + right;
     std::cout << "calculated score" << score << std::endl;
     return score;
+}
+
+void GameEngine::applyWinLose()
+{
+    const int player1 = this ->currentPlayer;
+    int player2 = player1;
+    player2++;
+    player2 = player2 %2;
+    Player* p1 = getPlayer(player1);
+    Player* p2 = getPlayer(player2);
+
+    if(p1 ->getPlayerScore() > p2 ->getPlayerScore())
+    {
+        std::cout<<"Player: "<<p1 ->getPlayerName()<<" won by "<<(p1 ->getPlayerScore() - p2 ->getPlayerScore())<<" points!!!"<<std::endl;
+    }
+    else if(p1 ->getPlayerScore() < p2 ->getPlayerScore())
+    {
+        std::cout<<"Player: "<<p2 ->getPlayerName()<<" won by "<<(p2 ->getPlayerScore() - p1 ->getPlayerScore())<<" points!!!"<<std::endl;
+    }
+    else
+    {
+        std::cout<<"Game ended up in a Draw!!!"<<std::endl;
+    }
 }

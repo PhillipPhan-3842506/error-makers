@@ -21,6 +21,7 @@ class GameEngine
         void switchRound();
         void playerMove();
         void saveGame(std::string saveFile);
+        void applyWinLose();
         bool checkBoardTile(int x, int y);
         bool compareTilesCol(Tile* tile, int x, int y);
         bool compareTilesRow(Tile* tile, int x, int y);
