@@ -48,7 +48,7 @@ void menu(){
     
     //Menu option selector
     int choice = 0;
-    std::cout << ">";
+    std::cout << "> ";
     std::string input = "";
     std::cin >> input; 
     
@@ -100,7 +100,7 @@ void newGame(){
     std::cin.ignore();
     while ( numberOfPlayers < MAX_NUMBER_PLAYERS && endOfFileFound == false ) {
         std::cout << "Enter a name for player " << numberOfPlayers << " (uppercase characters only)" << std::endl;
-        std::cout << ">";
+        std::cout << "> ";
         bool validate = false;
         std::string playerName;
         while (validate != true && endOfFileFound != true) {

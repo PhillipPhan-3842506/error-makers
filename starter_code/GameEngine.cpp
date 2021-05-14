@@ -169,13 +169,13 @@ void GameEngine::playerMove(){
 //check input correct
     while (correctInput == false){
 //store user input as 4 strings
+        std::cout << "> ";
         std::getline(std::cin, move);
         //std::cout << "\n " << std::endl;
         //std::cout << "place substring: " << move.substr(0,5) << std::endl;
         //std::cout << "at substring: " << move.substr(9,2) << std::endl;
         //std::cout << "tileColour substring: " << move.substr(6,2) << std::endl;
         //std::cout << "row/col substring: " << move.substr(12,2) << std::endl;
-        std::cout << ">";
 
         
         if(move.substr(0,5).compare("place") == 0 && move.substr(9,2).compare("at")==0 && isdigit(move.substr(13)[0]) ){
@@ -218,7 +218,8 @@ void GameEngine::playerMove(){
             // }
 
             //place the selectedTile to the board
-            //std::cout<<compareTilesRow(selectedTile, rowAsInt, colAsInt)<<" "<<compareTilesCol(selectedTile, rowAsInt, colAsInt);
+            //validating the placement of tiles
+
             if(checkBoardTile(rowAsInt, colAsInt) == false)
             {
                 std::cout<<"Invalid move"<<std::endl;
