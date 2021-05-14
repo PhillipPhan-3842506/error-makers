@@ -119,7 +119,7 @@ void newGame(){
         "> ";
     // //read from input
 
-        std::string filename;
+        std::string filename = "";
         std::cin >> filename;
 
     //open file
