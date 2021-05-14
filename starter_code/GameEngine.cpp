@@ -41,9 +41,10 @@ GameEngine::GameEngine(std::string playerNames[], int player1Score, std::string 
     }
 
     //set player 1 score + hand
-    getPlayer(0)->updatePlayerScore(player1Score);
+    getPlayer(0)->setPlayerScore(player1Score);
     //set player 2 score
-    getPlayer(1)->updatePlayerScore(player2Score);
+    getPlayer(1)->setPlayerScore(player2Score);
+    std::cout << player1Score << ", " << player2Score << std::endl;
 
     std::istringstream ssPlayer1(player1Hand);
     std::istringstream ssPlayer2(player2Hand);
@@ -281,7 +282,6 @@ void GameEngine::playerMove(){
             correctInput = true;
         }
         else if(std::cin.eof()){
-            std::cout << "EOF" << std::endl;
             correctInput = true;
         }
         else {
