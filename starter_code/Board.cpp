@@ -25,25 +25,80 @@ void Board::load(std::string boardState) {
     std::vector<std::string> result;
     while (std::getline(ss,token,',')) {
         token.erase(std::remove_if(token.begin(), token.end(), [](unsigned char c){ return std::isspace(c); }),token.end());
-        result.push_back(token);
+        if (token != "") {
+           result.push_back(token);
+        }
     } 
-    for (size_t i = 0;i<result.size()-1;i++) {
-        std::string tileDetails = result.at(i).substr(0,2);
-        std::string coordinates = result.at(i).substr(3,2);
-
+    if (result.size() == 1) {
+        std::string tileDetails = result.at(0).substr(0,2);
+        std::string coordinates = result.at(0).substr(3);
         char colour = tileDetails[0];
         char shapeAsChar = tileDetails[1];
         int shape = shapeAsChar -'0';
 
         Tile* tile = new Tile(colour,shape);
+
         int row = 0;
         for (int i = 0; i < 26;i++) {
             if (coordinates[0] == alphabet[i]) {
                 row = i;
             }
         }
-        int col = coordinates[1] - '0';
-        boardTiles[row][col] = tile;
+
+        //if coordinate is only 1 digit number
+        //eg. C3 then length is 2 so only have to check 1st index
+        if (coordinates.length() == 2) {
+            //if col is 0, it doesn't calculate correctly,
+            std::cout << coordinates[1] << std::endl;
+            if (coordinates[1] == '0') {
+                std::cout << "coordinate = 0" << std::endl;
+                int col = 0;
+                boardTiles[row][col] = tile;
+                std::cout << "row: " << row << "col: " << col << std::endl;
+
+            }
+            else {
+                int col = coordinates[1] - '0';
+                boardTiles[row][col] = tile;
+                std::cout << "row: " << row << "col: " << col << std::endl;
+            }
+
+
+        } else {
+            int col = (coordinates[1]-'0')*10 + (coordinates[2]-'0');
+            boardTiles[row][col] = tile;
+            std::cout << "row: " << row << "col: " << col << std::endl;
+        }
+        numTiles++;
+
+    } else {
+        for (size_t i = 0;i<result.size();i++) {
+            std::string tileDetails = result.at(i).substr(0,2);
+            std::string coordinates = result.at(i).substr(3);
+
+            char colour = tileDetails[0];
+            char shapeAsChar = tileDetails[1];
+            int shape = shapeAsChar -'0';
+
+            Tile* tile = new Tile(colour,shape);
+            int row = 0;
+            for (int i = 0; i < 26;i++) {
+                if (coordinates[0] == alphabet[i]) {
+                    row = i;
+                }
+            }
+            //if coordinate is only 1 digit number
+            //eg. C3 then length is 2 so only have to check 1st index
+            if (coordinates.length() == 5) {
+                int col = coordinates[1] - '0';
+                boardTiles[row][col] = tile;
+
+            } else {
+                int col = (coordinates[1]-'0')*10 + (coordinates[2]-'0');
+                boardTiles[row][col] = tile;
+            }
+            numTiles++;
+        }
     }
 
 }
