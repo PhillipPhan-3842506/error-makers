@@ -16,7 +16,7 @@ class Player {
         void addTileToPlayerHand(Tile* tile);
         void removeTileFromPlayerHand(Tile* tileToRemove);
         Tile* getSpecificTile(Tile* tile);
-
+        void setPlayerScore(int scoreToSet);
     private:
         std::string name;
         unsigned int score;

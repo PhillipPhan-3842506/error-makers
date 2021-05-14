@@ -22,6 +22,10 @@ int Player::getPlayerScore() {
     return this->score;
 }
 
+void Player::setPlayerScore(int scoreToSet) {
+    this->score = scoreToSet;
+}
+
 void Player::updatePlayerScore(int scoreToAdd) {
     this->score = this->score + scoreToAdd;
 }
