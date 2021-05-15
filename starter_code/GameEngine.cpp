@@ -254,6 +254,7 @@ void GameEngine::playerMove(){
                 //Applying Win/Lose
                 if(getPlayer(currentPlayer) ->getPlayerHand() ->size() == 0)
                 {
+                    getPlayer(currentPlayer) ->updatePlayerScore(6);//Bonus!!!!
                     this ->applyWinLose();
                     std::cout << "You just finished playing a dumb game bro" << std::endl;
                 }
