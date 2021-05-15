@@ -91,6 +91,13 @@ GameEngine::GameEngine(std::string playerNames[], int player1Score, std::string 
 GameEngine::~GameEngine() {
 
 }
+
+void GameEngine::start() {
+    std::cout << "Play game" << std::endl;
+
+    // setupGame();
+    // playGame();
+}
 /**
  * 
  * This method is responsible for setting up the game.
@@ -155,7 +162,7 @@ void GameEngine::switchRound(){
     currentPlayer = currentPlayer%2;
     
     //check if the bag is empty
-    /*if(bag->getTileBag()->size() == 0){
+    if(bag->getTileBag()->size() == 0){
         std::cout << "Game Over !" << std::endl;
         std::string playerWin = "";
         int winScore = 0;
@@ -173,8 +180,7 @@ void GameEngine::switchRound(){
         }
         else{
             playGame();            
-        }*/
-        playGame();
+        }
 }
 // " place XX at XX"
 void GameEngine::playerMove(){
@@ -241,6 +247,10 @@ void GameEngine::playerMove(){
             {
                 std::cout<<"Invalid move"<<std::endl;
             }
+            /*
+                For second conditions uncomment the below line and add suitable conditions...
+                compareTilesRow(selectedTile, rowAsInt, colAsInt);
+            */
             else if (board.placeTile(selectedTile,rowAsInt,colAsInt) == true) 
             {
                 //remove the selectedTile from the playerHand
@@ -252,9 +262,8 @@ void GameEngine::playerMove(){
                 //getPlayer(currentPlayer)->getPlayerScore()+(calculateScore(rowAsInt,colAsInt) -> get player current score, and add the new calculated score
                 getPlayer(currentPlayer)->updatePlayerScore(calculateScore(rowAsInt,colAsInt));
                 //Applying Win/Lose
-                if(getPlayer(currentPlayer) ->getPlayerHand() ->size() == 0)
+                if(bag ->getTileBag() ->size() == 0)
                 {
-                    getPlayer(currentPlayer) ->updatePlayerScore(6);//Bonus!!!!
                     this ->applyWinLose();
                     std::cout << "You just finished playing a dumb game bro" << std::endl;
                 }
@@ -267,8 +276,7 @@ void GameEngine::playerMove(){
 
             // todo store input as board
         }
-        else if(move.substr(0,7).compare("replace") == 0)
-        {
+        else if(move.substr(0,7).compare("replace") == 0){
             char ReTileColour = move.at(8);
             char ReTileShape = move.at(9);
             int intReTileShape = ReTileShape -'0';
@@ -283,22 +291,14 @@ void GameEngine::playerMove(){
             getPlayer(currentPlayer)->addTileToPlayerHand(tileToAdd);
             bag->getTileBag()->deleteTile(tileToAdd);
             getPlayer(currentPlayer)->getPlayerHand()->printToString();
-            //Applying Win/Lose
-            if(bag ->getTileBag() ->size() == 0)
-            {
-                this ->applyWinLose();
-                std::cout << "You just finished playing a dumb game bro" << std::endl;
-            }
-            else
-            {
-                switchRound();
-            }
+            switchRound();
             correctInput = true;
+
         }
         //save as file
-        else if (move.substr(0,4).compare("save")==0){
+        else if (move.substr(0,4).compare("save")==0 && move.substr(5,2).compare("as") == 0){
             //get filename
-            std::string saveFile = move.substr(5, move.length() - 8);
+            std::string saveFile = move.substr(8, move.length() - 8);
             
             //std::cout << outFile << std::endl;
             std::cout << "saving" << std::endl;
@@ -345,70 +345,61 @@ void GameEngine::saveGame(std::string saveFile){
 
 bool GameEngine::compareTilesRow(Tile* tile, int x , int y)
 {
+    int count = 0;
     bool flag = true;
     Tile* rowTile;
-    std::vector<Tile*> rowTileCollection;
-    
+
     int row = x+1;
-    if(row < 26)
+    if(count == 0 && row < 26)
     {
-        while(row < 26 && this->board.getTilefromBoard(row,y)!=nullptr)
+        while(count ==0 && row < 26 && this->board.getTilefromBoard(row,y)!=nullptr)
         {
             rowTile = this->board.getTilefromBoard(row,y);
-            rowTileCollection.push_back(rowTile);
+            if(!(rowTile->colour == tile ->colour || rowTile ->shape == tile ->shape) || (rowTile->colour == tile ->colour && rowTile ->shape == tile ->shape))
+            {
+                flag = false;
+                count = 1;
+            }
             row++;
         }
     }
     row = x-1;
-    if(row >= 0)
+    if(count == 0 && row >= 0)
     {
-        while(row >= 0 && this->board.getTilefromBoard(row,y)!=nullptr)
+        while(count == 0 && this->board.getTilefromBoard(row,y)!=nullptr)
         {
             rowTile = this->board.getTilefromBoard(row,y);
-            rowTileCollection.push_back(rowTile);
+            if(!(rowTile->colour == tile ->colour || rowTile ->shape == tile ->shape) || (rowTile->colour == tile ->colour && rowTile ->shape == tile ->shape))
+            {
+                flag = false;
+                count = 1;
+            }
             row--;
         }
     }
-    //To check whether the collections conatins any duplicate entries
-    long unsigned int i = 0, j=0;
-    while(flag == true && i< rowTileCollection.size()-1)
-    {
-        j = i+1;
-        while(flag == true && j< rowTileCollection.size())
-        {
-            if(rowTileCollection[i]->colour == rowTileCollection[j] ->colour && rowTileCollection[i] ->shape == rowTileCollection[j] ->shape)
-            {
-                flag = false;
-            }
-            j++;
-        }
-        i++;
-    }
-    //Checking whether the tile is placable
-    i = 0;
-    while(flag == true && i< rowTileCollection.size())
-    {
-        if(!(rowTileCollection[i]->colour == tile ->colour || rowTileCollection[i] ->shape == tile ->shape) || (rowTileCollection[i]->colour == tile ->colour && rowTileCollection[i] ->shape == tile ->shape))
-        {
-            flag = false;
-        }
-        i++;
-    }
+    //std::cout<<"End case: "<<flag<<std::endl;
     return flag;
 }
 bool GameEngine::compareTilesCol(Tile* tile, int x, int y)
 {
+    /*
+        this method is not fully implemented follow the above method structure to fully implement it
+    */
+    int count = 0;
     Tile* colTile;
     bool flag = true;
-    std::vector<Tile*> colTileCollection;
 
     int col = y+1;
-    if(col < 26)
+    if(count == 0 && col < 26)
     {
-        while(col < 26 && this->board.getTilefromBoard(x,col)!=nullptr)
+        while(count == 0 && col < 26 && this->board.getTilefromBoard(x,col)!=nullptr)
         {
             colTile = this->board.getTilefromBoard(x,col);
-            colTileCollection.push_back(colTile);
+            if(!(colTile->colour == tile ->colour || colTile ->shape == tile ->shape) || (colTile->colour == tile ->colour && colTile ->shape == tile ->shape))
+            {
+                flag = false;
+                count = 1;
+            }
             col++;
         }
     }
@@ -418,40 +409,18 @@ bool GameEngine::compareTilesCol(Tile* tile, int x, int y)
         while(col >= 0 && this->board.getTilefromBoard(x,col)!=nullptr)
         {
             colTile = this->board.getTilefromBoard(x,col);
-            colTileCollection.push_back(colTile);
-            col--;
-        }
-    }
-    //To check whether the collections conatins any duplicate entries
-    long unsigned int i = 0, j=0;
-    while(flag == true && i< colTileCollection.size()-1)
-    {
-        j = i+1;
-        while(flag == true && j< colTileCollection.size())
-        {
-            if(colTileCollection[i]->colour == colTileCollection[j] ->colour && colTileCollection[i] ->shape == colTileCollection[j] ->shape)
+            if(!(colTile->colour == tile ->colour || colTile ->shape == tile ->shape) || (colTile->colour == tile ->colour && colTile ->shape == tile ->shape))
             {
                 flag = false;
+                count = 1;
             }
-            j++;
+            col--;
         }
-        i++;
-    }
-    //Checking whether the tile is placable
-    i = 0;
-    while(flag == true && i< colTileCollection.size())
-    {
-        if(!(colTileCollection[i]->colour == tile ->colour || colTileCollection[i] ->shape == tile ->shape) || (colTileCollection[i]->colour == tile ->colour && colTileCollection[i] ->shape == tile ->shape))
-        {
-            flag = false;
-        }
-        i++;
     }
     return flag;
 }
 
-Player* GameEngine::getPlayer(int index) 
-{
+Player* GameEngine::getPlayer(int index) {
     return playerListVector.at(index);
 }
 

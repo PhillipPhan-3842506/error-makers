@@ -14,6 +14,7 @@ class GameEngine
         std::string player2Hand, int player2Score, std::string boardShape, 
         std::string boardState, std::string tileBagString, std::string currentPlayerName);
         Player* getPlayer(int index);
+        void start();
         void addPlayerToList(Player* player);
         void setupGame();
         void playGame();
