@@ -18,5 +18,13 @@ expected -> program prints that file is not read successfully
 eof input during laod game 
 expected -> program exits succesfully
 
-2.1 - start game and try to place a tile outside the table
-expected -> program prints to user that move is invalid
+2.1 - play a full game with less tiles:
+expected -> programs runs through player moves and prints winner at the end
+2.2 - place a tile on an existing tile:
+expected -> program prints invalid move
+2.3 - place a tile outside of board
+expected -> program prints invalid input
+2.4 - place a tile not adjacent to tile on the board
+expected -> program prints invalid move
+2.5 - place a tile with the incorrect tile colour AND tile shape
+expected -> program prints invalid move
