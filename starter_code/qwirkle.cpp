@@ -39,10 +39,10 @@ int main(void) {
 void menu(){
 
     //menu printed
-    std::cout << "menu" << std::endl;
+    std::cout << "MENU" << std::endl;
     std::cout << "----" << std::endl;
-    std::cout << "1. New game" << std::endl;
-    std::cout << "2. Load game" << std::endl;
+    std::cout << "1. New Game" << std::endl;
+    std::cout << "2. Load Game" << std::endl;
     std::cout << "3. Credits(Show student information)" << std::endl;
     std::cout << "4. Quit" << std::endl;    
     
@@ -123,7 +123,7 @@ void newGame(){
     }
     if (endOfFileFound == false) {
         std::cout << "Lets play\n" << std::endl;
-        GameEngine(playerNames,numberOfPlayers);
+        GameEngine newGame(playerNames,numberOfPlayers);
     }
     run = false;
 }
@@ -182,6 +182,8 @@ void newGame(){
 //display student info
 void credits(){
     
+    std::cout<<"---------CREDITS---------"<<std::endl;
+
     std::cout << "Name: Yi.Zhan" << std::endl;
     std::cout << "Student ID:  s3761429" << std::endl;
     std::cout << "Email:  s3761429@student.rmit.edu.au" << std::endl;

@@ -91,13 +91,6 @@ GameEngine::GameEngine(std::string playerNames[], int player1Score, std::string 
 GameEngine::~GameEngine() {
 
 }
-
-void GameEngine::start() {
-    std::cout << "Play game" << std::endl;
-
-    // setupGame();
-    // playGame();
-}
 /**
  * 
  * This method is responsible for setting up the game.
@@ -248,10 +241,6 @@ void GameEngine::playerMove(){
             {
                 std::cout<<"Invalid move"<<std::endl;
             }
-            /*
-                For second conditions uncomment the below line and add suitable conditions...
-                compareTilesRow(selectedTile, rowAsInt, colAsInt);
-            */
             else if (board.placeTile(selectedTile,rowAsInt,colAsInt) == true) 
             {
                 //remove the selectedTile from the playerHand
@@ -263,7 +252,7 @@ void GameEngine::playerMove(){
                 //getPlayer(currentPlayer)->getPlayerScore()+(calculateScore(rowAsInt,colAsInt) -> get player current score, and add the new calculated score
                 getPlayer(currentPlayer)->updatePlayerScore(calculateScore(rowAsInt,colAsInt));
                 //Applying Win/Lose
-                if(bag ->getTileBag() ->size() == 0)
+                if(getPlayer(currentPlayer) ->getPlayerHand() ->size() == 0)
                 {
                     this ->applyWinLose();
                     std::cout << "You just finished playing a dumb game bro" << std::endl;
