@@ -306,9 +306,9 @@ void GameEngine::playerMove(){
             correctInput = true;
         }
         //save as file
-        else if (move.substr(0,4).compare("save")==0 && move.substr(5,2).compare("as") == 0){
+        else if (move.substr(0,4).compare("save")==0){
             //get filename
-            std::string saveFile = move.substr(8, move.length() - 8);
+            std::string saveFile = move.substr(5, move.length() - 8);
             
             //std::cout << outFile << std::endl;
             std::cout << "saving" << std::endl;
