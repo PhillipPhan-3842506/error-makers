@@ -177,59 +177,63 @@ void GameEngine::playerMove(){
             char tileShape = move.at(7);
             int intTileShape = tileShape -'0';
 
-            //store input as tile
-            Tile* selectedTile = getPlayer(currentPlayer)->getPlayerHand()->getTileWithColourShape(tileColour, intTileShape);
-            //store board values
-            std::string rowNames = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            char row = move.at(12);
-            std::size_t find = rowNames.find_first_of(row);
-            int rowAsInt = find;
+            if (getPlayer(currentPlayer)->getPlayerHand()->getTileWithColourShape(tileColour,intTileShape) != nullptr) {
+                //store input as tile
+                Tile* selectedTile = getPlayer(currentPlayer)->getPlayerHand()->getTileWithColourShape(tileColour, intTileShape)->tile;
+                //store board values
+                std::string rowNames = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                char row = move.at(12);
+                std::size_t find = rowNames.find_first_of(row);
+                int rowAsInt = find;
 
-            std::string col = move.substr(13);
-            int colAsInt = std::stoi(col);
+                std::string col = move.substr(13);
+                int colAsInt = std::stoi(col);
 
-            //place the selectedTile to the board
-            //validating the placement of tiles
-            if(board.getTilefromBoard(rowAsInt, colAsInt)!=nullptr)
-            {
-                std::cout<<"Invalid move"<<std::endl;
-            }
-            else if(checkBoardTile(rowAsInt, colAsInt) == false)
-            {
-                std::cout<<"Invalid move"<<std::endl;
-            }
-            else if(!(compareTilesRow(selectedTile, rowAsInt, colAsInt)==true && compareTilesCol(selectedTile, rowAsInt, colAsInt) == true))
-            {
-                std::cout<<"Invalid move"<<std::endl;
-            }
-            else if (board.placeTile(selectedTile,rowAsInt,colAsInt) == true) 
-            {
-                //remove the selectedTile from the playerHand
-                getPlayer(currentPlayer)->removeTileFromPlayerHand(selectedTile);
-                //add a new tile to the playerHand
-                if (bag->getTileBag()->size() != 0) {
-                    Tile* newTile = bag->getOneTile();
-                    getPlayer(currentPlayer)->addTileToPlayerHand(newTile);
-                    bag->getTileBag()->deleteTile(newTile);
-                }
-
-                //getPlayer(currentPlayer)->getPlayerScore()+(calculateScore(rowAsInt,colAsInt) -> get player current score, and add the new calculated score
-                getPlayer(currentPlayer)->updatePlayerScore(calculateScore(rowAsInt,colAsInt));
-                //Applying Win/Lose
-                if(getPlayer(currentPlayer) ->getPlayerHand()->size() == 0)
+                //place the selectedTile to the board
+                //validating the placement of tiles
+                if(board.getTilefromBoard(rowAsInt, colAsInt)!=nullptr)
                 {
-                    getPlayer(currentPlayer) ->updatePlayerScore(6);//Bonus!!!
-                    this ->applyWinLose();
-                    // std::cout << "You just finished playing a dumb game bro" << std::endl;
+                    std::cout<<"Invalid move"<<std::endl;
                 }
-                else
+                else if(checkBoardTile(rowAsInt, colAsInt) == false)
                 {
-                    switchRound();
+                    std::cout<<"Invalid move"<<std::endl;
                 }
-                correctInput = true;
+                else if(!(compareTilesRow(selectedTile, rowAsInt, colAsInt)==true && compareTilesCol(selectedTile, rowAsInt, colAsInt) == true))
+                {
+                    std::cout<<"Invalid move"<<std::endl;
+                }
+                else if (board.placeTile(selectedTile,rowAsInt,colAsInt) == true) 
+                {
+                    //remove the selectedTile from the playerHand
+                    getPlayer(currentPlayer)->removeTileFromPlayerHand(selectedTile);
+                    //add a new tile to the playerHand
+                    if (bag->getTileBag()->size() != 0) {
+                        Tile* newTile = bag->getOneTile();
+                        getPlayer(currentPlayer)->addTileToPlayerHand(newTile);
+                        bag->getTileBag()->deleteTile(newTile);
+                    }
+
+                    //getPlayer(currentPlayer)->getPlayerScore()+(calculateScore(rowAsInt,colAsInt) -> get player current score, and add the new calculated score
+                    getPlayer(currentPlayer)->updatePlayerScore(calculateScore(rowAsInt,colAsInt));
+                    //Applying Win/Lose
+                    if(getPlayer(currentPlayer) ->getPlayerHand()->size() == 0)
+                    {
+                        getPlayer(currentPlayer) ->updatePlayerScore(6);//Bonus!!!
+                        this ->applyWinLose();
+                        // std::cout << "You just finished playing a dumb game bro" << std::endl;
+                    }
+                    else
+                    {
+                        switchRound();
+                    }
+                    correctInput = true;
+                    
+                }
+            } else {
+                std::cout << "Invalid input" << std::endl;
             }
 
-            // todo store input as board
         }
         else if(move.length()==10 && move.substr(0,7).compare("replace") == 0){
             char ReTileColour = move.at(8);
@@ -237,17 +241,21 @@ void GameEngine::playerMove(){
             int intReTileShape = ReTileShape -'0';
 
             Tile* tileToRemove = new Tile(ReTileColour,intReTileShape);
-            
-            //add the tile to the end of the bag, delete from player hand
-            bag->getTileBag()->addBack(tileToRemove);
-            getPlayer(currentPlayer)->removeTileFromPlayerHand(tileToRemove);
-            //get a tile from front, add to player hand
-            Tile* tileToAdd = bag->getOneTile();
-            getPlayer(currentPlayer)->addTileToPlayerHand(tileToAdd);
-            bag->getTileBag()->deleteTile(tileToAdd);
-            getPlayer(currentPlayer)->getPlayerHand()->printToString();
-            switchRound();
-            correctInput = true;
+            if (getPlayer(currentPlayer)->getPlayerHand()->getTileWithColourShape(ReTileColour,intReTileShape) != nullptr) {
+                //add the tile to the end of the bag, delete from player hand
+                bag->getTileBag()->addBack(tileToRemove);
+                getPlayer(currentPlayer)->removeTileFromPlayerHand(tileToRemove);
+                //get a tile from front, add to player hand
+                Tile* tileToAdd = bag->getOneTile();
+                getPlayer(currentPlayer)->addTileToPlayerHand(tileToAdd);
+                bag->getTileBag()->deleteTile(tileToAdd);
+                getPlayer(currentPlayer)->getPlayerHand()->printToString();
+                switchRound();
+                correctInput = true;
+            }
+            else {
+                std::cout << "Invalid input" << std::endl;
+            }
 
         }
         //save as file

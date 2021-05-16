@@ -176,7 +176,7 @@ Node* LinkedList::getTile(Tile* tile) {
    return nodeToReturn;
 }
 
-Tile* LinkedList::getTileWithColourShape(char COLOUR,int SHAPE) {
+Node* LinkedList::getTileWithColourShape(char COLOUR,int SHAPE) {
    Node* nodeToReturn = nullptr;
    Node* currentNode = head;
    bool foundTile = false;
@@ -192,7 +192,7 @@ Tile* LinkedList::getTileWithColourShape(char COLOUR,int SHAPE) {
          currentNode = currentNode->next;
       }
    }
-   return nodeToReturn->tile;
+   return nodeToReturn;
 }
 
 void LinkedList::deleteTile(Tile* tile) {
