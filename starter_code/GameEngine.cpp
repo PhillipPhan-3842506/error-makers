@@ -165,7 +165,7 @@ void GameEngine::playerMove(){
         std::cout << "> ";
         std::getline(std::cin, move);
         //Input Validation
-        if(move.substr(0,5).compare("place") == 0 && move.substr(9,2).compare("at")==0 && isdigit(move.substr(13)[0]) ){
+        if((move.length()==14 || move.length() == 15) && (move.substr(0,5).compare("place") == 0 && move.substr(9,2).compare("at")==0 && isdigit(move.substr(13)[0]))){
             //store tile values
             char tileColour = move.at(6);
             char tileShape = move.at(7);
@@ -225,7 +225,7 @@ void GameEngine::playerMove(){
 
             // todo store input as board
         }
-        else if(move.substr(0,7).compare("replace") == 0){
+        else if(move.length()==10 && move.substr(0,7).compare("replace") == 0){
             char ReTileColour = move.at(8);
             char ReTileShape = move.at(9);
             int intReTileShape = ReTileShape -'0';
