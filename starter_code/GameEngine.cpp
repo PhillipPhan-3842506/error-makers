@@ -221,8 +221,11 @@ void GameEngine::playerMove(){
 
             //place the selectedTile to the board
             //validating the placement of tiles
-
-            if(checkBoardTile(rowAsInt, colAsInt) == false)
+            if(board.getTilefromBoard(rowAsInt, colAsInt)!=nullptr)
+            {
+                std::cout<<"Invalid move"<<std::endl;
+            }
+            else if(checkBoardTile(rowAsInt, colAsInt) == false)
             {
                 std::cout<<"Invalid move"<<std::endl;
             }
