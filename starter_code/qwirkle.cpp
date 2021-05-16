@@ -72,7 +72,6 @@ void menu(){
         credits();     
     }
     else if (choice == 4){
-        std::cout << "Goodbye!" << std::endl;
         run = false;        
     }
     else if (choice == 0) {

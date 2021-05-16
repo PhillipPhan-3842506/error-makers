@@ -31,3 +31,5 @@ expected -> program prints invalid input
 expected -> program prints invalid move
 2.5 - place a tile with the incorrect tile colour AND tile shape
 expected -> program prints invalid move
+2.6 - place a tile and score a qwirkle
+expected -> program prints QWIRKLE!!!!!!!! and gives player 12 points

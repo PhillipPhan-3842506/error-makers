@@ -82,10 +82,16 @@ GameEngine::GameEngine(std::string playerNames[], int player1Score, std::string 
 
     board.load(boardState);
     playGame();
+    delete bag;
+    delete getPlayer(0);
+    delete getPlayer(1);
 }
 
 GameEngine::~GameEngine() {
-
+//     std::cout << "gameengine destructor" << std::endl;
+//     // delete bag;
+//     // delete getPlayer(0);
+//     // delete getPlayer(1);
 }
 /**
  * 
@@ -124,6 +130,9 @@ void GameEngine::setupGame() {
     bag->getTileBag()->printToString();
     std::cin.ignore();
     playGame();
+    delete bag;
+    delete getPlayer(0);
+    delete getPlayer(1);
 }
 
 //The acutally gameplay
@@ -143,9 +152,6 @@ void GameEngine::playGame() {
     getPlayer(currentPlayer)->getPlayerHand()->printToString() << std::endl;
     
     playerMove();
-    delete bag;
-    delete getPlayer(0);
-    delete getPlayer(1);
 //    switchRound();
 }
 
@@ -214,7 +220,7 @@ void GameEngine::playerMove(){
                 {
                     getPlayer(currentPlayer) ->updatePlayerScore(6);//Bonus!!!
                     this ->applyWinLose();
-                    std::cout << "You just finished playing a dumb game bro" << std::endl;
+                    // std::cout << "You just finished playing a dumb game bro" << std::endl;
                 }
                 else
                 {
@@ -254,7 +260,7 @@ void GameEngine::playerMove(){
             GameEngine::saveGame(saveFile);
         }
         else if(move.substr(0,4).compare("quit")==0){
-            std::cout << "You just finished playing a dumb game bro" << std::endl;
+            // std::cout << "You just finished playing a dumb game bro" << std::endl;
             correctInput = true;
         }
         else if(std::cin.eof()){
