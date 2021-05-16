@@ -143,9 +143,9 @@ void GameEngine::playGame() {
     getPlayer(currentPlayer)->getPlayerHand()->printToString() << std::endl;
     
     playerMove();
-    // delete bag;
-    // delete getPlayer(0);
-    // delete getPlayer(1);
+    delete bag;
+    delete getPlayer(0);
+    delete getPlayer(1);
 //    switchRound();
 }
 
