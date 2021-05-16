@@ -149,6 +149,7 @@ void newGame(){
                 std::cout << "File is not read successfully" << std::endl;
             }
             else{
+                std::cout<<"\nQwirkle game successfully loaded\n"<<std::endl;
                 int index = 0;
                 while (!file.eof()) {
                     std::string line;
@@ -181,7 +182,8 @@ void newGame(){
 
 //display student info
 void credits(){
-    
+    std::cout<<"\n-------Credits-------\n"<<std::endl;
+
     std::cout << "Name: Yi.Zhan" << std::endl;
     std::cout << "Student ID:  s3761429" << std::endl;
     std::cout << "Email:  s3761429@student.rmit.edu.au" << std::endl;

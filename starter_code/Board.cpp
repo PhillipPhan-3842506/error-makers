@@ -17,7 +17,6 @@ Board::Board(){
 }   
 
 void Board::load(std::string boardState) {
-    std::cout << "boardState: " << boardState << std::endl;
     std::string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     //split boardState string into multiple strings, store into vector
     std::istringstream ss(boardState);

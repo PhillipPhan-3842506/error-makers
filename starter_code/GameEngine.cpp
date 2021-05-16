@@ -44,7 +44,6 @@ GameEngine::GameEngine(std::string playerNames[], int player1Score, std::string 
     getPlayer(0)->setPlayerScore(player1Score);
     //set player 2 score
     getPlayer(1)->setPlayerScore(player2Score);
-    std::cout << player1Score << ", " << player2Score << std::endl;
 
     std::istringstream ssPlayer1(player1Hand);
     std::istringstream ssPlayer2(player2Hand);
@@ -83,22 +82,10 @@ GameEngine::GameEngine(std::string playerNames[], int player1Score, std::string 
 
     board.load(boardState);
     playGame();
-    delete bag;
-    delete getPlayer(0);
-    delete getPlayer(1);
-
-
 }
 
 GameEngine::~GameEngine() {
 
-}
-
-void GameEngine::start() {
-    std::cout << "Play game" << std::endl;
-
-    // setupGame();
-    // playGame();
 }
 /**
  * 
@@ -165,28 +152,7 @@ void GameEngine::playGame() {
 void GameEngine::switchRound(){
     currentPlayer++;
     currentPlayer = currentPlayer%2;
-    
-    //check if the bag is empty
-    /*if(bag->getTileBag()->size() == 0){
-        std::cout << "Game Over !" << std::endl;
-        std::string playerWin = "";
-        int winScore = 0;
-        for (int i = 0; i < NUMBER_OF_PLAYERS; i++){
-        //print scores for every player  
-            std::cout << "Score for " << getPlayer(i)->getPlayerName() << ": " << getPlayer(i)->getPlayerScore() << std::endl;
-        //if a current player's score is higher the highest recorded
-        if (getPlayer(i)->getPlayerScore() > winScore){
-            playerWin = getPlayer(i)->getPlayerName();
-            winScore = getPlayer(i)->getPlayerScore();
-        }
-        }
-        std::cout << playerWin << " IS THE WINNER !!!!!" << std::endl;
-        std::cout << "Congratulations!" << std::endl;
-        }
-        else{
-            playGame();            
-        }*/
-        playGame(); 
+    playGame(); 
 }
 // " place XX at XX"
 void GameEngine::playerMove(){
@@ -197,21 +163,12 @@ void GameEngine::playerMove(){
 //store user input as 4 strings
         std::cout << "> ";
         std::getline(std::cin, move);
-        //std::cout << "\n " << std::endl;
-        //std::cout << "place substring: " << move.substr(0,5) << std::endl;
-        //std::cout << "at substring: " << move.substr(9,2) << std::endl;
-        //std::cout << "tileColour substring: " << move.substr(6,2) << std::endl;
-        //std::cout << "row/col substring: " << move.substr(12,2) << std::endl;
-
-        
+        //Input Validation
         if(move.substr(0,5).compare("place") == 0 && move.substr(9,2).compare("at")==0 && isdigit(move.substr(13)[0]) ){
             //store tile values
             char tileColour = move.at(6);
             char tileShape = move.at(7);
             int intTileShape = tileShape -'0';
-
-            // std::cout << tileColour << std::endl;
-            // std::cout << tileShape  << std::endl;
 
             //store input as tile
             Tile* selectedTile = getPlayer(currentPlayer)->getPlayerHand()->getTileWithColourShape(tileColour, intTileShape);
@@ -284,9 +241,9 @@ void GameEngine::playerMove(){
 
         }
         //save as file
-        else if (move.substr(0,4).compare("save")==0 && move.substr(5,2).compare("as") == 0){
+        else if (move.substr(0,4).compare("save")==0){
             //get filename
-            std::string saveFile = move.substr(8, move.length() - 8);
+            std::string saveFile = move.substr(5, move.length()-1);
             
             //std::cout << outFile << std::endl;
             std::cout << "saving" << std::endl;
