@@ -83,7 +83,9 @@ GameEngine::GameEngine(std::string playerNames[], int player1Score, std::string 
 
     board.load(boardState);
     playGame();
-
+    delete bag;
+    delete getPlayer(0);
+    delete getPlayer(1);
 
 
 }
@@ -153,6 +155,9 @@ void GameEngine::playGame() {
     getPlayer(currentPlayer)->getPlayerHand()->printToString() << std::endl;
     
     playerMove();
+    delete bag;
+    delete getPlayer(0);
+    delete getPlayer(1);
 //    switchRound();
 }
 

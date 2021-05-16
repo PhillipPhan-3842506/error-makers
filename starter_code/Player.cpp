@@ -6,8 +6,7 @@ Player::Player(std::string name) {
 }
 
 Player::~Player() {
-    //to implement
-    // delete playerHand;
+    delete playerHand;
 }
 
 std::string Player::getPlayerName() {

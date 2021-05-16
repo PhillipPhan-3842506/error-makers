@@ -14,12 +14,16 @@ Bag::Bag() {
     for (int i = 0; i < 6; i++) {
         for (int j = 0; j < 6; j++) {
             //create 3 of each tile
-            for (int k = 0; k < 3;k++) {
+            for (int k = 0; k < 2;k++) {
                 Tile* tile = new Tile(colours[i],shapes[j]);
                 this->tileBag->addBack(tile);
             }
         }
     }
+}
+
+Bag::~Bag() {
+    delete tileBag;
 }
 
 Bag::Bag(std::string tileBagString) {
