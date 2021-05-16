@@ -6,11 +6,11 @@ menu
 2. Load game
 3. Credits(Show student information)
 4. Quit
->
+> 
 Starting a New Game 
 
 Enter a name for player 0 (uppercase characters only)
->Invalid name, only uppercased name needed
+> Invalid name, only uppercased name needed
 Enter a name for player 1 (uppercase characters only)
->Invalid name, only uppercased name needed
+> Invalid name, only uppercased name needed
 Goodbye!

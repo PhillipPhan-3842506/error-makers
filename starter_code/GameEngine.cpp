@@ -129,6 +129,7 @@ void GameEngine::setupGame() {
 //The acutally gameplay
 void GameEngine::playGame() {
     //prompt current player to go
+    std::cout << std::endl;
     board.display();
     std::cout << getPlayer(currentPlayer)->getPlayerName() << ", it's your turn now" << std::endl;
     //display the score of each player
@@ -142,9 +143,9 @@ void GameEngine::playGame() {
     getPlayer(currentPlayer)->getPlayerHand()->printToString() << std::endl;
     
     playerMove();
-    delete bag;
-    delete getPlayer(0);
-    delete getPlayer(1);
+    // delete bag;
+    // delete getPlayer(0);
+    // delete getPlayer(1);
 //    switchRound();
 }
 
@@ -200,9 +201,12 @@ void GameEngine::playerMove(){
                 //remove the selectedTile from the playerHand
                 getPlayer(currentPlayer)->removeTileFromPlayerHand(selectedTile);
                 //add a new tile to the playerHand
-                Tile* newTile = bag->getOneTile();
-                getPlayer(currentPlayer)->addTileToPlayerHand(newTile);
-                bag->getTileBag()->deleteTile(newTile);
+                if (bag->getTileBag()->size() != 0) {
+                    Tile* newTile = bag->getOneTile();
+                    getPlayer(currentPlayer)->addTileToPlayerHand(newTile);
+                    bag->getTileBag()->deleteTile(newTile);
+                }
+
                 //getPlayer(currentPlayer)->getPlayerScore()+(calculateScore(rowAsInt,colAsInt) -> get player current score, and add the new calculated score
                 getPlayer(currentPlayer)->updatePlayerScore(calculateScore(rowAsInt,colAsInt));
                 //Applying Win/Lose

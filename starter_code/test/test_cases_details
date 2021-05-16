@@ -18,6 +18,9 @@ expected -> program prints that file is not read successfully
 eof input during laod game 
 expected -> program exits succesfully
 
+test cases in section 2 use the game save 'save-2.save'. this save has a reduced number of tiles
+so that the game can finish easier.
+
 2.1 - play a full game with less tiles:
 expected -> programs runs through player moves and prints winner at the end
 2.2 - place a tile on an existing tile:

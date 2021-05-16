@@ -6,7 +6,10 @@ menu
 2. Load game
 3. Credits(Show student information)
 4. Quit
->Name: Yi.Zhan
+> 
+-------Credits-------
+
+Name: Yi.Zhan
 Student ID:  s3761429
 Email:  s3761429@student.rmit.edu.au
 
@@ -27,4 +30,4 @@ menu
 2. Load game
 3. Credits(Show student information)
 4. Quit
->Goodbye!
+> Goodbye!
