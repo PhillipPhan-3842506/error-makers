@@ -33,3 +33,7 @@ expected -> program prints invalid move
 expected -> program prints invalid move
 2.6 - place a tile and score a qwirkle
 expected -> program prints QWIRKLE!!!!!!!! and gives player 12 points
+2.7 - place/replace a tile that doesn't exist in the playerhand
+expected -> program prints invalid input
+2.8 - user mistypes place/replace tile 
+expected -> program prints invalid input
