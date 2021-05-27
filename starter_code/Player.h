@@ -17,10 +17,13 @@ class Player {
         void removeTileFromPlayerHand(Tile* tileToRemove);
         Tile* getSpecificTile(Tile* tile);
         void setPlayerScore(int scoreToSet);
+        bool getisAI();
+        void setisAI(bool b);
     private:
         std::string name;
         unsigned int score;
         LinkedList* playerHand;
+        bool is_ai = false;
 
 };
 

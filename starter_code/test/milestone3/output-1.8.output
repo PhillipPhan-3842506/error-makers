@@ -1,0 +1,14 @@
+Welcome to Qwirkle!!
+--------------------
+menu
+----
+1. New game
+2. Load game
+3. Credits(Show student information)
+4. High Scores
+5. Quit
+> Enter the filename from which to load the game
+> You are in load. You can type in the directory of a save file and press enter 
+
+Enter the filename from which to load the game
+> Goodbye!

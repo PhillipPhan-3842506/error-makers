@@ -26,12 +26,13 @@ public:
    void deleteBack();
    void deleteAtIndex(unsigned int index);
 
-   std::string printToString();
+   std::string printToString(bool saving);
    void swapNodes(int index1, int index2);
    void shuffle();
    Node* getTile(Tile* tile);
    Node* getTileWithColourShape(char COLOUR,int SHAPE);
    void deleteTile(Tile* tile);
+   // std::string colourTileStrings(std::string s);
 
 private:
    Node* head;

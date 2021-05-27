@@ -8,11 +8,11 @@
 class GameEngine 
 {
     public:
-        GameEngine(std::string playerNames[], int numberOfPlayers);
+        GameEngine(std::string playerNames[], int numberOfPlayers,bool ai);
         ~GameEngine();
         GameEngine(std::string playerNames[], int player1Score, std::string player1Hand,
         std::string player2Hand, int player2Score, std::string boardShape, 
-        std::string boardState, std::string tileBagString, std::string currentPlayerName);
+        std::string boardState, std::string tileBagString, std::string currentPlayerName,bool ai);
         Player* getPlayer(int index);
         void addPlayerToList(Player* player);
         void setupGame();
@@ -21,10 +21,8 @@ class GameEngine
         void playerMove();
         void saveGame(std::string saveFile);
         void applyWinLose();
-        bool checkBoardTile(int x, int y);
-        bool compareTilesCol(Tile* tile, int x, int y);
-        bool compareTilesRow(Tile* tile, int x, int y);
         int calculateScore(int x, int y);
+        void aiPlace();
     private:
         Board* boardTiles;
         LinkedList tilebag;

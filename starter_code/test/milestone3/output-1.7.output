@@ -1,0 +1,19 @@
+Welcome to Qwirkle!!
+--------------------
+menu
+----
+1. New game
+2. Load game
+3. Credits(Show student information)
+4. High Scores
+5. Quit
+> You are in the main menu. You can type a number from 1-4 to select a choice 
+
+menu
+----
+1. New game
+2. Load game
+3. Credits(Show student information)
+4. High Scores
+5. Quit
+> Goodbye!

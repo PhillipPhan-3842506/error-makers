@@ -22,7 +22,12 @@ class Board {
         // int final BOARD_SIZE = 26;
         std::string displayBoardStateToString();
         int getNumTiles();
-
+        std::string colourTile(std::string s);
+        std::string unicodeTile(std::string s);
+        bool compareTilesCol(Tile* tile, int x, int y);
+        bool compareTilesRow(Tile* tile, int x , int y);
+        bool checkBoardTile(int x, int y);
+        bool validatePlaceTile(Tile* tile, int row, int col);
     private:
         // Tile* boardTiles[BOARD_SIZE][BOARD_SIZE];
         std::vector< std::vector<Tile*> > boardTiles;

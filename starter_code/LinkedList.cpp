@@ -2,6 +2,10 @@
 #include "LinkedList.h"
 #include <iostream>
 #include <random>
+#include "TileCodes.h"
+#include "Utils.h"
+
+Utils util;
 
 LinkedList::LinkedList() {
    head = nullptr;
@@ -241,13 +245,51 @@ void LinkedList::shuffle() {
    }
 }
 
-std::string LinkedList::printToString() {
-   Node* currentNode = head;
-   std::string stringToPrint = head->tile->getTitleDetails();
-   for (unsigned int i = 1; i < size();i++) {
-      currentNode = currentNode->next;
-      stringToPrint = stringToPrint + "," + currentNode->tile->getTitleDetails();
+std::string LinkedList::printToString(bool saving) {
+   std::string stringToPrint;
+   if (saving == false) {
+      Node* currentNode = head;
+      std::string headDetails = head->tile->getTitleDetails();
+      stringToPrint = util.colourstring(headDetails);
+      for (unsigned int i = 1; i < size();i++) {
+         currentNode = currentNode->next;
+         std::string currentNodeDetails = currentNode->tile->getTitleDetails();
+         stringToPrint = stringToPrint + "," + util.colourstring(currentNodeDetails);
+      }
    }
-//   std::cout << stringToPrint << std::endl;
+   else {
+      Node* currentNode = head;
+      std::string headDetails = head->tile->getTitleDetails();
+      stringToPrint = headDetails;
+      for (unsigned int i = 1; i < size();i++) {
+         currentNode = currentNode->next;
+         std::string currentNodeDetails = currentNode->tile->getTitleDetails();
+         stringToPrint = stringToPrint + "," + currentNodeDetails;
+      }
+   }
+
    return stringToPrint;
 }
+
+// std::string LinkedList::colourTileStrings(std::string s) {
+//     std::string returnString = "";
+//     if (s[0] == RED) {
+//         returnString = "\033[91m" + s + "\033[0m";
+//     }
+//     else if (s[0] == ORANGE) {
+//         returnString = "\033[38;2;255;163;0m" + s + "\033[0m";
+//     }
+//     else if (s[0] == YELLOW) {
+//         returnString = "\x1b[38;5;226m" + s + "\x1b[0m";
+//     }
+//     else if (s[0] == GREEN) {
+//         returnString = "\x1b[92m" + s + "\x1b[0m";
+//     }
+//     else if (s[0] == BLUE) {
+//         returnString = "\x1b[94m" + s + "\x1b[0m";
+//     }
+//     else if (s[0] == PURPLE) {
+//         returnString = "\x1b[95m" + s + "\x1b[0m";
+//     }
+//     return returnString;
+// }

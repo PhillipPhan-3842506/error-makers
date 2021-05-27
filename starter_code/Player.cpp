@@ -9,6 +9,14 @@ Player::~Player() {
     delete playerHand;
 }
 
+void Player::setisAI(bool b) {
+    this->is_ai = b;
+}
+
+bool Player::getisAI() {
+    return this->is_ai;
+}
+
 std::string Player::getPlayerName() {
     return this->name;
 }

@@ -1,0 +1,32 @@
+1.6
+prints top 3 scores, then quits with ^D
+expected -> program exits successfully
+
+1.7
+prints help in the menu section
+expected -> program prints help then exits
+
+1.8
+prints help in load section
+expected -> program prints help then exits
+
+1.9
+prints help in gameplay section
+expected -> program prints help then exits
+
+AI Test
+
+the save used will be the file save-AI.save
+The contents for this file is identical except that player two is an AI
+
+input-AI-1 -> test three moves against the ai
+expected -> ai places three tiles correctly.
+
+input-AI-2 -> test that AI will replace tile if no move is valid
+expected -> ai replaces first tile in hand.
+
+input-AI-3 -> test save function that will know if ai was loaded in or not.
+expected -> savefile contains line that shows if ai was true or false
+
+input-AI-4 -> load the newly created save file
+expected -> file loads successfully and gameplay can resume
