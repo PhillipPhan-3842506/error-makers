@@ -1,0 +1,39 @@
+Test Cases
+
+1 -> tests menu functions
+
+1.1
+prints student details, then quits
+expected -> program terminates
+1.2
+input is invalid 
+expected -> program terminates
+1.3
+invalid input for character name 
+expected -> program prompts for new input
+1.4
+invalid input for file
+expected -> program prints that file is not read successfully
+1.5
+eof input during laod game 
+expected -> program exits succesfully
+
+test cases in section 2 use the game save 'save-2.save'. this save has a reduced number of tiles
+so that the game can finish easier.
+
+2.1 - play a full game with less tiles:
+expected -> programs runs through player moves and prints winner at the end
+2.2 - place a tile on an existing tile:
+expected -> program prints invalid move
+2.3 - place a tile outside of board
+expected -> program prints invalid input
+2.4 - place a tile not adjacent to tile on the board
+expected -> program prints invalid move
+2.5 - place a tile with the incorrect tile colour AND tile shape
+expected -> program prints invalid move
+2.6 - place a tile and score a qwirkle
+expected -> program prints QWIRKLE!!!!!!!! and gives player 12 points
+2.7 - place/replace a tile that doesn't exist in the playerhand
+expected -> program prints invalid input
+2.8 - user mistypes place/replace tile 
+expected -> program prints invalid input

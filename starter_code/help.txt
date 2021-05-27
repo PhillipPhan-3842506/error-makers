@@ -1,0 +1,24 @@
+-----HELP-----
+
+Command#1: place <tile from playerHand> at <boardLocation>
+
+This command is used to place a valid tile from the player's hand at a valid location on the board which is of the
+form <row><col>
+ __________________________________________________
+|Note: The tiles placed must satisfy the game rules|
+|__________________________________________________|
+
+Command#2: replace <tile from playerHand>
+
+This command is used to replace a valid tile from the player's hand with a random tile from the bag.
+ _______________________________________________________
+|Note: Once this command is executed your turn gets over|
+|_______________________________________________________|
+
+Command#3: save <filename>
+
+This command is used to save an existing game with a suitable filename and after the execution of this command, you can continue playing the game.
+
+Command#4: quit
+
+Once the user types "quit" the entire game quits, so always remember to save the game before quiting
