@@ -123,7 +123,7 @@ void Board::load(std::string boardState) {
 bool Board::placeTile(Tile* tile, int row, int col) {
     bool returnValue = false;
 
-    if (validatePlaceTile(tile,row,col)) {
+    if (validatePlaceTile(tile,row,col,false)) {
         boardTiles[row][col] = tile;
         numTiles++;
         returnValue = true;
@@ -132,20 +132,23 @@ bool Board::placeTile(Tile* tile, int row, int col) {
     return returnValue;
 }
 
-bool Board::validatePlaceTile(Tile* tile, int row, int col) {
+bool Board::validatePlaceTile(Tile* tile, int row, int col,bool ai) {
     bool returnValue = false;
     if (row < 0 || col < 0 || row >= ROWS || col >= COLS) {
         std::cout << "row or col is out of bounds" << std::endl;
 
     }
     else if (getTilefromBoard(row, col)!=nullptr) {
-
+        if (!ai)
+            std::cout << "invalid move" << std::endl;
     }
     else if (checkBoardTile(row, col) == false) {
-
+        if (!ai)
+            std::cout << "invalid move" << std::endl;
     }
     else if (!(compareTilesRow(tile, row, col)==true && compareTilesCol(tile, row, col) == true)){
-
+        if (!ai)
+            std::cout << "invalid move" << std::endl;
     } else {
         returnValue = true;
     }

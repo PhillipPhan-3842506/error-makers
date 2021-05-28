@@ -208,9 +208,10 @@ void newGame(){
                 while (!file.eof()) {
                     std::string line;
                     std::getline(file,line);
-                    values[index] = line;
-                    index++;
-                    
+                    if (line[0] != '#') {
+                        values[index] = line;
+                        index++;
+                    }
                 }
                 std::string playerNames[] = {values[0],values[3]};
                 int player1Score = std::stoi(values[1]);

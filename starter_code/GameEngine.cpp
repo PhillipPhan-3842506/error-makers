@@ -557,7 +557,7 @@ void GameEngine::aiPlace() {
             Tile* selectedTile = ai->getPlayerHand()->getAtIndex(tile)->tile;
             for (int row = 0;row < 26;row++) {
                 for (int col = 0;col<26;col++) {
-                    if (board.validatePlaceTile(selectedTile,row,col) == true) {
+                    if (board.validatePlaceTile(selectedTile,row,col,ai_in_game) == true) {
                         if (calculateScore(row,col) > score) {
                             score = calculateScore(row,col);
                             winningTile = selectedTile;

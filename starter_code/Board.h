@@ -27,7 +27,7 @@ class Board {
         bool compareTilesCol(Tile* tile, int x, int y);
         bool compareTilesRow(Tile* tile, int x , int y);
         bool checkBoardTile(int x, int y);
-        bool validatePlaceTile(Tile* tile, int row, int col);
+        bool validatePlaceTile(Tile* tile, int row, int col,bool ai);
     private:
         // Tile* boardTiles[BOARD_SIZE][BOARD_SIZE];
         std::vector< std::vector<Tile*> > boardTiles;
