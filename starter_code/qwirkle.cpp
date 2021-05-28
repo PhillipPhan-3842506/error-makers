@@ -24,6 +24,7 @@ bool run = true;
 //Values for toggling color/unicodes
 int t1=0;
 int t2=0;
+int t3 = 0;
 
 //Main Method Program Starts here........
 int main(void) {
@@ -50,8 +51,8 @@ void menu(){
     std::cout << "1. New game" << std::endl;
     std::cout << "2. Load game" << std::endl;
     std::cout << "3. Credits(Show student information)" << std::endl;
-    std::cout << "4. Options" <<std::endl;
-    std::cout << "5. Quit" << std::endl;    
+    std::cout << "4. Quit" << std::endl;
+    std::cout << "5. Options" <<std::endl;    
     
     //Menu option selector
     int choice = 0;
@@ -80,11 +81,12 @@ void menu(){
         run = false;    
     }
     else if(choice == 4){
-        options();
-        run = true;
+        run = false;
     }
     else if (choice == 5){
-        run = false;        
+        options();
+        std::cin.ignore();
+        run = true;        
     }
     else if (choice == 0) {
         run=false;
@@ -106,33 +108,42 @@ void newGame(){
     /*std::string playerNames[]= {"",""};
     int numberOfPlayers = 0;
     bool endOfFileFound = false;*/
+    
+    std::cout << "\nStarting a New Game \n" << std::endl;
+
+
+    if(t3!=0)
+    {
     int numberPlayers = 0;
     std::string numPlayers = "";
-    std::cout << "\nStarting a New Game \n" << std::endl;
     bool flag = true;
-
     while(flag == true)
     {
-        std::cout<<"Enter the number of Players (must more than 1 but less than 5) : "<<std::endl;
+        std::cout<<"Enter the number of Players (3/4) : "<<std::endl;
         std::cout<<"> ";
         std::cin>>numPlayers;
         if(isdigit(numPlayers[0]) && numPlayers.size()==1)
         {
             numberPlayers = numPlayers[0] - '0';
-            if(numberPlayers>=2 && numberPlayers<5)
+            if(numberPlayers>2 && numberPlayers<5)
             {
                 flag = false;
                 createGame(numberPlayers);
             }
             else
             {
-                std::cout<<"Must be more than 1 and less than 5 players for playing this game"<<std::endl;
+                std::cout<<"Must either 3 or 4 players for Mutiplayer"<<std::endl;
             }
         }
         else
         {
             std::cout<<"Invalid Input"<<std::endl;
         }
+    }
+    }
+    else
+    {
+        createGame(MAX_NUMBER_PLAYERS);
     }
     /*while ( numberOfPlayers < MAX_NUMBER_PLAYERS && endOfFileFound == false ) {
         std::cout << "Enter a name for player " << numberOfPlayers << " (uppercase characters only)" << std::endl;
@@ -195,14 +206,21 @@ void newGame(){
                     index++;
                     
                 }
-                    const int numberPlayers = values[0][0] - '0';
-                    std::string playername[numberPlayers];
-                    std::string playerhand[numberPlayers];
+
+                int number = 0;
+                while(values[number].compare("26,26")!=0)
+                {
+                    number++;
+                }
+                const int numberPlayers = number/3;
+                std::string playername[numberPlayers];
+                std::string playerhand[numberPlayers];
+                    
                     int playerscore[numberPlayers];
                     int i =0;
-                    int j = 1;
-                    int k =2;
-                    int l =3;
+                    int j = 0;
+                    int k =1;
+                    int l =2;
                     while(i<numberPlayers)
                     {
                         playername[i] = values[j];
@@ -220,6 +238,7 @@ void newGame(){
                     //std::cin.ignore();
                     
                     GameEngine load(t1, t2, numberPlayers,playername, playerscore, playerhand, boardShape, boardState, tileBagString, currentPlayerName);
+                
                     /*std::string playerNames[] = {values[0],values[3]};
                     int player1Score = std::stoi(values[1]);
                     std::string player1Hand = values[2];
@@ -302,4 +321,7 @@ void options()
     std::cout<<"2. Toggle tile shape: "<<std::endl;
     std::cout<<"> ";
     std::cin>>t2;
+    std::cout<<"3. Toggle Multiplayer(3 to 4): "<<std::endl;
+    std::cout<<"> ";
+    std::cin>>t3;
 }

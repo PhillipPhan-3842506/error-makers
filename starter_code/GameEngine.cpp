@@ -98,7 +98,7 @@ GameEngine::GameEngine(int toggle1, int toggle2, int numPlayers, std::string pla
 
 
     board.load(boardState);
-    //std::cin.ignore();
+    std::cin.ignore();
     playGame();
     delete bag;
     for(int i =0; i<this ->numPlayers; i++)
@@ -195,7 +195,7 @@ void GameEngine::playerMove()
             }
             correctInput = false;
         }
-        /*else if(move.compare("placing")==0)
+        else if(move.compare("placing")==0)
         {
             this ->placeMultiple();
             if(getPlayer(currentPlayer) ->getPlayerHand()->size() == 0)
@@ -210,7 +210,7 @@ void GameEngine::playerMove()
                 switchRound();
             }
             correctInput = true;
-        }*/
+        }
         /*else if((move.length()==14 || move.length() == 15) && (move.substr(0,5).compare("place") == 0 && move.substr(9,2).compare("at")==0 && isdigit(move.substr(13)[0]))){
             //store tile values
             char tileColour = move.at(6);
@@ -319,7 +319,6 @@ void GameEngine::playerMove()
 
 void GameEngine::saveGame(std::string saveFile){
     std::ofstream saveGameFile (saveFile + ".save");
-    saveGameFile << this ->numPlayers <<std::endl;
     for (int i = 0; i < this ->numPlayers; i ++){
         std::string playerHand = getPlayer(i)->getPlayerHand()->printToString();
         saveGameFile << getPlayer(i)->getPlayerName() << std::endl;
